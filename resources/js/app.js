@@ -5,6 +5,7 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import mitt from "mitt";
 
+
 if (!localStorage.getItem("cartItems")) {
     localStorage.setItem("cartItems", JSON.stringify([]));
 }

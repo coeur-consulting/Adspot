@@ -2,11 +2,11 @@
     <Head title="Welcome" />
     <Navigation />
     <Banner />
-    <CoinBanner />
-    <Product />
-    <Adspot />
-    <Work />
-    <Faq/>
+    <Sponsors />
+    <Categories />
+
+    <Works />
+    <Popular/>
     <Contact />
     <Footer />
 
@@ -21,11 +21,11 @@
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Navigation from '@/Navigation/Header'
 import Banner from '@/LandingComponents/Banner'
-import CoinBanner from '@/LandingComponents/CoinBanner'
-import Product from '@/LandingComponents/Product'
-import Adspot from '@/LandingComponents/Adspot'
-import Work from '@/LandingComponents/Work'
-import Faq from '@/LandingComponents/Faqs'
+import Sponsors from '@/LandingComponents/Sponsors'
+import Categories from '@/LandingComponents/Categories'
+
+import Works from '@/LandingComponents/Works'
+import Popular from '@/LandingComponents/Popular'
 import Contact from '@/LandingComponents/Contact'
 import Footer from '@/Navigation/Footer'
 export default {
@@ -34,11 +34,11 @@ export default {
       Link,
       Navigation,
       Banner,
-      CoinBanner,
-      Product,
-      Adspot,
-      Work,
-      Faq,
+      Sponsors,
+      Categories,
+
+      Works,
+      Popular,
       Contact,
       Footer
 

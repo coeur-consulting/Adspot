@@ -1,128 +1,160 @@
 <template>
- <section id="banner" class="relative">
-    <div class="container mx-auto flex h-full w-full">
-      <div class="left_banner w-full md:w-3/6 h-full flex flex-col justify-center py-5 px-14">
+  <section id="banner" class="relative h-full md:h-[92vh]">
+    <carousel
+      :items-to-show="1"
+      :autoplay="5000"
+      :loop="true"
+      ref="slider"
+      class="h-full w-full"
+    >
+      <slide v-for="(item, index) in banners" :key="index">
+        <img class="h-full md:h-[92vh] w-full" :src="item" />
+      </slide>
 
-      <div class="banner_h text-center transition ease-in-out">
-        <img src="/images/topb.png" alt="freedom" class="mx-auto">
-      </div>
-        <div class="banner_m  text-center md:text-left">
-          <p class="font-bold"><span class="text-purple-500 font-bold">Adspot</span> provides unique consumer-centric <br> <span  class="text-purple-500 font-bold">Digital Financial Services</span> built around <br>  <span  class="text-purple-500 font-bold">blockchain</span> and <span  class="text-purple-500 font-bold">digital currencies</span>.</p>
+      <template #addons="{ currentSlide }">
+        <span>{{ (index = currentSlide) }}</span>
+      </template>
+    </carousel>
+
+    <div
+      class="
+        container
+        mx-auto
+        flex flex-col
+        justify-center
+        h-full
+        w-full
+        z-10
+        absolute
+        top-0
+        left-0
+        right-0
+        bottom-0
+      "
+    >
+      <div class="left_banner w-full md:w-4/6 py-5 px-6 text-white">
+        <h1 class="text-white text-3xl font-extrabold mb-4">
+          Nigeria’s number 1 aggregator of advertising spaces and brand
+          solutions
+        </h1>
+        <div class="banner_m text-center md:text-left mb-6">
+          <p class="leading-normal">
+            We exist to help advertisers and agencies find, negotiate and pay
+            for advertising spaces easily and transparently. We also provide
+            data and insight that help our clients make informed decisions and
+            reach their target audience efficiently and effectively.
+          </p>
         </div>
-          <div class="banner_b text-center ">
-            <BreezeButton class="bg-purple-800 text-white">Register now</BreezeButton>
-          </div>
       </div>
-        <div class="right_banner hidden md:flex md:w-3/6 h-full p-5 md:pt-16 pl-14 relative flex items-center ">
-       <div class=" w-100">
-          <!-- <div class="search flex items-center">
-
-            <BreezeInput id="search" type="text" placeholder="Type in search" class="mt-1 block w-full mr-5 " required  autocomplete="search" />
-             <BreezeDropdown align="center" width="30">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                              En
-
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <BreezeDropdownLink  as="button">
-                                           En
-                                        </BreezeDropdownLink>
-                                    </template>
-                                </BreezeDropdown>
-        </div> -->
-
-                <div class="flex justify-between items-center w-3/6">
-                  <span>
-                    <img  src="/images/banner1.png" class="w-28 hover:motion-safe:animate-wiggle"/>
-                  </span>
-                   <span>
-                   <img  src="/images/banner2.png"  class="w-36 hover:motion-safe:animate-wiggle"/>
-                  </span>
-                </div>
-                 <div class="flex justify-between items-center w-2/3">
-                  <span>
-                   <img  src="/images/banner3.png" class="w-44 hover:motion-safe:animate-wiggle"/>
-                  </span>
-                   <span>
-                   <img  src="/images/banner4.png" class="w-36 hover:motion-safe:animate-wiggle"/>
-                  </span>
-                </div>
-                 <div class="flex justify-between items-center   w-3/4 ">
-                  <span>
-                   <img  src="/images/banner5.png" class="w-40 hover:motion-safe:animate-wiggle"/>
-                  </span>
-                   <span>
-                   <img  src="/images/banner6.png" class="w-52 hover:motion-safe:animate-wiggle"/>
-                  </span>
-                </div>
-                 <div class="">
-                  <span>
-                   <img  src="/images/banner7.png" class="w-52 hover:motion-safe:animate-wiggle"/>
-                  </span>
-
-                </div>
-
-       </div>
-        </div>
-
-  </div>
- </section>
+      <div class="banner_b text-left w-full px-6">
+        <SearchBox />
+      </div>
+      <div class="absolute bottom-10 z-20 right-10 flex items-center">
+        <span class="text-white">0{{ index + 1 }}</span>
+        <span
+          class="
+            carousel_line
+            grid grid-cols-2
+            mx-2
+            rounded-full
+            overflow-hidden
+          "
+        >
+          <span
+            class="carousel_1 cursor-pointer"
+            v-for="n in 2"
+            :key="n"
+            :class="n === index + 1 ? 'bg-orange-500' : 'bg-white'"
+            @click="goto(n - 1)"
+          >
+          </span>
+        </span>
+        <span class="text-white">02</span>
+      </div>
+    </div>
+  </section>
 </template>
 <script>
 import { Link } from "@inertiajs/inertia-vue3";
 import BreezeButton from "@/Components/Button.vue";
 import BreezeInput from "@/Components/Input.vue";
 import BreezeLabel from "@/Components/Label.vue";
-import BreezeDropdown from '@/Components/Dropdown.vue'
-import BreezeDropdownLink from '@/Components/DropdownLink.vue'
+import BreezeDropdown from "@/Components/Dropdown.vue";
+import BreezeDropdownLink from "@/Components/DropdownLink.vue";
+import SearchBox from "@/Components/SearchBox.vue";
+import "vue3-carousel/dist/carousel.css";
+import { Carousel, Slide } from "vue3-carousel";
+import { ref } from "vue";
+const banners = ["images/banner.png", "images/banner1.png"];
 export default {
-components:{
-  Link,
-  BreezeButton,
-  BreezeInput,
-  BreezeLabel,
-  BreezeDropdown,
-  BreezeDropdownLink
-}
-}
+  components: {
+    Link,
+    BreezeButton,
+    BreezeInput,
+    BreezeLabel,
+    BreezeDropdown,
+    BreezeDropdownLink,
+    SearchBox,
+    Carousel,
+    Slide,
+  },
+  data() {
+    return {
+      index: 0,
+    };
+  },
+  setup() {
+    return {
+      banners,
+    };
+  },
+
+  methods: {
+    goto(n) {
+      this.$refs.slider.slideTo(n);
+      this.index = n;
+    },
+  },
+};
 </script>
 <style scoped lang="scss">
-#banner{
-  height: 85vh;
-  background: #F5F2FF;
-  .container .left_banner{
-
- background-image: url('/images/b.png');
- background-repeat: no-repeat;
- background-position:center;
- background-size:60%;
-
-  }
-
-}
-.banner_h{
-  margin-bottom: 4rem;
-}
-.banner_m{
-  margin-bottom: 4rem;
-  p{
-    font-size:1.4rem
+#banner {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(
+      100.82deg,
+      #000000 46.67%,
+      rgba(255, 255, 255, 0) 119.99%
+    );
+    z-index: 1;
   }
 }
-.right_banner{
 
+.banner_h {
+  margin-bottom: 4rem;
 }
-.search{
+.banner_m {
+  margin-bottom: 4rem;
+  p {
+    font-size: 1rem;
+  }
+}
+.right_banner {
+}
+.search {
   position: absolute;
-  top:8%;
-  left:20%;
+  top: 8%;
+  left: 20%;
+}
+.carousel_line {
+  span {
+    width: 24px;
+    height: 5px;
+  }
 }
 </style>

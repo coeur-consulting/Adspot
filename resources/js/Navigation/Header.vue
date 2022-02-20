@@ -2,17 +2,17 @@
 <template>
   <Popover
     class="h-16 w-full top-0 z-30 transition ease-in-out duration-300"
-    :class="active ? ' fixed shadow  bg-white' : ' bg-transparent absolute'"
+    :class="active ? ' fixed shadow  bg-black' : ' bg-transparent absolute'"
   >
     <div class="px-4 sm:px-6 max-w-screen-xl mx-auto h-full">
       <div class="flex justify-between items-center h-full">
         <div class="flex justify-start items-center mr-6">
           <div class="mr-7 flex-none">
             <a href="/">
-              <span class="sr-only">BUFFEX</span>
+              <span class="sr-only">Adspot</span>
               <img
                 class="h-7 w-auto sm:h-9"
-                src="/images/adspot2.png"
+                src="/images/logo.png"
                 alt="Adspot"
               />
             </a>
@@ -21,7 +21,7 @@
 
         <div class="-mr-2 -my-2 lg:hidden flex">
           <span class="px-4 py-2 relative" @click="open = !open"
-            ><ShoppingCartIcon class="w-6 h-6 text-purple-700" />
+            ><ShoppingCartIcon class="w-6 h-6 text-white" />
             <span
               class="
                 px-1
@@ -48,7 +48,7 @@
               focus:outline-none
               focus:ring-2
               focus:ring-inset
-              focus:ring-purple-500
+              focus:ring-orange-500
             "
           >
             <span class="sr-only">Open menu</span>
@@ -57,236 +57,65 @@
         </div>
         <PopoverGroup
           as="nav"
-          class="hidden lg:flex justiy-between items-center w-[50%]"
+          class="hidden lg:flex justiy-between items-center"
         >
           <a
-            href="/marketplace"
-            class="
-              w-[20%]
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-700
-              flex
-              items-center
-              justify-center
-            "
+            v-for="(item, id) in resources"
+            :key="id"
+            :href="item.href"
+            class="text-base font-medium text-white hover:text-orange-500"
           >
             <div
-              class="
-                w-full
-                hover:bg-purple-500
-                text-sm
-                h-full
-                flex
-                items-center
-                justify-center
-                text-purple-700
-                hover:text-purple-100
-                border-b-4 border-transparent
-                hover:border-purple-300
-                font-bold
-              "
+              class="text-sm text-white hover:text-orange-500 font-bold"
               :class="{
-                'text-purple-100 bg-purple-700 border-purple-500':
-                  $page.url === '/marketplace',
-                'bg-transparent': !active,
-                'bg-white': active,
+                'text-orange-500 active': $page.url === item.href,
               }"
             >
-              Marketplace
-            </div>
-          </a>
-          <a
-            href="https://adspot.co/instant-payout/"
-            class="
-              w-[20%]
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-700
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <div
-              class="
-                w-full
-                hover:bg-purple-500
-                text-sm
-                h-full
-                flex
-                items-center
-                justify-center
-                text-purple-700
-                hover:text-purple-100
-                border-b-4 border-transparent
-                hover:border-purple-300
-                font-bold
-              "
-              :class="{
-                'text-purple-100 bg-purple-700 border-purple-500':
-                  $page.url === '/stores',
-              }"
-            >
-              Instant Pay
-            </div>
-          </a>
-
-          <a
-            href="/#about"
-            class="
-              w-[20%]
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-700
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <div
-              class="
-                w-full
-                hover:bg-purple-500
-                text-sm
-                h-full
-                flex
-                items-center
-                justify-center
-                text-purple-700
-                hover:text-purple-100
-                border-b-4 border-transparent
-                hover:border-purple-300
-                font-bold
-              "
-              :class="{
-                'text-purple-100 bg-purple-700 border-purple-500':
-                  $page.url === '/#about',
-                'bg-transparent': !active,
-                'bg-white': active,
-              }"
-            >
-              About
-            </div>
-          </a>
-          <a
-            href="https://blog.adspot.co"
-            targt="_blank"
-            class="
-              w-[20%]
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-700
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <div
-              class="
-                w-full
-                hover:bg-purple-500
-                text-sm
-                h-full
-                flex
-                items-center
-                justify-center
-                text-purple-700
-                hover:text-purple-100
-                border-b-4 border-transparent
-                hover:border-purple-300
-                font-bold
-              "
-              :class="{
-                'text-purple-100 bg-purple-700 border-purple-500':
-                  $page.url === '/blog',
-                'bg-transparent': !active,
-                'bg-white': active,
-              }"
-            >
-              Blog
-            </div>
-          </a>
-          <a
-            href="/#contact"
-            class="
-              w-[20%]
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-700
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <div
-              class="
-                w-full
-                hover:bg-purple-500
-                text-sm
-                h-full
-                flex
-                items-center
-                justify-center
-                text-purple-700
-                hover:text-purple-100
-                border-b-4 border-transparent
-                hover:border-purple-300
-                font-bold
-              "
-              :class="{
-                'text-purple-100 bg-purple-700 border-purple-500':
-                  $page.url === '/#contact',
-                'bg-transparent': !active,
-                'bg-white': active,
-              }"
-            >
-              Contact
+              {{ item.name }}
             </div>
           </a>
         </PopoverGroup>
         <div class="hidden lg:flex items-center justify-end">
-          <a
-            v-if="!$page.props.auth.user"
-            href="/login"
-            class="
-              whitespace-nowrap
-              text-base
-              font-medium
-              text-gray-500
-              hover:text-gray-700
-              text-sm
-            "
-          >
-            Sign in
-          </a>
+          <span class="px-4 py-2 relative" @click="open = !open"
+            ><ShoppingCartIcon class="w-6 h-6 text-white" />
+            <span
+              v-if="cartItems.length"
+              class="
+                px-1
+                absolute
+                top-[0px]
+                right-[8px]
+                rounded-md
+                bg-white
+                text-sm
+              "
+              >{{ cartItems.length }}</span
+            >
+          </span>
           <a
             v-if="!$page.props.auth.user"
             href="/register"
             class="
-              ml-8
+              hidden
+              md:inline
+              ml-4
               whitespace-nowrap
               inline-flex
               items-center
               justify-center
-              px-4
-              py-2
+              px-6
+              py-1
               border border-transparent
-              rounded-md
+              rounded-full
               shadow-sm
-              text-base
-              font-medium
+              text-sm
+              font-bold
               text-white
-              bg-purple-700
-              hover:bg-purple-600
+              bg-orange-500
+              hover:bg-orange-400
             "
           >
-            Sign up
+            SIGN IN
           </a>
           <div
             class="hidden sm:flex sm:items-center sm:ml-6"
@@ -348,22 +177,6 @@
               </BreezeDropdown>
             </div>
           </div>
-          <span class="px-4 py-2 relative" @click="open = !open"
-            ><ShoppingCartIcon class="w-6 h-6 text-purple-700" />
-            <span
-            v-if="cartItems.length"
-              class="
-                px-1
-                absolute
-                top-[0px]
-                right-[8px]
-                rounded-md
-                bg-white
-                text-sm
-              "
-              >{{ cartItems.length }}</span
-            >
-          </span>
         </div>
       </div>
     </div>
@@ -418,7 +231,7 @@
                     focus:outline-none
                     focus:ring-2
                     focus:ring-inset
-                    focus:ring-purple-500
+                    focus:ring-orange-500
                   "
                 >
                   <span class="sr-only">Close menu</span>
@@ -436,7 +249,7 @@
                 >
                   <component
                     :is="item.icon"
-                    class="flex-shrink-0 h-6 w-6 text-purple-600"
+                    class="flex-shrink-0 h-6 w-6 text-gray-700"
                     aria-hidden="true"
                   />
                   <span class="ml-3 text-base font-medium text-gray-700">
@@ -448,19 +261,7 @@
           </div>
           <div class="py-6 px-5 space-y-6">
             <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-              <a
-                href="/"
-                class="text-base font-medium text-gray-700 hover:text-gray-700"
-              >
-                Home
-              </a>
 
-              <a
-                href="marketplace"
-                class="text-base font-medium text-gray-700 hover:text-gray-700"
-              >
-                Marketplace
-              </a>
               <a
                 v-for="item in resources"
                 :key="item.name"
@@ -486,8 +287,8 @@
                   text-base
                   font-medium
                   text-white
-                  bg-purple-600
-                  hover:bg-purple-700
+                  bg-orange-500
+                  hover:bg-orange-400
                 "
               >
                 Sign up
@@ -495,7 +296,7 @@
               <p class="mt-6 text-center text-base font-medium text-gray-500">
                 Existing customer?
                 {{ " " }}
-                <a href="/login" class="text-purple-600 hover:text-purple-500">
+                <a href="/login" class="text-orange-500 hover:text-orange-500">
                   Sign in
                 </a>
               </p>
@@ -532,16 +333,14 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 import {
-  BookmarkAltIcon,
-  CalendarIcon,
+ 
   MenuAlt3Icon,
   PhoneIcon,
   PlayIcon,
-  ShieldCheckIcon,
-  SupportIcon,
+
   ShoppingCartIcon,
   XIcon,
-} from "@heroicons/vue/outline";
+} from "@heroicons/vue/solid";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import Cart from "@/MarketPlace/Components/cart";
 import { ref } from "vue";
@@ -554,19 +353,27 @@ const callsToAction = [
 ];
 const resources = [
   {
-    name: "Instant Pay",
-    href: "https://adspot.co/instant-payout",
+    name: "Home",
+    href: "/",
   },
   {
-    name: "About",
+    name: "Ad Marketplace",
+    href: "/marketplace",
+  },
+  {
+    name: "About Us",
     href: "/#about",
   },
   {
-    name: "Blog",
+    name: "News",
     href: "https://blog.adspot.co",
   },
   {
-    name: "Contact",
+    name: "Inventory",
+    href: "https://adspot.co/instant-payout",
+  },
+  {
+    name: "Contact us",
     href: "/#contact",
   },
 ];
@@ -625,14 +432,26 @@ export default {
 </script>
 <style scoped lang="scss">
 nav {
-  height: 100%;
-
   a {
     height: 100%;
     div {
-      height: 100%;
-      clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
-      margin-left: -2em;
+      margin-right: 1.2rem;
+      position: relative;
+      &::before {
+        content: "";
+        width: 15px;
+        border-bottom: 2px solid transparent;
+        position: absolute;
+        bottom: 0;
+      }
+      &:hover {
+        &::before {
+          border-color: orange;
+        }
+      }
+       &.active::before {
+          border-color: orange;
+        }
     }
   }
 }

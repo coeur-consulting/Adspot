@@ -1,6 +1,14 @@
 html {
     scroll-behavior: smooth;
     transition: 0.4s;
+
+}
+body{
+
+}
+#app{
+ overflow-x:hidden;
+    width:100vw;
 }
 p,li,span,div{
     color: #7a797e;
@@ -26,6 +34,10 @@ h1,h2,h3,h4,h5,h6{
     width: 10px !important;
     height: 10px !important;
     border-radius: 50rem !important;
+}
+.dp__input {
+border:none !important;
+font-size:.8rem !important;
 }
 .my-gallery {
     display: flex;
