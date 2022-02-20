@@ -215,7 +215,7 @@
           <div class="pt-5 pb-6 px-5">
             <div class="flex items-center justify-between">
               <div>
-                <img class="h-8 w-auto" src="/images/adspot.png" alt="adspot" />
+                <img class="h-8 w-auto" src="/images/logo-orange.png" alt="adspot" />
               </div>
               <div class="-mr-2">
                 <PopoverButton
