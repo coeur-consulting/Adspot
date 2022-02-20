@@ -8,7 +8,7 @@
       <span class="bg-white rounded ld shadow-lg p-5 text-left" v-for="n in 4" :key="n">
         <div class="flex items-center mb-5">
          <span class="flex justify-center items-center w-8 h-8 rounded-full bg-orange-100 mr-2">
-           <span class="text-orange-500 text-sm font-bold">{{n+1}}</span>
+           <span class="text-orange-500 text-sm font-bold">{{n}}</span>
 
          </span>
          <h6 class="font-bold">Find Adspot</h6>
