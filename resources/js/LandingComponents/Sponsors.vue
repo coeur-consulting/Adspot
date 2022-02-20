@@ -1,9 +1,9 @@
 <template >
-  <section id="sponsors" class=" p-4 md:p-6 bg-gray-100 flex items-center z-[3] relative">
-      <div class="w-1/5">
+  <section id="sponsors" class=" p-4 md:p-6 bg-gray-100 flex flex-col  md:flex-row items-center z-[3] relative">
+      <div class="w-full md:w-1/5">
        <p class="font-bold text-xl">Trusted by over <br> 1000 clients including</p>
       </div>
-         <div  class="w-4/5 grid grid-cols-5 grid-gaps-5 items-center">
+         <div  class="w-full md:w-4/5 grid grid-cols-3 md:grid-cols-5 gap-3 justify-between items-center">
           <img :src="item"  v-for="item in images" :key="item"/>
          </div>
   </section>

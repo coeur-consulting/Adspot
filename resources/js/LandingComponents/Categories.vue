@@ -1,27 +1,27 @@
 <template >
-  <section id="categories" class="py-16 relative">
+  <section id="categories" class="px-5 md:px-0 py-16 relative">
     <div class="container mx-auto relative">
     <div class="flex justify-between items-center mb-4">
-      <h6 class="font-bold ">Categories</h6>
+      <h6 class="font-bolder ">Categories</h6>
       <span class="text-xs text-orange-500 font-bold flex items-center">View all <ArrowNarrowRightIcon  class="ml-2 w-4"/></span>
     </div>
-      <div class="grid grid-cols-3 gap-4">
-        <div class="... h-60  rounded-lg box bg1 shadow-sm">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="... h-32 md:h-60  rounded-lg box bg1 shadow-sm">
 
-          <span class="bg-white text-black rounded-full px-3 py-1 text-xs absolute bottom-3 right-3 z-10">Online</span>
+          <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Online</span>
         </div>
-        <div class="... h-60  rounded-lg box bg2 shadow-sm">
-           <span class="bg-white text-black rounded-full px-3 py-1 text-xs absolute bottom-3 right-3 z-10">Radio</span>
+        <div class="... h-32 md:h-60  rounded-lg box bg2 shadow-sm">
+           <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Radio</span>
         </div>
-        <div class="... h-60  rounded-lg box bg3 shadow-sm">
-           <span class="bg-white text-black rounded-full px-3 py-1 text-xs absolute bottom-3 right-3 z-10">Television</span>
+        <div class="... h-32 md:h-60  rounded-lg box bg3 shadow-sm">
+           <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Television</span>
         </div>
 
-        <div class=".. h-60  rounded-lg box bg4 shadow-sm">
-           <span class="bg-white text-black rounded-full px-3 py-1 text-xs absolute bottom-3 right-3 z-10">Print</span>
+        <div class=".. h-32 md:h-60  rounded-lg box bg4 shadow-sm">
+           <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Print</span>
         </div>
-        <div class="col-span-2 ... h-60  rounded-lg box bg5 shadow-sm" >
-           <span class="bg-white text-black rounded-full px-3 py-1 text-xs absolute bottom-3 right-3 z-10">Out of home</span>
+        <div class="col-span-2 ... h-32 md:h-60  rounded-lg box bg5 shadow-sm" >
+           <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Out of home</span>
         </div>
       </div>
 

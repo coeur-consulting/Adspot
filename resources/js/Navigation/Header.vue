@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <div class="-mr-2 -my-2 lg:hidden flex">
+        <div class="md:-mr-2 md:-my-2 lg:hidden flex">
           <span class="px-4 py-2 relative" @click="open = !open"
             ><ShoppingCartIcon class="w-6 h-6 text-white" />
             <span
@@ -333,7 +333,7 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 import {
- 
+
   MenuAlt3Icon,
   PhoneIcon,
   PlayIcon,

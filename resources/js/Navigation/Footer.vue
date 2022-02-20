@@ -1,7 +1,7 @@
 <template>
   <section class="bg-gray-100 py-12 px-10 md:px-0">
     <div class="container mx-auto">
-      <div class="grid grid-cols-5 gap-3 mb-5">
+      <div class="grid grid-cols-2 grid-cols-5 gap-3 mb-5">
         <div v-for="n in content" :key="n.title">
           <h6 class="font-bold text-sm mb-4">{{ n.title }}</h6>
           <p class="text-xs mb-2 text-gray-400" v-for="s in n.subs" :key="s">
@@ -12,19 +12,19 @@
 
       <hr />
 
-      <div class="w-full flex justify-between mt-5">
-        <div class="text-center py-2 flex items-end">
+      <div class="w-full flex flex-col-reverse md:flex-row justify-between mt-5">
+        <div class="text-center py-2 flex justify-between  md:items-end">
           <img src="/images/logo-orange.png" class="mr-3 w-10" />
-          <small class="text-gray-500">
-            Copyright &#169;{{ new Date().getFullYear() }} Adspot Nigeria, Inc.
+          <small class="text-gray-500 text-xs">
+            Copyright &#169;{{ new Date().getFullYear() }} Adspot Nigeria, Inc. <br class="md:hidden">
             All rights reserved.
           </small>
         </div>
         <div class="flex">
-          <img src="/images/f.png" class="mr-3 w-8 h-8" />
-          <img src="/images/i.png" class="mr-3 w-8 h-8" /><img
+          <img src="/images/f.png" class="mr-2 w-4 md:w-8 h-4 md:h-8" />
+          <img src="/images/i.png" class="mr-2 w-4 md:w-8 h-4 md:h-8" /><img
             src="/images/t.png"
-            class="w-8 h-8"
+            class= "w-4 md:w-8 h-4 md:h-8"
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <section id="banner" class="relative h-full md:h-[92vh]">
+  <section id="banner" class="relative h-[92vh]">
     <carousel
       :items-to-show="1"
       :autoplay="5000"
@@ -37,18 +37,39 @@
           Nigeria’s number 1 aggregator of advertising spaces and brand
           solutions
         </h1>
-        <div class="banner_m text-center md:text-left mb-6">
-          <p class="leading-normal">
+        <div class="banner_m text-left mb-6">
+          <p class="leading-normal text-white">
             We exist to help advertisers and agencies find, negotiate and pay
             for advertising spaces easily and transparently. We also provide
             data and insight that help our clients make informed decisions and
             reach their target audience efficiently and effectively.
           </p>
         </div>
+        <div class="md:hidden">
+          <button
+            type="button"
+            class="
+              px-4
+              py-2
+              border border-transparent
+              rounded-full
+              shadow-lg
+              text-xs text-white
+              bg-orange-500
+              focus:ring-2 focus:ring-inset focus:ring-orange-500
+              flex
+              items-center
+            "
+          >
+            <span class="mr-2 text-white font-bold">Search inventory</span>
+            <SearchIcon class="w-3 h-3" />
+          </button>
+        </div>
       </div>
-      <div class="banner_b text-left w-full px-6">
+      <div class="banner_b text-left w-full px-6 hidden md:block">
         <SearchBox />
       </div>
+
       <div class="absolute bottom-10 z-20 right-10 flex items-center">
         <span class="text-white">0{{ index + 1 }}</span>
         <span
@@ -85,6 +106,7 @@ import SearchBox from "@/Components/SearchBox.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide } from "vue3-carousel";
 import { ref } from "vue";
+import { SearchIcon } from "@heroicons/vue/solid";
 const banners = ["images/banner.png", "images/banner1.png"];
 export default {
   components: {
@@ -95,6 +117,7 @@ export default {
     BreezeDropdown,
     BreezeDropdownLink,
     SearchBox,
+    SearchIcon,
     Carousel,
     Slide,
   },
