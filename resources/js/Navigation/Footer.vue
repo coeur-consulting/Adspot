@@ -1,7 +1,7 @@
 <template>
   <section class="bg-gray-100 py-12 px-10 md:px-0">
     <div class="container mx-auto">
-      <div class="grid grid-cols-2 grid-cols-5 gap-3 mb-5">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5">
         <div v-for="n in content" :key="n.title">
           <h6 class="font-bold text-sm mb-4">{{ n.title }}</h6>
           <p class="text-xs mb-2 text-gray-400" v-for="s in n.subs" :key="s">

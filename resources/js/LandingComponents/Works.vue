@@ -1,6 +1,6 @@
 <template >
   <section class="py-16 md:py-0 md:h-80 relative z-[2]">
-    <div class="mb-4 px-5">
+    <div class="mb-4 px-5 md:hidden">
        <h6 class="text-orange-500">Our Process</h6>
       <h4 class="text-white font-bold text-xl">How it works</h4>
     </div>
