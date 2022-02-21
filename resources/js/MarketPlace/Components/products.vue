@@ -283,7 +283,7 @@ export default {
   },
 
   created() {
-    this.convertCurrency("USD", "NGN");
+    //this.convertCurrency("USD", "NGN");
   },
   mounted() {
     this.cartItems = JSON.parse(localStorage.getItem("cartItems"));

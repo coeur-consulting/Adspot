@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -46,7 +47,7 @@ Route::get('/product/{id}', function ($id) {
 });
 Route::get('/marketplace', function () {
     return Inertia::render('MarketPlace', [
-        'categories' => Category::get(['id', 'name']),
+        'categories' => Category::get(),
 
     ]);
 });
@@ -64,9 +65,6 @@ Route::get('/transaction', function () {
     return Inertia::render('Transaction', []);
 });
 Route::get('verify-transaction/{txn_id}', [OrderController::class, 'verify']);
-Route::get('/category', function () {
-    return Inertia::render('Categories', []);
-});
 
 Route::post('orders', [OrderController::class, 'store']);
 
@@ -131,6 +129,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+Route::post('/findspace', [UtilityController::class, 'findspace']);
+Route::get('/categories', [UtilityController::class, 'getcategories']);
+Route::get('/subcategories', [UtilityController::class, 'getsubcategories']);
 Route::get('/get-products', [ProductController::class, 'allproducts']);
 Route::get('/get-users', [RegisteredUserController::class, 'getusers']);
 Route::get('/get-admins', [RegisteredUserController::class, 'getvendors']);

@@ -50,7 +50,7 @@
                     >Email address</label
                   >
                   <input
-                    
+
                     required
                     type="text"
                     v-model="form.email"
@@ -480,7 +480,7 @@ export default {
     };
   },
   created() {
-    this.convertCurrency("USD", "NGN");
+    //this.convertCurrency("USD", "NGN");
   },
   mounted() {
     if (this.$page.props.auth) {
