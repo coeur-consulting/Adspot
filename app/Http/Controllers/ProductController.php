@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collect(auth()->user()->products()->with('offers')->get()),
+            'products' => ProductResource::collection(auth()->user()->products()->with('offers')->get()),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -76,7 +76,7 @@ class ProductController extends Controller
     public function allproducts()
     {
 
-        return  ProductResource::collect(Product::with('offers')->inRandomOrder()->paginate(30));
+        return  ProductResource::collection(Product::with('offers','category','subcategory')->inRandomOrder()->paginate(30));
     }
 
 
@@ -158,7 +158,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $user  = auth()->user();
         $product->delete();
-        $products = ProductResource::collect($user->products()->with('offers')->get());
+        $products = ProductResource::collection($user->products()->with('offers')->get());
         return Inertia::render('Admin/Products', [
             'products' => $products,
             'flash' => ['message' => 'success']

@@ -320,7 +320,7 @@ export default {
     this.emitter.on("addtocart", () => {
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
     });
-    // this.convertCurrency("USD", "NGN");
+   
   },
   computed: {
     total() {

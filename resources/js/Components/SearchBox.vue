@@ -12,26 +12,26 @@
       >
     </div>
     <form @submit.prevent="postdata" class="bottombox bg-white p-3 flex justify-between items-center w-[80%]">
-      <div clas="p-3 ">
+      <div class="px-3 ">
         <h6 class="font-bold text-xs">Subcategories</h6>
-        <select required v-model="form.subcategory_id" class="border-0 text-[.8rem]  focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize">
+        <select required v-model="form.subcategory_id" class="border-0 text-[.7rem]  focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize">
           <option :value="null" disabled>Select a subcategory</option>
           <option :value="item.id" v-for="item in filteredsubcategories"  :key="item.id">{{item.name}}</option>
         </select>
       </div>
-      <div clas="p-3  text-white">
+      <div class="px-3  border-l text-white">
         <h6 class="font-bold text-xs">Date</h6>
        <div class="flex">
-    <Datepicker class="text-[.8rem]" required v-model="form.datevalue" range  placeholder="When will the Ad run?"></Datepicker>
+    <Datepicker class="text-[.7rem] w-[300px]" required v-model="form.datevalue" range  placeholder="When will the Ad run?"></Datepicker>
   </div>
       </div>
-      <div clas="p-3  text-white">
+      <div class="px-3 border-l  ">
         <h6 class="font-bold text-xs">Location</h6>
         <input
         required
-        form.location
+        v-model="form.location"
           placeholder="Where will  this Ad run?"
-          class="border-0 text-[.8rem] focus:border-orange-400 focus:ring focus:ring-orange-300 focus:ring-opacity-50 rounded-md py-2 px-2 "
+          class="border-0 text-[.7rem] focus:border-orange-400 focus:ring focus:ring-orange-300 focus:ring-opacity-50 rounded-md py-2 px-2 "
         />
       </div>
       <div clas="p-3  text-white">

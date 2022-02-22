@@ -1,13 +1,13 @@
 <template >
  <Head title="Marketplace" />
-  <Index :auth="auth"/>
+  <Index />
 </template>
 <script>
 import { Head } from '@inertiajs/inertia-vue3';
 import Index from '@/MarketPlace/layout/index'
 
 export default {
-props:['auth'],
+
 components: {
 Index,
 Head

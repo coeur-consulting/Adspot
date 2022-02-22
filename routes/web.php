@@ -4,6 +4,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\OrderController;
@@ -47,7 +48,8 @@ Route::get('/product/{id}', function ($id) {
 });
 Route::get('/marketplace', function () {
     return Inertia::render('MarketPlace', [
-        'categories' => Category::get(),
+        'categories' => Category::get(['id','name']),
+        'subcategories' => Subcategory::get(['id', 'name','category_id']),
 
     ]);
 });
