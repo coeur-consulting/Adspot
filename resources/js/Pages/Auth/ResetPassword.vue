@@ -1,7 +1,8 @@
 <template>
     <Head title="Reset Password" />
 
-    <BreezeValidationErrors class="mb-4" />
+
+   <BreezeValidationErrors class="mb-4" />
 
     <form @submit.prevent="submit">
         <div>
@@ -25,6 +26,7 @@
             </BreezeButton>
         </div>
     </form>
+
 </template>
 
 <script>

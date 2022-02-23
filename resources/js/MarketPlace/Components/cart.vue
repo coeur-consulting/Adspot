@@ -158,7 +158,7 @@
                                       cursor-pointe
                                       w-5
                                       h-5
-                                      text-purple-500
+                                      text-orange-500
                                     "
                                 /></span>
                                 <span class="mx-2 text-sm text-gray-500">
@@ -170,7 +170,7 @@
                                     class="
                                       w-5
                                       h-5
-                                      text-purple-500
+                                      text-orange-500
                                       cursor-pointer
                                     " /></span
                               ></span>
@@ -181,8 +181,8 @@
                                   type="button"
                                   class="
                                     font-medium
-                                    text-purple-600
-                                    hover:text-purple-500
+                                    text-orange-600
+                                    hover:text-orange-500
                                   "
                                 >
                                   Remove
@@ -240,8 +240,8 @@
                         text-base
                         font-medium
                         text-white
-                        bg-purple-600
-                        hover:bg-purple-700
+                        bg-orange-600
+                        hover:bg-orange-700
                       "
                       >Checkout</a
                     >
@@ -259,9 +259,9 @@
                       <button
                         type="button"
                         class="
-                          text-purple-600
+                          text-orange-600
                           font-medium
-                          hover:text-purple-500
+                          hover:text-orange-500
                         "
                         @click="open = false"
                       >
@@ -320,7 +320,7 @@ export default {
     this.emitter.on("addtocart", () => {
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
     });
-   
+
   },
   computed: {
     total() {

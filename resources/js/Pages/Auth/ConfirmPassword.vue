@@ -1,7 +1,10 @@
 <template>
     <Head title="Confirm Password" />
 
-    <div class="mb-4 text-sm text-gray-600">
+
+
+      <div>
+       <div class="mb-4 text-sm text-gray-600">
         This is a secure area of the application. Please confirm your password before continuing.
     </div>
 
@@ -19,6 +22,20 @@
             </BreezeButton>
         </div>
     </form>
+      </div>
+
+      <div>
+
+        <Link
+          :href="route('login')"
+          class="underline text-sm text-orange-600 hover:text-orange-900"
+        >
+          Sign in here
+        </Link>
+      </div>
+
+
+
 </template>
 
 <script>
@@ -27,7 +44,7 @@ import BreezeGuestLayout from '@/Layouts/Guest.vue'
 import BreezeInput from '@/Components/Input.vue'
 import BreezeLabel from '@/Components/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head,Link } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
@@ -38,6 +55,7 @@ export default {
         BreezeLabel,
         BreezeValidationErrors,
         Head,
+        Link
     },
 
     data() {

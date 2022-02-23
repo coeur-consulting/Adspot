@@ -1,5 +1,5 @@
 <template lang="">
-
+<Head title="Marketplace" />
   <Navigation />
 <div class="hidden md:block">
   <TopBar class="w-full"/>
@@ -133,6 +133,8 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { ref } from "vue";
+import { Head } from '@inertiajs/inertia-vue3';
+
 export default {
   components: {
     TopBar,
@@ -146,7 +148,8 @@ export default {
     TransitionChild,
     TransitionRoot,
     MobileFilter,
-    FilterIcon
+    FilterIcon,
+    Head
   },
   setup() {
     const open = ref(false);
