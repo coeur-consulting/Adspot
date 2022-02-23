@@ -24,7 +24,7 @@
       </carousel>
     </div>
 
-    <div class="w-full md:w-2/4 bg-orange-300 text-white relative overflow-hidden">
+    <div class="w-full md:w-2/4 bg-orange-300 text-white relative overflow-hidden box-border  border-x-4 border-white">
      <div class="relative z-10 h-screen px-5 py-5 md:px-16 md:py-16 flex flex-col justify-between relative overflow-hidden">
           <div class=" md:hidden md:absolute top-10 text-center z-40 flex flex-col items-center w-full py-5 px-1 ">
            <div class="mb-3">
