@@ -2,8 +2,8 @@
   <section id="banner" class="relative h-[92vh]">
     <carousel
       :items-to-show="1"
-      :autoplay="5000"
-      :loop="true"
+       :autoplay="5000"
+        :wrapAround="true"
       ref="slider"
       class="h-full w-full"
     >
