@@ -1,26 +1,29 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-<div class="bg-gray-100 p-4">
-    <div class="container mx-auto  flex items-center">
-    <span
-      class="px-6 py-1 rounded-full mr-5 capitalize text-xs"
+<div class="bg-gray-100 p-2 md:p-4">
+  <h6 class="font-bold text-xs mb-3 text-center md:hidden">Categories</h6>
+    <div class="container mx-auto  md:flex items-center text-center">
+    <div
+      class=" px-1 md:px-6 py-1 rounded-full md:mr-5 capitalize text-xs"
       @click="setCategory(0)"
       :class="
         !active  ? 'text-orange-500 bg-gray-200' : 'bg-transparent'
       "
-      >All</span
+      >All</div
     >
-    <span
-      class="px-6 py-1 text-xs rounded-full mr-5 capitalize"
+    <div
+      class="px-1 md:px-6 py-1 text-xs rounded-full md:mr-5 capitalize"
       @click="setCategory(item.id)"
       :class="
         active === item.id ? 'text-orange-500 bg-gray-200' : 'bg-transparent'
       "
       v-for="item in $page.props.categories"
       :key="item.id"
-      >{{ item.name }}</span
+      >{{ item.name }}</div
     >
   </div>
+
+
 </div>
 
 </template>

@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-white h-full relative">
-    <div class="h-[450px] product_image"></div>
-    <div class="w-4/6 mr-auto px-5 py-10">
-      <div class="mr-5 flex justify-between">
-        <div class="mb-4 w-[73%]">
+  <div class="bg-white h-full relative px-3 py-4 md:px-0 md:py-0">
+    <div class="h-[200px] md:h-[450px] product_image"></div>
+    <div class="w-full md:w-4/6 mr-auto px-5 py-10">
+      <div class="mr-5 flex flex-col md:flex-row justify-between">
+        <div class="mb-4 w-full md:w-[73%]">
           <div class="flex mr-5 mb-5 items-center">
             <h4 class="mr-5 font-extrabold text-xl">Title Here</h4>
             <div>
@@ -12,9 +12,12 @@
                   text-orange-600
                   bg-orange-100
                   rounded-full
-                  px-5
-                  py-2
-                  text-base
+                  px-4
+                  md:px-5
+                  py-1
+                  md:py-2
+                  text-xs
+                  md:text-base
                 "
                 >Rarely available</span
               >
@@ -29,7 +32,7 @@
             vehicula arcu.
           </p>
         </div>
-        <div class="map bg-blue-100 p-10 rounded-lg w-[25%] mb-12">
+        <div class="map bg-blue-100 p-10 rounded-lg w-full md:w-[25%] mb-12">
           <GMapMap
             :center="center"
             :zoom="7"
@@ -53,7 +56,7 @@
       <div class="py-5 mt-6">
         <v-date-picker
           v-model="range"
-          :columns="2"
+         :columns="$screens({ default: 1, lg: 2 })"
           is-range
           is-expanded
           :modelConfig="modelConfig"
@@ -61,8 +64,8 @@
       </div>
     </div>
 
-    <div class="w-[350px] fixed right-8 top-[25%] z-40">
-      <div class="bg-white shadow-lg px-5 py-8 text-left rounded-lg mb-8">
+    <div class="w-[100%] mx-auto md:w-[350px] md:fixed md:right-8 md:top-[25%] z-40">
+      <div class="bg-white  md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
         <p class="mb-2 text-xl text-black">90,000 Weekly impressions</p>
         <p class="mb-1 font-bold text-3xl text-black">₦80,000 /4 week</p>
         <p class="mb-1 text-base">
@@ -91,8 +94,8 @@
         <div class="mt-8">
           <button
             class="
-              hidden
-              md:inline
+
+              inline
               whitespace-nowrap
               inline-flex
               items-center
@@ -158,7 +161,7 @@ export default {
   setup(props, context) {
 
     const { product } = toRefs(props);
-    
+
     const range = reactive({
       start: new Date(),
       end: null,

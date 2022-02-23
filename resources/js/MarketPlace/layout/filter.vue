@@ -1,6 +1,6 @@
 <template >
   <div class=" container p-6 flex
-        flex-cols
+        flex-col
         md:flex-row justify-between mx-auto">
     <form
       @submit.prevent="sendFilter"
@@ -8,18 +8,18 @@
         bottombox
         bg-white
         py-2
-        px-3
+        md:px-3
         flex
-        flex-cols
+        flex-col
         md:flex-row
         justify-between
         items-center
-        w-full  w-full md:w-[89%]
+       w-full md:w-[89%]
         border
         rounded
       "
     >
-      <div class="px-3">
+      <div class="px-3 py-2 md:py-0 border-b md:border-b-0 w-full md:w-auto">
         <h6 class="font-bold text-xs">Subcategories</h6>
         <select
           required
@@ -40,7 +40,7 @@
           </option>
         </select>
       </div>
-      <div class="px-3 text-white border-l">
+      <div class="px-3  py-2 md:py-0 text-white border-b md:border-b-0 md:border-l w-full md:w-auto">
         <h6 class="font-bold text-xs">Date</h6>
         <div class="flex">
           <Datepicker
@@ -52,7 +52,7 @@
           ></Datepicker>
         </div>
       </div>
-      <div class="px-3 border-l">
+      <div class="px-3  py-2 md:py-0 border-b md:border-b-0 md:border-l w-full md:w-auto">
         <h6 class="font-bold text-xs">Location</h6>
         <input
           required
@@ -72,7 +72,7 @@
           "
         />
       </div>
-      <div class="px-3 text-white">
+      <div class="px-3  py-2 md:py-0 text-white">
         <button
           type="submit"
           class="
@@ -116,7 +116,7 @@
       </div>
     </form>
 
-    <div class="border rounded p-5 w-[10%] grid grid-cols-2 justify-between">
+    <div class="border rounded p-5 w-[10%]  grid-cols-2 justify-between hidden md:grid">
       <div class="text-center">
         <ViewGridIcon
           @click="switchView('grid')"

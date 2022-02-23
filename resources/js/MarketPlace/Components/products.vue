@@ -1,19 +1,19 @@
 <template>
   <div class="bg-transparent container mx-auto">
-    <div class="grid  gap-6 p-5" :class="viewType=='grid'?'grid-cols-4':'grid-cols-1'">
+    <div class="grid  gap-8 p-5" :class="viewType=='grid'?'grid-cols-1 sm:grid-cols-3 md:grid-cols-4':'grid-cols-1'">
       <div
         class="bg-white rounded-lg shadow w-full overflow-hidden z-10"
-        :class="viewType=='grid'?'':'flex'"
+        :class="viewType=='grid'?'':'md:flex'"
         v-for="(item, index) in 16"
         :key="index"
       >
-        <div  :class="viewType=='grid'?'w-full':'w-[40%]'">
+        <div  :class="viewType=='grid'?'w-full':'md:w-[40%]'">
           <img
             class="w-full h-full object-center object-cover h-[200px]"
             src="/images/banner.png"
           />
         </div>
-        <div class=" p-4 text-left"  :class="viewType=='grid'?'w-full':'w-[60%]'">
+        <div class=" p-4 text-left"  :class="viewType=='grid'?'w-full':'md:w-[60%]'">
           <p   :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
             90,000 Weekly impressions
           </p>
@@ -31,12 +31,12 @@
             <span>Dimension</span> :
             <span class="text-slate-400">4000 x 5000</span>
           </p>
-          <div class="flex  mt-5"  :class="viewType=='grid'?' justify-between':' justify-end'">
+          <div class="flex flex-col md:flex-row mt-5"  :class="viewType=='grid'?' justify-between':' justify-end'">
             <button
              @click="toggleModal(item)"
               class="
-                hidden
-                md:inline
+
+                inline
                 whitespace-nowrap
                 inline-flex
                 items-center
@@ -51,6 +51,7 @@
                 text-white
                 bg-white
                 hover:bg-orange-500 hover:text-white
+                mb-4 md:mb-0
               "
                 :class="viewType=='grid'?' ':'mr-3'"
             >
@@ -58,8 +59,8 @@
             </button>
             <button
               class="
-                hidden
-                md:inline
+
+                inline
                 whitespace-nowrap
                 inline-flex
                 items-center
@@ -89,7 +90,7 @@
           ><ArrowCircleLeftIcon
             :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
             @click="prev"
-            class="cursor-pointe w-8 h-8 text-purple-700 mr-2"
+            class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
         /></span>
         <input
           class="
@@ -98,7 +99,7 @@
             py-1
             px-3
             text-center
-            border border-purple-700
+            border border-orange-700
             rounded
           "
           :disabled="current_page == last_page"
@@ -108,7 +109,7 @@
           ><ArrowCircleRightIcon
             :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
             @click="next"
-            class="w-8 h-8 text-purple-700 ml-2 cursor-pointer" /></span
+            class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
       ></span>
     </div>
   </div>
