@@ -3169,6 +3169,16 @@ select {
     padding-right: 1.25rem;
   }
 
+  .md\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .md\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
   .md\:text-left {
     text-align: left;
   }

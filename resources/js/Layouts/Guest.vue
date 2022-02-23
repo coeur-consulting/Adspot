@@ -24,16 +24,16 @@
       </carousel>
     </div>
 
-    <div class="w-full md:w-2/4 bg-orange-300 text-white relative overflow-hidde">
-     <div class="relative z-10 h-screen px-16 py-16 flex flex-col justify-between relative n">
-          <div class=" md:hidden md:absolute top-10 text-center z-40 flex flex-col items-center w-full py-10 px-12 ">
+    <div class="w-full md:w-2/4 bg-orange-300 text-white relative overflow-hidden">
+     <div class="relative z-10 h-screen px-5 py-5 md:px-16 md:py-16 flex flex-col justify-between relative overflow-hidden">
+          <div class=" md:hidden md:absolute top-10 text-center z-40 flex flex-col items-center w-full py-5 px-1 ">
            <div class="mb-3">
                 <Link href="/">
                 <BreezeApplicationLogo class="w-40 h-auto fill-current text-gray-500 mb-4" />
             </Link>
            </div>
-            <h4 class="text-white font-extrabold text-3xl">Adspot Marketplace</h4>
-            <p class="text-white text-2xl"> Nigeria’s number 1 aggregator of advertising spaces and brand solutions </p>
+            <h4 class="text-white font-extrabold text-xl">Adspot Marketplace</h4>
+            <p class="text-white text-sm"> Nigeria’s number 1 aggregator of advertising spaces and brand solutions </p>
         </div>
           <slot />
      </div>
