@@ -32,11 +32,14 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "@fawmi/vue-google-maps": "^0.9.4",
         "@headlessui/vue": "^1.4.3",
         "@heroicons/vue": "^1.0.5",
         "litepie-datepicker": "^1.0.14",
         "mitt": "^1.2.0",
         "moment": "^2.29.1",
+        "v-calendar": "^3.0.0-alpha.8",
+        "vue-functional-calendar": "^2.9.92",
         "vue3-carousel": "^0.1.35",
         "vue3-date-time-picker": "^2.6.0",
         "vue3-picture-swipe": "^3.0.5",

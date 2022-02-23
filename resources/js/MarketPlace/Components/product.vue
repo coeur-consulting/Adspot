@@ -1,320 +1,201 @@
 <template>
-  <TopBar />
-  <div class="bg-purple-50">
-    <div class="pt-6">
-      <nav aria-label="Breadcrumb">
-        <ol
-          role="list"
-          class="
-            max-w-2xl
-            mx-auto
-            px-4
-            flex
-            items-center
-            space-x-2
-            sm:px-6
-            lg:max-w-7xl lg:px-8
-          "
-        >
-          <li v-for="breadcrumb in breadcrumbs" :key="breadcrumb.id">
-            <div class="flex items-center">
-              <a
-                :href="breadcrumb.href"
-                class="mr-2 text-sm font-medium text-gray-900"
+  <div class="bg-white h-full relative">
+    <div class="h-[450px] product_image"></div>
+    <div class="w-4/6 mr-auto px-5 py-10">
+      <div class="mr-5 flex justify-between">
+        <div class="mb-4 w-[73%]">
+          <div class="flex mr-5 mb-5 items-center">
+            <h4 class="mr-5 font-extrabold text-xl">Title Here</h4>
+            <div>
+              <span
+                class="
+                  text-orange-600
+                  bg-orange-100
+                  rounded-full
+                  px-5
+                  py-2
+                  text-base
+                "
+                >Rarely available</span
               >
-                {{ breadcrumb.name }}
-              </a>
-              <svg
-                width="16"
-                height="20"
-                viewBox="0 0 16 20"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                class="w-4 h-5 text-gray-300"
-              >
-                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-              </svg>
             </div>
-          </li>
-          <li class="text-sm">
-            {{ product.name }}
-          </li>
-        </ol>
-      </nav>
-
-      <!-- Image gallery -->
-      <div
-        class="
-          mt-6
-          max-w-2xl
-          mx-auto
-          sm:px-6
-          lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8
-        "
-        v-if="product.images > 0"
-      >
-        <div
-          class="
-            hidden
-            aspect-w-3 aspect-h-4
-            rounded-lg
-            overflow-hidden
-            lg:block
-          "
-        >
-          <img
-            :src="product.images[0].src"
-            :alt="product.images[0].alt"
-            class="w-full h-full object-center object-cover"
-          />
-        </div>
-        <div
-          class="hidden lg:grid lg:grid-cols-1 lg:gap-y-8"
-          v-if="product.images > 1"
-        >
-          <div class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden">
-            <img
-              :src="product.images[1].src"
-              :alt="product.images[1].alt"
-              class="w-full h-full object-center object-cover"
-            />
           </div>
-          <div
-            class="aspect-w-3 aspect-h-2 rounded-lg overflow-hidden"
-            v-if="product.images > 2"
+          <p>
+            Desccription about the ad spot Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Integer bibendum, lorem id pellentesque
+            susci pit, dolor nibh dignissim orci, at condimentum ipsum magna
+            vehicula massa. Null am leo eros, aliquam ac pellentesque ut,
+            gravida et magna. Etiam ut enim mollis , vulputate ante vel,
+            vehicula arcu.
+          </p>
+        </div>
+        <div class="map bg-blue-100 p-10 rounded-lg w-[25%] mb-12">
+          <GMapMap
+            :center="center"
+            :zoom="7"
+            map-type-id="terrain"
+            style="width: 300px; height: 300px"
           >
-            <img
-              :src="product.images[2].src"
-              :alt="product.images[2].alt"
-              class="w-full h-full object-center object-cover"
-            />
-          </div>
-        </div>
-        <div
-          class="
-            aspect-w-4 aspect-h-5
-            sm:rounded-lg sm:overflow-hidden
-            lg:aspect-w-3 lg:aspect-h-4
-          "
-          v-if="product.images > 3"
-        >
-          <img
-            :src="product.images[3].src"
-            :alt="product.images[3].alt"
-            class="w-full h-full object-center object-cover"
-          />
+            <GMapCluster>
+              <GMapMarker
+                :key="index"
+                v-for="(m, index) in markers"
+                :position="m.position"
+                :clickable="true"
+                :draggable="true"
+                @click="center = m.position"
+              />
+            </GMapCluster>
+          </GMapMap>
         </div>
       </div>
-
-      <!-- Product info -->
-      <div
-        class="
-          max-w-2xl
-          mx-auto
-          pt-10
-          pb-16
-          px-4
-          sm:px-6
-          lg:max-w-7xl
-          lg:pt-16
-          lg:pb-24
-          lg:px-8
-          lg:grid
-          lg:grid-cols-3
-          lg:grid-rows-[auto,auto,1fr]
-          lg:gap-x-8
-        "
-      >
-        <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-          <h1
-            class="
-              text-2xl
-              font-extrabold
-              tracking-tight
-              text-gray-900
-              sm:text-3xl
-            "
-          >
-            {{ product.name }}
-          </h1>
-           <h3
-            class="
-              text-sm
-              font-bold
-              tracking-tight
-              text-gray-900
-              sm:text-md
-            "
-          >
-            {{ product.user.name }}
-          </h3>
-        </div>
-
-        <!-- Options -->
-        <div class="mt-4 lg:mt-0 lg:row-span-3">
-          <h2 class="sr-only">Product information</h2>
-          <p class="text-3xl text-gray-900">{{ currency(product.price) }}</p>
-
-          <!-- Reviews -->
-          <div class="mt-6">
-            <h3 class="sr-only">Reviews</h3>
-            <div class="flex items-center">
-              <div class="flex items-center">
-                <StarIcon
-                  v-for="rating in [0, 1, 2, 3, 4]"
-                  :key="rating"
-                  :class="[
-                    reviews.average > rating
-                      ? 'text-gray-900'
-                      : 'text-gray-200',
-                    'h-5 w-5 flex-shrink-0',
-                  ]"
-                  aria-hidden="true"
-                />
-              </div>
-              <p class="sr-only">{{ reviews.average }} out of 5 stars</p>
-              <a
-                :href="reviews.href"
-                class="
-                  ml-3
-                  text-sm
-                  font-medium
-                  text-purple-600
-                  hover:text-purple-500
-                "
-                >{{ reviews.totalCount }} reviews</a
-              >
-            </div>
-          </div>
-
-          <form class="mt-10">
-            <button
-              type="button"
-              :class="inCart(product.id) ? 'bg-slate-400 opacity-70' : ''"
-              :disabled="inCart(product.id)"
-              @click="addtocart(product)"
-              class="
-                mt-10
-                w-full
-                bg-purple-600
-                border border-transparent
-                rounded-md
-                py-3
-                px-8
-                flex
-                items-center
-                justify-between
-                text-base
-                font-medium
-                text-white
-                hover:bg-purple-700
-                focus:outline-none
-                focus:ring-2
-                focus:ring-offset-2
-                focus:ring-purple-500
-              "
-            >
-              <span class="text-white mr-3">
-                {{ inCart(product.id) ? "Added" : "Add" }} to cart</span
-              >
-
-              <ShoppingCartIcon class="w-4 h-4 text-white" />
-            </button>
-          </form>
-        </div>
-          <div
-          class="
-            pt-10
-            pb-3
-            lg:pt-3
-            lg:pb-4
-            lg:col-start-1
-            lg:col-span-2
-            lg:border-r
-            lg:border-gray-200
-            lg:pr-8
-          "
-        >
-          <!-- Description and details -->
-          <div>
-            <h3 class="text-slate-600 text-sm">Category</h3>
-
-            <div class="space-y-6">
-              <p class="text-base text-gray-900 text-sm md:text-md">{{ product.category.name }}</p>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="
-            py-1
-            lg:pt-6
-            lg:pb-16
-            lg:col-start-1
-            lg:col-span-2
-            lg:border-r
-            lg:border-gray-200
-            lg:pr-8
-          "
-        >
-          <!-- Description and details -->
-          <div>
-            <h3 class="text-slate-600 text-sm">Description</h3>
-
-            <div class="space-y-6">
-              <p class="text-base text-gray-900 text-sm md:text-md">{{ product.description }}</p>
-            </div>
-          </div>
-        </div>
+      <hr />
+      <div class="py-5 mt-6">
+        <v-date-picker
+          v-model="range"
+          :columns="2"
+          is-range
+          is-expanded
+          :modelConfig="modelConfig"
+        />
       </div>
     </div>
+
+    <div class="w-[350px] fixed right-8 top-[25%] z-40">
+      <div class="bg-white shadow-lg px-5 py-8 text-left rounded-lg mb-8">
+        <p class="mb-2 text-xl text-black">90,000 Weekly impressions</p>
+        <p class="mb-1 font-bold text-3xl text-black">₦80,000 /4 week</p>
+        <p class="mb-1 text-base">
+          <span class="text-black">Ad type</span> :
+          <span class="text-slate-400">Billboard</span>
+        </p>
+        <p class="mb-1 text-base leading-snug">
+          <span class="text-black">Location</span> :
+          <span class="text-slate-400"> Marina Express Ibeju Lekki, Lagos</span>
+        </p>
+        <p class="mb-2 text-base">
+          <span class="text-black">Dimension</span> :
+          <span class="text-slate-400">4000 x 5000</span>
+        </p>
+
+        <div class="my-6 border rounded-lg grid grid-cols-2 gap-6 p-4">
+          <div>
+            <p class="text-base text-slate-400">Start Date</p>
+            <p class="font-bold">May 2, 2019</p>
+          </div>
+          <div>
+            <p class="text-base text-slate-400">End Date</p>
+            <p class="font-bold">May 21, 2019</p>
+          </div>
+        </div>
+        <div class="mt-8">
+          <button
+            class="
+              hidden
+              md:inline
+              whitespace-nowrap
+              inline-flex
+              items-center
+              justify-center
+              px-8
+              py-2
+              border border-orange-500
+              rounded-full
+              shadow-base
+              text-base text-white
+              font-bold
+              text-white
+              bg-orange-500
+              hover:bg-orange-300
+              w-full
+            "
+          >
+            Add to cart
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 rounded-lg p-5">
+        <h5 class="font-bold mb-2 text-black">For Enquiries</h5>
+        <p class="text-sm">
+          <span class="">Email</span> : <span class="">tester@test.com</span>
+        </p>
+        <p class="text-sm">
+          <span class="">Call Phone</span> : <span class="">+234901258839</span>
+        </p>
+        <p class="text-sm">
+          <span class="">Whatsapp</span> : <span class="">+234901258839</span>
+        </p>
+      </div>
+    </div>
+
+    <div></div>
+    <XCircleIcon
+      class="w-8 h-8 absolute top-8 right-8 text-white"
+      @click="toggleModal(null)"
+    />
   </div>
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { StarIcon } from "@heroicons/vue/solid";
+import { ref, computed, reactive, toRefs } from "vue";
+import { XCircleIcon } from "@heroicons/vue/solid";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
-import TopBar from "../layout/topbar.vue";
 import { usePage } from "@inertiajs/inertia-vue3";
-const breadcrumbs = [
-  { id: 1, name: "Home", href: "/" },
-  { id: 2, name: "Marketplace", href: "/marketplace" },
-];
-const reviews = { href: "#", average: 4, totalCount: 117 };
-import {
-  ShoppingCartIcon,
+import { ShoppingCartIcon } from "@heroicons/vue/solid";
 
-} from "@heroicons/vue/solid";
+import "v-calendar/dist/style.css";
 export default {
   inject: ["currency", "emitter"],
+  props: ["product"],
   components: {
     RadioGroup,
     RadioGroupLabel,
     RadioGroupOption,
-    StarIcon,
-    TopBar,
-    ShoppingCartIcon
+    XCircleIcon,
+    ShoppingCartIcon,
   },
-  setup() {
-    const product = computed(() => usePage().props.value.product);
+  setup(props, context) {
+
+    const { product } = toRefs(props);
+    
+    const range = reactive({
+      start: new Date(),
+      end: null,
+    });
+    const modelConfig = reactive({
+      type: "string",
+      mask: "YYYY-MM-DD", // Uses 'iso' if missing
+    });
+    const center = reactive({ lat: 51.093048, lng: 6.84212 });
+    const markers = reactive([
+      {
+        position: {
+          lat: 51.093048,
+          lng: 6.84212,
+        },
+      },
+      // Along list of clusters
+    ]);
+    const toggleModal = (data) => {
+      context.emit("toggleModal", data);
+    };
 
     return {
+      range,
+      modelConfig,
+      center,
+      markers,
+      toggleModal,
       product,
-      reviews,
-      breadcrumbs,
     };
   },
   data() {
     return {
-      cartItems: [],
+      date: new Date(),
     };
   },
-  mounted() {
-    this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
 
-  },
   methods: {
     addtocart(product) {
       this.emitter.emit("addtocart", product);
@@ -326,3 +207,9 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.product_image {
+  background-image: url("/images/banner.png");
+  background-size: cover;
+}
+</style>

@@ -26,14 +26,14 @@
 
          </div>
          <div class="h-2/4 w-full p-4 text-left">
-          <p class="text-sm">90,000 Weekly impressions</p>
-          <p class="font-bold text-xl"> ₦80,000 /4 week</p>
-         <p class="text-xs"><span >Ad type</span> : <span class="text-slate-400">Billboard</span> </p>
-          <p class="text-xs"><span>Location</span> : <span class="text-slate-400"> Marina Express Ibeju Lekki, Lagos</span> </p>
-           <p class="text-xs"><span>Dimension</span> : <span class="text-slate-400">4000 x 5000</span></p>
+          <p class="text-sm  truncate text-ellipsis overflow-hidden ...">90,000 Weekly impressions</p>
+          <p class="font-bold text-xl  truncate text-ellipsis overflow-hidden ..."> ₦80,000 /4 week</p>
+         <p class="text-xs  truncate text-ellipsis overflow-hidden ..."><span >Ad type</span> : <span class="text-slate-400">Billboard</span> </p>
+          <p class="text-xs  truncate text-ellipsis overflow-hidden ..."><span>Location</span> : <span class="text-slate-400"> Marina Express Ibeju Lekki, Lagos</span> </p>
+           <p class="text-xs  truncate text-ellipsis overflow-hidden ..."><span>Dimension</span> : <span class="text-slate-400">4000 x 5000</span></p>
 <div class="flex justify-between mt-5">
    <a
-            v-if="!$page.props.auth.user"
+
             href="/register"
             class="
               hidden
@@ -117,24 +117,23 @@ export default {
     return {
       index: 0,
       breakpoints: {
-      // 700px and up
-      700: {
-        itemsToShow: 2.5,
-        snapAlign: "center",
+        // 700px and up
+        700: {
+          itemsToShow: 2.5,
+          snapAlign: "center",
+        },
+        // 1024 and up
+        1024: {
+          itemsToShow: 3.5,
+          snapAlign: "start",
+        },
       },
-      // 1024 and up
-      1024: {
-        itemsToShow: 3.5,
-        snapAlign: "start",
-      },
-    },
     };
   },
   methods: {
     goto(n) {
       n === "next" ? this.$refs.slider.next() : this.$refs.slider.prev();
     },
-
   },
 };
 </script>

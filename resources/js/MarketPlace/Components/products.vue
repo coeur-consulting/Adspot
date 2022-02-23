@@ -1,5 +1,88 @@
 <template>
-  <div class="bg-transparent">
+  <div class="bg-transparent container mx-auto">
+    <div class="grid  gap-6 p-5" :class="viewType=='grid'?'grid-cols-4':'grid-cols-1'">
+      <div
+        class="bg-white rounded-lg shadow w-full overflow-hidden z-10"
+        :class="viewType=='grid'?'':'flex'"
+        v-for="(item, index) in 16"
+        :key="index"
+      >
+        <div  :class="viewType=='grid'?'w-full':'w-[40%]'">
+          <img
+            class="w-full h-full object-center object-cover h-[200px]"
+            src="/images/banner.png"
+          />
+        </div>
+        <div class=" p-4 text-left"  :class="viewType=='grid'?'w-full':'w-[60%]'">
+          <p   :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
+            90,000 Weekly impressions
+          </p>
+          <p class="font-bold text-xl">₦80,000 /4 week</p>
+          <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
+            <span>Ad type</span> : <span class="text-slate-400">Billboard</span>
+          </p>
+          <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
+            <span>Location</span> :
+            <span class="text-slate-400">
+              Marina Express Ibeju Lekki, Lagos</span
+            >
+          </p>
+          <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
+            <span>Dimension</span> :
+            <span class="text-slate-400">4000 x 5000</span>
+          </p>
+          <div class="flex  mt-5"  :class="viewType=='grid'?' justify-between':' justify-end'">
+            <button
+             @click="toggleModal(item)"
+              class="
+                hidden
+                md:inline
+                whitespace-nowrap
+                inline-flex
+                items-center
+                justify-center
+                px-8
+                py-2
+                border border-orange-500
+                rounded-full
+                shadow-sm
+                text-xs text-orange-500
+                font-bold
+                text-white
+                bg-white
+                hover:bg-orange-500 hover:text-white
+              "
+                :class="viewType=='grid'?' ':'mr-3'"
+            >
+              More details
+            </button>
+            <button
+              class="
+                hidden
+                md:inline
+                whitespace-nowrap
+                inline-flex
+                items-center
+                justify-center
+                px-8
+                py-2
+                border border-orange-500
+                rounded-full
+                shadow-sm
+                text-xs text-white
+                font-bold
+                text-white
+                bg-orange-500
+                hover:bg-orange-300
+              "
+            >
+              Place bid
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="pagination text-center mt-8" v-show="last_page > 1">
       <span class="flex justify-center items-center">
         <span
@@ -28,11 +111,88 @@
             class="w-8 h-8 text-purple-700 ml-2 cursor-pointer" /></span
       ></span>
     </div>
-   
   </div>
+  <TransitionRoot as="template" :show="open">
+    <Dialog
+      as="div"
+      class="fixed z-10 inset-0 overflow-y-auto"
+      @close="open = false"
+    >
+      <div
+        class="
+          flex
+          items-end
+          justify-center
+          min-h-screen
+          pt-4
+          px-4
+          pb-20
+          text-center
+          sm:block sm:p-0
+        "
+      >
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <DialogOverlay
+            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          />
+        </TransitionChild>
+
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          enter-to="opacity-100 translate-y-0 sm:scale-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100 translate-y-0 sm:scale-100"
+          leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        >
+          <div
+            class="
+              inline-block
+              align-bottom
+              bg-white
+              rounded-lg
+              text-left
+              overflow-hidden
+              shadow-xl
+              transform
+              transition-all
+              sm:my-8 sm:align-middle sm:max-w-[80%] sm:w-full
+            "
+          >
+            <div class="">
+                <Product  @toggleModal="toggleModal" :product="product"/>
+            </div>
+
+          </div>
+        </TransitionChild>
+      </div>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <script>
+import {
+  Dialog,
+  DialogOverlay,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import {
   ShoppingCartIcon,
@@ -48,6 +208,7 @@ import axios from "axios";
 import _ from "lodash";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import { usePage } from "@inertiajs/inertia-vue3";
+import Product from './product'
 export default {
   computed: {
     filteredproducts() {
@@ -100,6 +261,12 @@ export default {
     SortDescendingIcon,
     SearchIcon,
     Link,
+      Dialog,
+  DialogOverlay,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot,
+  Product
   },
   data() {
     return {
@@ -109,6 +276,7 @@ export default {
   },
 
   setup() {
+    const open = ref(false);
     const emitter = inject("emitter");
     const products = reactive([]);
     const current_page = ref(1);
@@ -117,6 +285,7 @@ export default {
     const filterData = reactive({});
     const viewType = ref("grid");
     const category_id = ref(0);
+    const product = ref(null)
     onMounted(() => {
       axios.get(`get-products?page=${current_page}`).then((res) => {
         if (res.status === 200) {
@@ -172,6 +341,11 @@ export default {
         : subcat.filter((item) => item.category_id == category_id.value);
     });
 
+    function toggleModal(data){
+      product.value = data
+      open.value = !open.value
+    }
+
     watch(current_page, (current_page, prevCurrent_page) => {
       getproducts(current_page);
     });
@@ -193,6 +367,9 @@ export default {
       subcategories,
       filterData,
       viewType,
+      toggleModal,
+      product,
+      open
     };
   },
   methods: {

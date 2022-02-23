@@ -4,7 +4,8 @@ import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import mitt from "mitt";
-
+import VCalendar from "v-calendar";
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 if (!localStorage.getItem("cartItems")) {
     localStorage.setItem("cartItems", JSON.stringify([]));
@@ -30,11 +31,17 @@ createInertiaApp({
         return createApp({
             provide: {
                 emitter: emitter,
-                currency:currencyFormat
+                currency: currencyFormat,
             },
             render: () => h(app, props),
         })
+            .use(VCalendar, {})
             .use(plugin)
+            .use(VueGoogleMaps, {
+                load: {
+                    key: "YOUR_API_KEY_COMES_HERE",
+                },
+            })
             .mixin({ methods: { route } })
             .mount(el);
     },
