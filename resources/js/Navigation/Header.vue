@@ -94,7 +94,7 @@
           </span>
           <a
             v-if="!$page.props.auth.user"
-            href="/register"
+            href="/login"
             class="
               hidden
               md:inline
