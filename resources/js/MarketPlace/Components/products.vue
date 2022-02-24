@@ -41,7 +41,7 @@
                 inline-flex
                 items-center
                 justify-center
-                px-8
+                px-6
                 py-2
                 border border-orange-500
                 rounded-full
@@ -65,7 +65,7 @@
                 inline-flex
                 items-center
                 justify-center
-                px-8
+                px-6
                 py-2
                 border border-orange-500
                 rounded-full
