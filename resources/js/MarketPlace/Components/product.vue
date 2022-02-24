@@ -13,9 +13,9 @@
                   bg-orange-100
                   rounded-full
                   px-4
-                  md:px-5
+
                   py-1
-                  md:py-2
+                 
                   text-xs
                   md:text-base
                 "
