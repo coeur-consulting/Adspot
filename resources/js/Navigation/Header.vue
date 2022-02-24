@@ -368,10 +368,7 @@ const resources = [
     name: "News",
     href: "https://blog.adspot.co",
   },
-  {
-    name: "Inventory",
-    href: "https://adspot.co/instant-payout",
-  },
+
   {
     name: "Contact us",
     href: "/#contact",
