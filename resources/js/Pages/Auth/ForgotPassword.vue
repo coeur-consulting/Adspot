@@ -19,19 +19,19 @@
             <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <BreezeButton class="text-white bg-orange-500" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+        <div class="flex items-center justify-center mt-5 ">
+            <BreezeButton class="text-white bg-orange-500  capitalize rounded-full" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Email Password Reset Link
             </BreezeButton>
         </div>
     </form>
       </div>
 
-      <div>
+      <div class="mt-4 text-center">
 
         <Link
           :href="route('login')"
-          class="underline text-sm text-slate-700 hover:text-slate-900"
+          class="underline text-sm text-orange-500 hover:text-slate-900"
         >
           Sign in here
         </Link>

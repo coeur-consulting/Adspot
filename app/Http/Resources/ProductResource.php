@@ -19,23 +19,25 @@ class ProductResource extends JsonResource
     }
     public function toArray($request)
     {
+
         return [
+            'id'=> $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'media'=> $this->media,
-            'available' => $this->available,
+            'impressions' => $this->impressions,
+             'dimension' => $this->dimension,
+            'duration' => $this->duration,
             'location' => $this->location,
             'type' => $this->type,
             'status' => $this->status,
             'price' => $this->price,
             'featured' => $this->featured,
-            'start' => $this->start,
-            'end' => $this->end,
-            'other' => $this->other,
-            'user_id' => $this->user_id,
+            'category' => $this->category,
+            'subcategory' => $this->subcategory,
             'category_id' => $this->category_id,
             'subcategory_id'=> $this->subcategory_id,
-            'has_bid' => $this->handleBids($this->offers),
+            'has_bid' => count($this->offers)?$this->handleBids($this->offers):false,
             'bid_count' => count($this->offers),
         ];
     }

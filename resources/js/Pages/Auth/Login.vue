@@ -10,7 +10,7 @@
       </div>
 
       <form @submit.prevent="submit">
-        <legend class="text-center mb-4 text-2xl text-black font-extrabold">Customer Login</legend>
+        <legend class="text-center mb-4 text-2xl text-black font-extrabold">Welcome Back</legend>
         <div>
           <BreezeLabel for="email" value="Email" />
           <BreezeInput
@@ -45,7 +45,7 @@
 
         <div class="flex items-center justify-end mt-4">
           <BreezeButton
-            class="ml-4 bg-orange-500 text-white"
+            class="ml-4 bg-orange-500 text-white rounded-full capitalize w-full text-center justify-center"
             :class="{ 'opacity-25': form.processing }"
             :disabled="form.processing"
           >
@@ -55,7 +55,7 @@
       </form>
     </div>
 
-    <div class="flex">
+    <div class="flex justify-center mt-4">
       <Link
         v-if="canResetPassword"
         :href="route('password.request')"
@@ -65,7 +65,7 @@
       </Link>
       <Link
         :href="route('register')"
-        class="underline text-sm text-slate-700 hover:text-slate-900"
+        class="underline text-sm text-orange-500 hover:text-slate-900"
       >
         Sign up
       </Link>

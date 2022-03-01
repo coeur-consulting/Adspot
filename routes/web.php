@@ -2,11 +2,13 @@
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Offer;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UtilityController;
@@ -103,8 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
         Route::get('/dashboard', function () {
             return Inertia::render('Admin/Dashboard', [
-                'orders' => auth()->user()->storeorder()->with('product')->get(),
-                'total_orders' => auth()->user()->storeorder()->count(),
+
                 'total_products' => auth()->user()->products()->count(),
             ]);
         })->name('dashboard');
@@ -112,7 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('view/orders', function () {
             return Inertia::render('Admin/Orders', [
-                'orders' => auth()->user()->storeorder()->with('product')->get()
+                    'offers'=> Offer::all()
             ]);
         })->name('orders');
 
@@ -123,7 +124,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Auth User routes
 
-    Route::group(['middleware' => 'checkrole:user'], function () {
+    Route::group(['middleware' => 'checkrole:admin'], function () {
 
         Route::resource('orders', OrderController::class);
         Route::get('/checkout', function () {
@@ -131,6 +132,25 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
     });
+    Route::get('/cart', function () {
+        return Inertia::render('Cart', []);
+    });
+    Route::get('/getcart', function () {
+        $cart =  auth()->user()->cart;
+        return  response([
+            'cart' => $cart,
+            'count' => $cart->count()
+        ]);
+    });
+    Route::get('/getfullcart', function () {
+       return auth()->user()->cart->load('product');
+
+    });
+
+
+    Route::post('/addtocart', [CartController::class, 'addtocart']);
+    Route::delete('/removefromcart/{product}', [CartController::class, 'removefromcart']);
+    Route::get('/clearcart', [CartController::class, 'destroy']);
 });
 
 

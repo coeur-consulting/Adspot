@@ -1,6 +1,6 @@
 
 <template>
-  <TopBar />
+ 
   <div class="container mx-auto py-10">
     <BreezeValidationErrors class="mb-4" />
     <form @submit.prevent="submit" class="mt-10 sm:mt-0">
@@ -431,7 +431,7 @@
 <script>
 import { StarIcon } from "@heroicons/vue/solid";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
-import TopBar from "../layout/topbar.vue";
+
 import BreezeValidationErrors from "@/Components/ValidationErrors.vue";
 import axios from "axios";
 const breadcrumbs = [
@@ -446,7 +446,7 @@ export default {
     RadioGroupLabel,
     RadioGroupOption,
     StarIcon,
-    TopBar,
+
     BreezeValidationErrors,
   },
   inject: ["emitter", "currency"],

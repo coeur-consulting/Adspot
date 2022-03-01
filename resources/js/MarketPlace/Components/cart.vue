@@ -66,52 +66,48 @@
 
                   <div class="mt-8">
                     <div class="flow-root">
-                      <ul role="list" class="-my-6 divide-y divide-gray-200">
+                      <ul role="list" class=" divide-y divide-gray-200">
                         <li
-                          v-for="product in cartItems"
-                          :key="product.id"
-                          class="py-6 flex"
+                          v-for="item in cart"
+                          :key="item.product.id"
+                          class="py-3 px-3 flex justify-between border rounded-lg mb-4"
                         >
                           <div
                             class="
-                              flex-shrink-0
-                              w-24
-                              h-24
+
+                              w-16
+                              h-16
                               border border-gray-200
                               rounded-md
                               overflow-hidden
                             "
                           >
                             <img
-                              :src="product.images[0]"
-                              :alt="product.name"
+                            v-if="item.product.media"
+                              :src="item.product.media[0]"
+                              :alt="item.product.name"
                               class="w-full h-full object-center object-cover"
                             />
                           </div>
 
-                          <div class="ml-4 flex-1 flex flex-col">
+                          <div class= "flex flex-col">
                             <div>
                               <div
                                 class="
-                                  flex
-                                  justify-between
+
                                   text-base
                                   font-medium
                                   text-gray-900
                                 "
                               >
-                                <h3>
-                                  <a :href="product.href">
-                                    {{ product.name }}
-                                  </a>
-                                </h3>
-                                <small class=" text-gray-400 mb-0 leading-3 text-center">
-                                  <span class="text-xs text-muted">Unit price</span> <br>
-                                <span class="text-xs">  {{ currency(product.price) }}</span> <br>
-                                  <span class="text-xs"  v-if="rate">  ${{(product.price/rate).toFixed(2) }}</span>
-                                </small>
+                                <h3 class="mb-4">
 
-                                <div class="leading-3 ml-3">
+                                    {{ item.product.name }}
+
+                                </h3>
+
+
+                                <div class="leading-3 ">
                                     <span class="text-xs text-muted">Subtotal</span>
                                   <p
                                     class="
@@ -122,77 +118,19 @@
                                     "
                                   >
                                     {{
-                                      currency(product.price * product.quantity)
+                                      currency(item.product.price)
                                     }}
                                   </p>
-                                  <small
-                                    class="text-muted text-xs dollar"
-                                    v-if="rate"
-                                    >${{
-                                      (
-                                        (product.price * product.quantity) /
-                                        rate
-                                      ).toFixed(2)
-                                    }}</small
-                                  >
+
                                 </div>
                               </div>
-                              <p class="mt-1 text-sm text-gray-500">
-                                {{ product.user.name }}
-                              </p>
+
                             </div>
-                            <div
-                              class="
-                                flex-1 flex
-                                items-end
-                                justify-between
-                                text-sm
-                              "
-                            >
-                              <p class="text-gray-500">Qty</p>
 
-                              <span class="flex justify-center items-center">
-                                <span @click="reducecart(product.id)"
-                                  ><MinusCircleIcon
-                                    class="
-                                      cursor-pointe
-                                      w-5
-                                      h-5
-                                      text-orange-500
-                                    "
-                                /></span>
-                                <span class="mx-2 text-sm text-gray-500">
-                                  {{ product.quantity }}</span
-                                >
-
-                                <span @click="addcart(product.id)"
-                                  ><PlusCircleIcon
-                                    class="
-                                      w-5
-                                      h-5
-                                      text-orange-500
-                                      cursor-pointer
-                                    " /></span
-                              ></span>
-
-                              <div class="flex">
-                                <button
-                                  @click="removefromcart(product.id)"
-                                  type="button"
-                                  class="
-                                    font-medium
-                                    text-orange-600
-                                    hover:text-orange-500
-                                  "
-                                >
-                                  Remove
-                                </button>
-                              </div>
-                            </div>
                           </div>
                         </li>
                       </ul>
-                      <div v-if="!cartItems.length" class="text-center py-40">
+                      <div v-if="!cart.length" class="text-center py-40">
                         <p>Your cart is empty!</p>
                       </div>
                     </div>
@@ -201,7 +139,7 @@
 
                 <div
                   class="border-t border-gray-200 py-6 px-4 sm:px-6"
-                  v-if="cartItems.length"
+                  v-if="cart.length"
                 >
                   <div
                     class="
@@ -217,9 +155,7 @@
                       <p class="text-sm font-medium text-gray-900 mb-0">
                         {{ currency(total) }}
                       </p>
-                      <small class="text-muted text-xs dollar" v-if="rate"
-                        >${{ (total / rate).toFixed(2) }}</small
-                      >
+
                     </div>
                   </div>
                   <p class="mt-0.5 text-sm text-gray-500">
@@ -227,7 +163,7 @@
                   </p>
                   <div class="mt-6">
                     <a
-                      href="/checkout"
+                      href="/cart"
                       class="
                         flex
                         justify-center
@@ -243,7 +179,7 @@
                         bg-orange-600
                         hover:bg-orange-700
                       "
-                      >Checkout</a
+                      >View Summary</a
                     >
                   </div>
                   <div
@@ -280,7 +216,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref} from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -311,6 +247,7 @@ export default {
   },
   data() {
     return {
+      cart:[],
       cartItems: [],
       rate: null,
     };
@@ -348,6 +285,9 @@ export default {
     },
     getcart() {
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
+       axios.get('/getfullcart').then(res=>{
+        this.cart = res.data
+      })
     },
     removefromcart(id) {
       this.cartItems = this.cartItems.filter((item) => item.id !== id);

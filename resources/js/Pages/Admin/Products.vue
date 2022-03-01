@@ -20,7 +20,7 @@
       <div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">
         <!-- Replace with your content -->
 
-        <Products  :products="products"/>
+        <Products />
 
         <!-- /End replace -->
       </div>
@@ -62,7 +62,7 @@ const userNavigation = [
 ];
 
 export default {
-    props:['auth','products'],
+
   components: {
     Disclosure,
     DisclosureButton,

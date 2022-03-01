@@ -12,23 +12,32 @@ class Product extends Model
         'name',
         'description',
         'media',
-        'available',
         'location',
         'type',
         'status',
         'price',
-        'start',
-        'end',
-        'other',
+        'featured',
         'user_id',
         'category_id',
-        'featured',
-        'subcategory_id'
+        'impressions',
+        'subcategory_id',
+        'dimension',
+        'duration'
 
     ];
+
+    public function calendar()
+    {
+        return $this->hasMany(ProductCalendar::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
     }
     public function subcategory()
     {
@@ -44,6 +53,6 @@ class Product extends Model
     }
 
     protected $casts = [
-        'images' => 'array'
+        'media' => 'array'
     ];
 }

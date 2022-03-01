@@ -84,7 +84,7 @@
 
             "
           >
-          Place bid
+          Add to cart
           </a>
 </div>
          </div>

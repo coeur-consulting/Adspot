@@ -320,7 +320,7 @@ export default {
    inject: ["emitter","currency"],
   computed: {
     orders() {
-      return this.$page.props.orders;
+      return this.$page.props.offers;
     },
   },
   components: {

@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(auth()->user()->products()->with('offers')->get()),
+            'products' => ProductResource::collection(Product::with('offers','category','subcategory')->paginate(30)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -30,45 +30,33 @@ class ProductController extends Controller
             'name' => 'required',
             'description' => 'required',
             'media' => 'required',
-            'available' => 'required',
+
             'price' => 'required',
             'category_id' => 'required',
-            'subcategory_id' => 'required'
+            'subcategory_id' => 'required',
+            'location' => 'required',
+            'impressions' => 'required',
         ]);
+
         $user  = auth()->user();
 
         $product =   $user->products()->create([
             'name' => $request->name,
             'description' => $request->description,
-            'media' => $request->images,
+            'media' => $request->media,
             'price' => $request->price,
-            'available' => $request->available,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
-            'start' => $request->start,
-            'end' => $request->end,
             'location' => $request->location,
             'type' => $request->type,
-            'other' => $request->other,
-            'featured' => $request->featured
+            'featured' => $request->featured,
+            'dimension' => $request->dimension,
+            'duration' => $request->duration,
+            'impressions' => $request->impressions
 
         ]);
 
-        $products = $user->products()->get([
-            'name',
-            'description',
-            'media',
-            'available',
-            'location',
-            'type',
-            'status',
-            'price',
-            'end',
-            'other',
-            'user_id',
-            'category_id',
-            'subcategory_id'
-        ]);
+        $products = Product::get();
         return Inertia::render('Admin/Products', [
             'products' => $products
         ]);
@@ -99,8 +87,14 @@ class ProductController extends Controller
         if ($request->has('featured') && $request->filled('featured')) {
             $product->featured = $request->featured;
         }
-        if ($request->has('available') && $request->filled('available')) {
-            $product->available = $request->available;
+        if ($request->has('impressions') && $request->filled('impressions')) {
+            $product->impressions = $request->impressions;
+        }
+         if ($request->has('dimension') && $request->filled('dimension')) {
+            $product->dimension = $request->dimension;
+        }
+        if ($request->has('duration') && $request->filled('duration')) {
+            $product->duration = $request->duration;
         }
         if ($request->has('media') && $request->filled('media')) {
             $product->media = $request->media;
@@ -117,12 +111,7 @@ class ProductController extends Controller
         if ($request->has('type') && $request->filled('type')) {
             $product->type = $request->type;
         }
-        if ($request->has('start') && $request->filled('start')) {
-            $product->start = $request->start;
-        }
-        if ($request->has('end') && $request->filled('end')) {
-            $product->end = $request->end;
-        }
+
         if ($request->has('category_id') && $request->filled('category_id')) {
             $product->category_id = $request->category_id;
         }
@@ -132,21 +121,7 @@ class ProductController extends Controller
 
         $product->save();
         $user  = auth()->user();
-        $products = $user->products()->get([
-            'name',
-            'description',
-            'media',
-            'available',
-            'location',
-            'type',
-            'status',
-            'price',
-            'end',
-            'other',
-            'user_id',
-            'category_id',
-            'subcategory_id'
-        ]);
+        $products = Product::paginate(30);
         return Inertia::render('Admin/Products', [
             'products' => $products,
             'flash' => ['message' => 'success']
@@ -158,7 +133,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $user  = auth()->user();
         $product->delete();
-        $products = ProductResource::collection($user->products()->with('offers')->get());
+        $products = ProductResource::collection($user->products()->with('offers','category','subcategory')->paginate(30));
         return Inertia::render('Admin/Products', [
             'products' => $products,
             'flash' => ['message' => 'success']
@@ -171,7 +146,7 @@ class ProductController extends Controller
 
         if ($request->has('query') && $query) {
 
-            return Product::query()->with('offers')->whereLike('name', $query)->paginate(50);
+            return Product::query()->with('offers','category','subcategory')->whereLike('name', $query)->paginate(30);
         }
         return response()->json([
             'status' => 'success',

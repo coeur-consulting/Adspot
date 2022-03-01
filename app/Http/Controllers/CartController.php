@@ -2,32 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     public function index()
     {
+        return  auth()->user()->cart()->with('products')->get();
     }
     public function addtocart(Request $request)
     {
         $request->validate([
-            'quantity' => 'required',
-            'price'  => 'required',
-            'total'  => 'required',
+
+
             'product_id'  => 'required',
 
         ]);
 
-        $user  = auth::user();
+     $product = Product::find($request->product_id);
+        $user  = auth()->user();
         $user->cart()->create([
-            'quantity' => $request->quantity,
-            'price'  => $request->price,
-            'total'  => intval($request->price) * intval($request->quantity),
+            'quantity' => 1,
+            'price'  => $product->price,
+            'total'  => intval($product->price) ,
             'product_id'  =>  $request->product_id,
 
         ]);
-        return response('ok');
+        return response(['message'=>'ok']);
     }
     public function addcart(Request $request)
     {
@@ -42,7 +44,7 @@ class CartController extends Controller
                 'price'  => $request->price,
                 'total'  => intval($request->price) * intval($request->quantity),
                 'product_id'  =>  $request->product_id,
-             
+
             ]);
         }
         return response('ok');
@@ -72,6 +74,12 @@ class CartController extends Controller
         return response([
             'total' => $carttotal
         ], 200);
+    }
+    public function removefromcart(Product $product)
+    {
+
+        $product->delete();
+        return response('ok');
     }
 
 

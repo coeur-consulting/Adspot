@@ -1,6 +1,18 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <Popover class="h-16 w-full top-0 z-30 transition ease-in-out duration-300 shadow  bg-black">
+  <Popover
+    class="
+      h-16
+      w-full
+      top-0
+      z-30
+      transition
+      ease-in-out
+      duration-300
+      shadow
+      bg-black
+    "
+  >
     <div class="px-4 sm:px-6 max-w-screen-xl mx-auto h-full">
       <div class="flex justify-between items-center h-full">
         <div class="flex justify-start items-center mr-6">
@@ -26,10 +38,10 @@
                 top-[0px]
                 right-[8px]
                 rounded-md
-                bg-white
-                text-sm
+                bg-orange-500
+                text-white text-xs
               "
-              >{{ cartItems.length }}</span
+              >{{ cart }}</span
             >
           </span>
           <PopoverButton
@@ -73,25 +85,9 @@
           </a>
         </PopoverGroup>
         <div class="hidden lg:flex items-center justify-end">
-          <span class="px-4 py-2 relative" @click="open = !open"
-            ><ShoppingCartIcon class="w-6 h-6 text-white" />
-            <span
-              v-if="cartItems.length"
-              class="
-                px-1
-                absolute
-                top-[0px]
-                right-[8px]
-                rounded-md
-                bg-white
-                text-sm
-              "
-              >{{ cartItems.length }}</span
-            >
-          </span>
           <a
             v-if="!$page.props.auth.user"
-            href="/register"
+            href="/login"
             class="
               hidden
               md:inline
@@ -135,8 +131,8 @@
                         leading-4
                         font-medium
                         rounded-md
-                        text-gray-500
-                        bg-white
+                        text-white
+                        bg-orange-500
                         hover:text-gray-700
                         focus:outline-none
                         transition
@@ -174,6 +170,22 @@
               </BreezeDropdown>
             </div>
           </div>
+          <span class="px-3 py-2 relative" @click="open = !open"
+            ><ShoppingCartIcon class="w-6 h-6 text-white" />
+            <span
+              v-if="cart"
+              class="
+                px-1
+                absolute
+                top-[0px]
+                right-[8px]
+                rounded-md
+                bg-orange-500
+                text-xs text-white
+              "
+              >{{ cart }}</span
+            >
+          </span>
         </div>
       </div>
     </div>
@@ -212,7 +224,11 @@
           <div class="pt-5 pb-6 px-5">
             <div class="flex items-center justify-between">
               <div>
-                <img class="h-8 w-auto" src="/images/logo-orange.png" alt="adspot" />
+                <img
+                  class="h-8 w-auto"
+                  src="/images/logo-orange.png"
+                  alt="adspot"
+                />
               </div>
               <div class="-mr-2">
                 <PopoverButton
@@ -258,7 +274,6 @@
           </div>
           <div class="py-6 px-5 space-y-6">
             <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-
               <a
                 v-for="item in resources"
                 :key="item.name"
@@ -330,17 +345,15 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 import {
-
   MenuAlt3Icon,
   PhoneIcon,
   PlayIcon,
-
   ShoppingCartIcon,
   XIcon,
 } from "@heroicons/vue/solid";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import Cart from "@/MarketPlace/Components/cart";
-import { ref } from "vue";
+import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
@@ -365,10 +378,7 @@ const resources = [
     name: "News",
     href: "https://blog.adspot.co",
   },
-  {
-    name: "Inventory",
-    href: "https://adspot.co/instant-payout",
-  },
+
   {
     name: "Contact us",
     href: "/#contact",
@@ -402,11 +412,26 @@ export default {
   },
   setup() {
     const open = ref(false);
+    const cart = ref(null);
+    const emitter = inject("emitter");
+    const getcart = () => {
+      axios.get("/getcart").then((res) => {
+        cart.value = res.data.count;
+        emitter.emit("getcart", res.data.cart);
+      });
+    };
+    onMounted(() => {
+      getcart();
+      emitter.on("addtocart", (data) => {
+        getcart();
+      });
+    });
     return {
       callsToAction,
       resources,
       recentPosts,
       open,
+      cart,
     };
   },
   data() {
@@ -432,7 +457,7 @@ nav {
   a {
     height: 100%;
     div {
-      margin-right: 1.2rem;
+      margin-right: 1.5rem;
       position: relative;
       &::before {
         content: "";
@@ -443,12 +468,11 @@ nav {
       }
       &:hover {
         &::before {
-          border-color: orange;
         }
       }
-       &.active::before {
-          border-color: orange;
-        }
+      &.active::before {
+        border-color: orange;
+      }
     }
   }
 }

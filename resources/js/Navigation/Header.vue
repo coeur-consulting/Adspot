@@ -29,10 +29,11 @@
                 top-[0px]
                 right-[8px]
                 rounded-md
-                bg-white
-                text-sm
+                bg-orange-500
+                text-white
+                text-xs
               "
-              >{{ cartItems.length }}</span
+              >{{ cart }}</span
             >
           </span>
           <PopoverButton
@@ -76,22 +77,7 @@
           </a>
         </PopoverGroup>
         <div class="hidden lg:flex items-center justify-end">
-          <span class="px-4 py-2 relative" @click="open = !open"
-            ><ShoppingCartIcon class="w-6 h-6 text-white" />
-            <span
-              v-if="cartItems.length"
-              class="
-                px-1
-                absolute
-                top-[0px]
-                right-[8px]
-                rounded-md
-                bg-white
-                text-sm
-              "
-              >{{ cartItems.length }}</span
-            >
-          </span>
+
           <a
             v-if="!$page.props.auth.user"
             href="/login"
@@ -138,8 +124,8 @@
                         leading-4
                         font-medium
                         rounded-md
-                        text-gray-500
-                        bg-white
+                        text-white
+                        bg-orange-500
                         hover:text-gray-700
                         focus:outline-none
                         transition
@@ -177,6 +163,23 @@
               </BreezeDropdown>
             </div>
           </div>
+           <span class="px-3 py-2 relative" @click="open = !open"
+            ><ShoppingCartIcon class="w-6 h-6 text-white" />
+            <span
+              v-if="cart"
+              class="
+                px-1
+                absolute
+                top-[0px]
+                right-[8px]
+                rounded-md
+                bg-orange-500
+                text-xs
+                text-white
+              "
+              >{{ cart }}</span
+            >
+          </span>
         </div>
       </div>
     </div>
@@ -343,7 +346,7 @@ import {
 } from "@heroicons/vue/solid";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import Cart from "@/MarketPlace/Components/cart";
-import { ref } from "vue";
+import { ref,onMounted, computed, watch, inject, reactive} from "vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
 import { Link } from "@inertiajs/inertia-vue3";
@@ -402,11 +405,26 @@ export default {
   },
   setup() {
     const open = ref(false);
+    const cart = ref(null);
+    const emitter = inject("emitter")
+    const getcart = ()=>{
+      axios.get('/getcart').then(res=>{
+         cart.value = res.data.count;
+        emitter.emit("getcart", res.data.cart);
+      })
+    }
+    onMounted(()=>{
+      getcart()
+      emitter.on("addtocart", (data) => {
+      getcart()
+    });
+    })
     return {
       callsToAction,
       resources,
       recentPosts,
       open,
+      cart
     };
   },
   data() {

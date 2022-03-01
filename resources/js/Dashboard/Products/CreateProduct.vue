@@ -21,8 +21,8 @@
         autocomplete="name"
       />
     </div>
-    <div class="mt-4">
-      <div class="col-span-6 sm:col-span-3">
+    <div class="mt-4 grid grid-cols-2 gap-4 justify-between">
+      <div class="">
         <label for="category_id" class="block text-sm font-medium text-gray-700"
           >Category</label
         >
@@ -43,10 +43,39 @@
             shadow-sm
             focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
             sm:text-sm
+            capitalize
           "
         >
-          <option value="">Select category </option>
+          <option value="" disabled>Select category </option>
           <option :value="category.id" v-for="(category,id) in categories" :key="id">{{category.name}}</option>
+        </select>
+      </div>
+       <div class="">
+        <label for="subcategory_id" class="block text-sm font-medium text-gray-700"
+          >Subcategory</label
+        >
+        <select
+          id="subcategory_id"
+          v-model="form.subcategory_id"
+          name="subcategory"
+          autocomplete="subcategory_id"
+          class="
+            mt-1
+            block
+            w-full
+            py-2
+            px-3
+            border border-gray-300
+            bg-white
+            rounded-md
+            shadow-sm
+            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
+            sm:text-sm
+            capitalize
+          "
+        >
+          <option value="" disabled>Select subcategory </option>
+          <option :value="subcategory.id" v-for="(subcategory,id) in subcategories" :key="id">{{subcategory.name}}</option>
         </select>
       </div>
     </div>
@@ -63,17 +92,78 @@
         />
       </div>
       <div class="mt-4">
-        <BreezeLabel for="in_stock" value="In Stock" />
-        <BreezeInput
-          id="in_stock"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.in_stock"
-          required
-          autocomplete="in_stock"
-        />
+
+         <div class="">
+        <label for="type" class="block text-sm font-medium text-gray-700"
+          >Type</label
+        >
+        <select
+          id="category_id"
+          v-model="form.type"
+          name="category"
+
+          class="
+            mt-1
+            block
+            w-full
+            py-2
+            px-3
+            border border-gray-300
+            bg-white
+            rounded-md
+            shadow-sm
+            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
+            sm:text-sm
+            capitalize
+          "
+        >
+          <option value="" disabled>Select type </option>
+          <option value="negotiable" >Negotiable</option>
+            <option value="non-negotiable" >Non-Negotiable</option>
+        </select>
+      </div>
       </div>
     </div>
+    <div class="mt-4">
+       <BreezeLabel for="location" value="Location" />
+        <BreezeInput
+          id="location"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.location"
+          required
+          autocomplete="location"
+        />
+    </div>
+    <div  class="grid grid-cols-2 gap-5">
+        <div class="mt-4">
+       <BreezeLabel for="impressions" value="Impressions" />
+        <BreezeInput
+          id="impressions"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.impressions"
+          required
+
+          autocomplete="impressions"
+        />
+
+    </div>
+       <div class="mt-4">
+       <BreezeLabel for="dimension" value="Dimension" />
+        <BreezeInput
+          id="dimension"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.dimension"
+          required
+          placeholder="e.g 2000 x 400"
+          autocomplete="dimension"
+        />
+    </div>
+    </div>
+
+
 
     <div class="mt-4">
       <BreezeLabel for="description" value="Description" />
@@ -85,6 +175,12 @@
         required
         autocomplete="description"
       />
+    </div>
+    <div class="mt-4 flex">
+
+      <BreezeCheckbox id='featured' class="mr-2" v-model="form.featured" />
+       <BreezeLabel for="featured" value="Feature in popular" />
+
     </div>
     <div class="mt-4">
       <div
@@ -147,13 +243,13 @@
 
 
           </div>
-          <span>Upload product images</span>
+          <span>Upload  images</span>
         </div>
       </div>
 
     </div>
-     <div v-if="form.images.length" class="grid grid-cols-4 span-2 my-6">
-    <img v-for="item in form.images" :key="item" :src="item" class="h-16 w-16" alt="image"/>
+     <div v-if="form.media.length" class="grid grid-cols-4 span-2 my-6">
+    <img v-for="item in form.media" :key="item" :src="item" class="h-16 w-16" alt="image"/>
       </div>
 
     <div class="mt-4">
@@ -225,10 +321,16 @@ export default {
       form: this.$inertia.form({
         name: "",
         category_id: "",
+        subcategory_id:'',
         description: "",
-        images: [],
-        in_stock: null,
+        media: [],
+        location: null,
+        impressions:null,
         price: null,
+        dimension:null,
+        type:'',
+        featured:false
+
       }),
       cloudinary: {
         uploadPreset: "arudovwen_preset",
@@ -259,7 +361,7 @@ export default {
             .post(`${url}`, formData, {
               headers: { "X-Requested-With": "XMLHttpRequest" },
             })
-            .then((response) => this.form.images.push(response.data.secure_url))
+            .then((response) => this.form.media.push(response.data.secure_url))
             .catch((err) => {
               this.start = false;
             });
@@ -273,15 +375,21 @@ export default {
     submit() {
       this.form.post(this.route("products.store"), {
         onFinish: () => {
+          
           this.files = [];
           this.$emit("updatepage");
           return this.form.reset(
             "name",
             "category_id",
             "description",
-            "in_stock",
+            "subcategory_id",
             "price",
-            "images"
+            'impressions',
+            "location",
+            "dimension",
+            "media",
+            "type",
+            "featured"
           );
         },
       });
@@ -290,7 +398,12 @@ export default {
   computed:{
     categories(){
       return this.$page.props.categories
+    },
+     subcategories(){
+      return this.$page.props.subcategories.filter(item=> item.category_id == this.form.category_id)
     }
-  }
+    }
+
+
 };
 </script>

@@ -4,32 +4,32 @@
       <div
         class="bg-white rounded-lg shadow w-full overflow-hidden z-10"
         :class="viewType=='grid'?'':'md:flex'"
-        v-for="(item, index) in 16"
+        v-for="(item, index) in products"
         :key="index"
       >
         <div  :class="viewType=='grid'?'w-full':'md:w-[40%]'">
           <img
             class="w-full h-full object-center object-cover h-[200px]"
-            src="/images/banner.png"
+            :src="item.media?item.media[0]:'/images/banner.png'"
           />
         </div>
         <div class=" p-4 text-left"  :class="viewType=='grid'?'w-full':'md:w-[60%]'">
           <p   :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
-            90,000 Weekly impressions
+            {{ item.impressions }} Weekly impressions
           </p>
-          <p class="font-bold text-xl">₦80,000 /4 week</p>
+          <p class="font-bold text-xl">{{ currency(item.price) }} / {{item.duration}}</p>
           <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
-            <span>Ad type</span> : <span class="text-slate-400">Billboard</span>
+            <span>Ad type</span> : <span class="text-slate-400">{{item.category.name}}</span>
           </p>
           <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
             <span>Location</span> :
             <span class="text-slate-400">
-              Marina Express Ibeju Lekki, Lagos</span
+             {{item.location}}</span
             >
           </p>
           <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
             <span>Dimension</span> :
-            <span class="text-slate-400">4000 x 5000</span>
+            <span class="text-slate-400">{{item.dimension}}</span>
           </p>
           <div class="flex flex-col md:flex-row mt-5"  :class="viewType=='grid'?' justify-between':' justify-end'">
             <button
@@ -57,28 +57,7 @@
             >
               More details
             </button>
-            <button
-              class="
-
-                inline
-                whitespace-nowrap
-                inline-flex
-                items-center
-                justify-center
-                px-6
-                py-2
-                border border-orange-500
-                rounded-full
-                shadow-sm
-                text-xs text-white
-                font-bold
-                text-white
-                bg-orange-500
-                hover:bg-orange-300
-              "
-            >
-              Place bid
-            </button>
+            <AddToCart :product="item" :cart="cart"/>
           </div>
         </div>
       </div>
@@ -210,6 +189,7 @@ import _ from "lodash";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import { usePage } from "@inertiajs/inertia-vue3";
 import Product from './product'
+import AddToCart from '@/Components/AddToCart'
 export default {
   computed: {
     filteredproducts() {
@@ -267,7 +247,8 @@ export default {
   DialogTitle,
   TransitionChild,
   TransitionRoot,
-  Product
+  Product,
+  AddToCart
   },
   data() {
     return {
@@ -279,15 +260,18 @@ export default {
   setup() {
     const open = ref(false);
     const emitter = inject("emitter");
-    const products = reactive([]);
+     const currency = inject("currency");
+    const products = ref([]);
     const current_page = ref(1);
     const last_page = ref(1);
     const query = ref("");
-    const filterData = reactive({});
+    const filterData = ref({});
     const viewType = ref("grid");
     const category_id = ref(0);
     const product = ref(null)
+    const cart = ref([])
     onMounted(() => {
+
       axios.get(`get-products?page=${current_page}`).then((res) => {
         if (res.status === 200) {
           products.value = res.data.data;
@@ -298,6 +282,9 @@ export default {
 
     emitter.on("getCategory", (data) => {
       category_id.value = data;
+    });
+     emitter.on("getcart", (data) => {
+      cart.value = data;
     });
     emitter.on("filterData", (data) => {
       filterData.category_id = data.category_id;
@@ -357,6 +344,7 @@ export default {
     });
 
     return {
+      cart,
       products,
       last_page,
       next,
@@ -370,7 +358,8 @@ export default {
       viewType,
       toggleModal,
       product,
-      open
+      open,
+      currency
     };
   },
   methods: {

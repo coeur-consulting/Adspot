@@ -1,35 +1,22 @@
 <template>
-  <div class="bg-white h-full relative px-3 py-4 md:px-0 md:py-0">
-    <div class="h-[200px] md:h-[450px] product_image"></div>
+  <div
+    class="bg-white h-full relative px-3 py-4 md:px-0 md:py-0"
+    v-if="product"
+  >
+    <div
+      class="h-[200px] md:h-[450px] product_image"
+      :style="`background-image:url(${
+        product.media ? product.media[0] : '/images/banner.png'
+      })`"
+    ></div>
     <div class="w-full md:w-4/6 mr-auto px-5 py-10">
       <div class="mr-5 flex flex-col md:flex-row justify-between">
         <div class="mb-4 w-full md:w-[73%]">
           <div class="flex mr-5 mb-5 items-center">
-            <h4 class="mr-5 font-extrabold text-xl">Title Here</h4>
-            <div>
-              <span
-                class="
-                  text-orange-600
-                  bg-orange-100
-                  rounded-full
-                  px-4
-
-                  py-1
-                 
-                  text-xs
-                  md:text-base
-                "
-                >Rarely available</span
-              >
-            </div>
+            <h4 class="mr-5 font-extrabold text-xl">{{ product.name }}</h4>
           </div>
           <p>
-            Desccription about the ad spot Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit. Integer bibendum, lorem id pellentesque
-            susci pit, dolor nibh dignissim orci, at condimentum ipsum magna
-            vehicula massa. Null am leo eros, aliquam ac pellentesque ut,
-            gravida et magna. Etiam ut enim mollis , vulputate ante vel,
-            vehicula arcu.
+            {{ product.description }}
           </p>
         </div>
         <div class="map bg-blue-100 p-10 rounded-lg w-full md:w-[25%] mb-12">
@@ -55,8 +42,11 @@
       <hr />
       <div class="py-5 mt-6">
         <v-date-picker
+          color="orange"
+          mode="date"
+
           v-model="range"
-         :columns="$screens({ default: 1, lg: 2 })"
+          :columns="$screens({ default: 1, lg: 2 })"
           is-range
           is-expanded
           :modelConfig="modelConfig"
@@ -64,57 +54,90 @@
       </div>
     </div>
 
-    <div class="w-[100%] mx-auto md:w-[350px] md:fixed md:right-8 md:top-[25%] z-40">
-      <div class="bg-white  md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
-        <p class="mb-2 text-xl text-black">90,000 Weekly impressions</p>
-        <p class="mb-1 font-bold text-3xl text-black">₦80,000 /4 week</p>
+    <div
+      class="
+        w-[100%]
+        mx-auto
+        md:w-[350px] md:fixed md:right-8 md:top-[25%]
+        z-40
+      "
+    >
+      <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
+        <p class="mb-2 text-base text-black">
+          {{ product.impressions }} Weekly impressions
+        </p>
+        <p class="mb-1 font-bold text-3xl text-black">
+          {{ currency(product.price) }} / {{ product.duration }}
+        </p>
         <p class="mb-1 text-base">
           <span class="text-black">Ad type</span> :
-          <span class="text-slate-400">Billboard</span>
+          <span class="text-slate-400">{{ product.subcategory.name }}</span>
         </p>
         <p class="mb-1 text-base leading-snug">
           <span class="text-black">Location</span> :
-          <span class="text-slate-400"> Marina Express Ibeju Lekki, Lagos</span>
+          <span class="text-slate-400"> {{ product.location }}</span>
         </p>
         <p class="mb-2 text-base">
           <span class="text-black">Dimension</span> :
-          <span class="text-slate-400">4000 x 5000</span>
+          <span class="text-slate-400">{{ product.dimension }}</span>
         </p>
 
-        <div class="my-6 border rounded-lg grid grid-cols-2 gap-6 p-4">
+        <div
+          class="my-6 border bg-gray-50 rounded-lg grid grid-cols-2 gap-6 p-4"
+        >
           <div>
-            <p class="text-base text-slate-400">Start Date</p>
-            <p class="font-bold">May 2, 2019</p>
+            <p class="text-xs text-slate-400">Start Date</p>
+            <p class="font-bold text-sm">
+              {{ moment(range.start).format("MMM DD, yyyy") }}
+            </p>
           </div>
           <div>
-            <p class="text-base text-slate-400">End Date</p>
-            <p class="font-bold">May 21, 2019</p>
+            <p class="text-xs text-slate-400">End Date</p>
+            <p class="font-bold text-sm">
+              {{moment(range.end).format("MMM DD, yyyy") }}
+            </p>
+          </div>
+        </div>
+        <div class="my-3" v-if="product.negotiable">
+          <label for="negotiate" class="block font-medium text-sm text-gray-700"
+            >Negotiation</label
+          >
+          <div
+            class="
+              flex
+              shadow-sm
+              rounded
+              overflow-hidden
+              border border-gray-300
+            "
+          >
+            <div
+              class="bg-slate-100 px-3 py-1 flex-none text-xs flex items-center"
+            >
+              NGN
+            </div>
+            <div class="grow">
+              <input
+                class="
+                  w-full
+                  h-full
+                  px-3
+                  py-2
+                  border-gray-300
+                  focus:border-indigo-300
+                  focus:ring
+                  focus:ring-indigo-200
+                  focus:ring-opacity-50
+                "
+                v-model="negotiation"
+                type="number"
+                placeholder="Price"
+              />
+            </div>
           </div>
         </div>
         <div class="mt-8">
-          <button
-            class="
-
-              inline
-              whitespace-nowrap
-              inline-flex
-              items-center
-              justify-center
-              px-8
-              py-2
-              border border-orange-500
-              rounded-full
-              shadow-base
-              text-base text-white
-              font-bold
-              text-white
-              bg-orange-500
-              hover:bg-orange-300
-              w-full
-            "
-          >
-            Add to cart
-          </button>
+        <AddToCart :product="product" :negotiation="negotiation"/>
         </div>
       </div>
 
@@ -146,8 +169,9 @@ import { XCircleIcon } from "@heroicons/vue/solid";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 import { usePage } from "@inertiajs/inertia-vue3";
 import { ShoppingCartIcon } from "@heroicons/vue/solid";
-
+import moment from "moment";
 import "v-calendar/dist/style.css";
+import AddToCart from '@/Components/AddToCart'
 export default {
   inject: ["currency", "emitter"],
   props: ["product"],
@@ -157,15 +181,16 @@ export default {
     RadioGroupOption,
     XCircleIcon,
     ShoppingCartIcon,
+    AddToCart
   },
   setup(props, context) {
-
     const { product } = toRefs(props);
-
+  const negotiation = ref(product.price)
     const range = reactive({
       start: new Date(),
-      end: null,
+      end:  moment().add(product.duration,'days').format('YYYY-MM-DD'),
     });
+
     const modelConfig = reactive({
       type: "string",
       mask: "YYYY-MM-DD", // Uses 'iso' if missing
@@ -184,6 +209,7 @@ export default {
       context.emit("toggleModal", data);
     };
 
+
     return {
       range,
       modelConfig,
@@ -191,6 +217,8 @@ export default {
       markers,
       toggleModal,
       product,
+      moment,
+      negotiation
     };
   },
   data() {
@@ -212,7 +240,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .product_image {
-  background-image: url("/images/banner.png");
   background-size: cover;
 }
 </style>

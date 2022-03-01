@@ -1,29 +1,59 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div class="flex justify-end mb-6">
-    <button
-      @click="toggleModal('create')"
-      type="button"
-      class="
-        font-bold
-        px-4
-        py-2
-        text-sm
-        whitespace-nowrap
-        relative
-        cursor-pointer
-        border border-transparent
-        rounded-md
-        shadow-sm
-        bg-purple-700
-        hover:bg-purple-500
-        flex
-        justify-between
-      "
-    >
-      <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
-      <span class="text-white">Add products</span>
-    </button>
+    <div class="flex justify-between mb-3 w-full">
+      <div class="flex items-center">
+        <input
+          placeholder="Search name"
+          v-model="query"
+          type="search"
+          class="py-2 px-4 border border-gray-50 rounded-lg md:w-[250px] mr-4 shadow-sm"
+        />
+        <div class="mr-3 flex">
+
+      <BreezeCheckbox id='featured' class="mr-2" v-model="showFeatured" />
+       <BreezeLabel for="featured" value="Featured " />
+
+    </div>
+    <div class="mr-3 flex">
+
+      <BreezeCheckbox id='negotiable' class="mr-2" v-model="showNegotiable" />
+       <BreezeLabel for="negotiable" value="Negotiable" />
+
+    </div>
+     <div class=" flex">
+
+      <BreezeCheckbox id='nonnegotiable' class="mr-2" v-model="showNonnegotiable" />
+       <BreezeLabel for="nonnegotiable" value="Non-Negotiable" />
+
+    </div>
+      </div>
+     <div>
+        <button
+        @click="toggleModal('create')"
+        type="button"
+        class="
+          font-bold
+          px-4
+          py-2
+          text-sm
+          whitespace-nowrap
+          relative
+          cursor-pointer
+          border border-transparent
+          rounded-md
+          shadow-sm
+          bg-purple-700
+          hover:bg-purple-500
+          flex
+          justify-between
+        "
+      >
+        <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
+        <span class="text-white">Add products</span>
+      </button>
+     </div>
+    </div>
   </div>
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -34,6 +64,20 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
+                <th
+                  scope="col"
+                  class="
+                    px-3
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  S/N
+                </th>
                 <th
                   scope="col"
                   class="
@@ -74,7 +118,21 @@
                     tracking-wider
                   "
                 >
-                  Status
+                  Type
+                </th>
+                <th
+                  scope="col"
+                  class="
+                    px-6
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Featured
                 </th>
                 <th
                   scope="col"
@@ -102,7 +160,21 @@
                     tracking-wider
                   "
                 >
-                  Instock
+                  Location
+                </th>
+                <th
+                  scope="col"
+                  class="
+                    px-6
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Status
                 </th>
                 <th scope="col" class="relative px-6 py-3">
                   <span class="sr-only">Edit</span>
@@ -110,25 +182,44 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="product in products" :key="product.id">
+              <tr v-for="(product, index) in filteredProducts" :key="product.id">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ index + 1 }}
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10">
+                    <div class="flex-shrink-0 h-6 w-6" v-if="product.media">
                       <img
-                        class="h-10 w-10 rounded-full"
-                        :src="product.images[0]"
+                        class="h-6 w-6 rounded-full"
+                        :src="product.media[0]"
                         alt=""
                       />
                     </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
+                    <div class="ml-2">
+                      <div
+                        class="
+                          text-sm
+                          font-medium
+                          text-gray-900
+                          truncate
+                          overflow-hidden
+                          ...
+                        "
+                      >
                         {{ product.name }}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900 text-ellipsis overflow-hidden ... w-[160px]">
+                  <div
+                    class="
+                      text-sm text-gray-900 text-ellipsis
+                      overflow-hidden
+                      ...
+                      w-[160px]
+                    "
+                  >
                     {{ product.description }}
                   </div>
                 </td>
@@ -143,16 +234,24 @@
                       rounded-full
                       bg-green-100
                       text-green-800
+                      capitalize
                     "
                   >
-                    {{ product.status }}
+                    {{ product.type }}
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ currency(product.price)}}
+                  {{ product.featured ? "Yes" : "No" }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ product.in_stock }}
+                  {{ currency(product.price) }}
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ product.location }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ product.status ? "In use" : "Available" }}
                 </td>
                 <td
                   class="
@@ -181,6 +280,35 @@
       </div>
     </div>
   </div>
+   <div class="pagination text-center mt-8" v-show="last_page > 1">
+      <span class="flex justify-center items-center">
+        <span
+          ><ArrowCircleLeftIcon
+            :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
+            @click="prev"
+            class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
+        /></span>
+        <input
+          class="
+            form-input
+            w-12
+            py-1
+            px-3
+            text-center
+            border border-orange-700
+            rounded
+          "
+          :disabled="current_page == last_page"
+          v-model="current_page" />
+        <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+        <span
+          ><ArrowCircleRightIcon
+            :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
+            @click="next"
+            class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
+      ></span>
+    </div>
+
   <!-- This example requires Tailwind CSS v2.0+ -->
 
   <TransitionRoot as="template" :show="open">
@@ -300,14 +428,17 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ExclamationIcon } from "@heroicons/vue/outline";
+import { ExclamationIcon, ArrowCircleLeftIcon,
+    ArrowCircleRightIcon, } from "@heroicons/vue/outline";
 import CreateProduct from "./CreateProduct";
 import EditProduct from "./EditProduct";
 import { PlusCircleIcon } from "@heroicons/vue/solid";
-
+import { usePage } from "@inertiajs/inertia-vue3";
+import { ref,  onMounted, computed, watch, inject, reactive } from "vue";
+import BreezeCheckbox from "@/Components/Checkbox.vue";
+import BreezeLabel from "@/Components/Label.vue";
 export default {
-  props: ["products"],
-  inject: ["emitter","currency"],
+  inject: ["emitter", "currency"],
   components: {
     PlusCircleIcon,
     Dialog,
@@ -318,12 +449,87 @@ export default {
     ExclamationIcon,
     CreateProduct,
     EditProduct,
+     ArrowCircleLeftIcon,
+    ArrowCircleRightIcon,
+    BreezeCheckbox,
+    BreezeLabel
   },
   data() {
     return {
       open: false,
       type: "",
-      product: {},
+    };
+  },
+  setup() {
+    const products = ref([]);
+    const query = ref("");
+     const current_page = ref(1);
+      const showFeatured = ref(false);
+       const showNegotiable = ref(false);
+        const showNonnegotiable = ref(false);
+    const last_page = ref(1);
+    products.value = usePage().props.value.products.data;
+    last_page.value = usePage().props.value.products.last_page;
+    const filteredProducts = computed(()=>{
+      let product =  products.value
+
+     if(showFeatured.value){
+      product =  product.filter(item=>item.featured)
+     }
+      if(showNegotiable.value){
+      product =  product.filter(item=>item.type=='negotiable')
+     }
+      if(showNonnegotiable.value){
+      product =  product.filter(item=>item.type=='non-negotiable')
+     }
+     return product
+    })
+    const searchProducts = () => {
+      if (!query.value) {
+        products.value = usePage().props.value.products.data;
+        last_page.value = usePage().props.value.products.last_page;
+        return
+      }
+      axios.get(`/searchproducts?query=${query.value}`).then((res) => {
+        products.value = res.data.data;
+        current_page.value = 1
+      });
+    };
+     function next() {
+      if (current_page == last_page) return;
+      current_page.value++;
+    }
+    function prev() {
+      if (current_page == 1) return;
+      current_page.value--;
+    }
+      function getproducts(page) {
+      axios.get(`get-products?page=${page}`).then((res) => {
+        if (res.status === 200) {
+          products.value = res.data.data;
+          last_page.value = res.data.last_page;
+        }
+      });
+    }
+
+      watch(current_page, (current_page, prevCurrent_page) => {
+      getproducts(current_page);
+    });
+
+    watch(query,  _.debounce(() => {
+      searchProducts();
+    },2000));
+    return {
+      products,
+      last_page,
+      next,
+      prev,
+      query,
+      current_page,
+      filteredProducts,
+      showNegotiable,
+      showFeatured,
+      showNonnegotiable
     };
   },
   methods: {

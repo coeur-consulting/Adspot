@@ -7,7 +7,7 @@
         <BreezeValidationErrors class="mb-4" />
 
         <form @submit.prevent="submit">
-          <legend class="text-center mb-4 text-2xl text-black font-extrabold">Registration</legend>
+          <legend class="text-center mb-4 text-2xl text-black font-extrabold">Create an account</legend>
           <div>
             <BreezeLabel for="name" value="Full Name" />
             <BreezeInput
@@ -30,18 +30,6 @@
               v-model="form.email"
               required
               autocomplete="username"
-            />
-          </div>
-          <div>
-            <BreezeLabel for="address" value="Address" />
-            <BreezeInput
-              id="address"
-              type="text"
-              class="mt-1 block w-full"
-              v-model="form.address"
-              required
-              autofocus
-              autocomplete="address"
             />
           </div>
 
@@ -69,9 +57,9 @@
             />
           </div>
 
-          <div class="flex items-center justify-end mt-4">
+          <div class="flex items-center justify-end mt-5">
             <BreezeButton
-              class="ml-4 bg-orange-500 text-white"
+              class="rounded-full bg-orange-500 text-white w-full capitalize justify-center"
               :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing"
             >
@@ -81,7 +69,7 @@
         </form>
       </div>
 
-      <div class="text-black">
+      <div class="text-black mt-4 text-center">
         Already registered?
         <Link
           :href="route('login')"

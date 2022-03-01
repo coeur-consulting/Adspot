@@ -1,17 +1,19 @@
 <template >
  <Head title="Checkout" />
- <div class="bg-purple-50">
+ <Navigation />
+ <div class="bg-white">
     <Checkout />
  </div>
 </template>
 <script>
 import { Head } from '@inertiajs/inertia-vue3';
 import Checkout from '@/MarketPlace/Components/Checkout'
-
+import Navigation from "@/Navigation/GeneralHeader";
 export default {
 components: {
 Checkout,
-Head
+Head,
+Navigation
 }
 }
 </script>
