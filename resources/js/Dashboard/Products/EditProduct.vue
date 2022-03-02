@@ -175,7 +175,7 @@
         autocomplete="description"
       />
     </div>
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid md:grid-cols-2 gap-6 items-center">
       <div class="mt-4 flex">
 
       <BreezeCheckbox id='featured' class="mr-2" v-model="form.featured" />
@@ -183,14 +183,14 @@
 
     </div>
      <div class="mt-4">
-        <BreezeLabel for="duration" value="Duration" />
+        <BreezeLabel for="duration" value="Duration(in days)" />
         <BreezeInput
           id="duration"
           type="number"
           class="mt-1 block w-full"
           v-model="form.duration"
           required
-          placeholder="Duration in days"
+          placeholder="e.g 30"
           autocomplete="duration"
         />
       </div>
