@@ -17,9 +17,9 @@
           <p   :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
             {{ item.impressions }} Weekly impressions
           </p>
-          <p class="font-bold text-xl">{{ currency(item.price) }} / {{item.duration}}</p>
+          <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
           <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
-            <span>Ad type</span> : <span class="text-slate-400">{{item.category.name}}</span>
+            <span>Ad type</span> : <span class="text-slate-400 capitalize">{{item.category.name}}</span>
           </p>
           <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
             <span>Location</span> :
@@ -155,7 +155,7 @@
             "
           >
             <div class="">
-                <Product  @toggleModal="toggleModal" :product="product"/>
+                <Product  @toggleModal="toggleModal" :product="product" :cart="cart"/>
             </div>
 
           </div>

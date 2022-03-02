@@ -349,7 +349,7 @@ import Cart from "@/MarketPlace/Components/cart";
 import { ref,onMounted, computed, watch, inject, reactive} from "vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link,usePage } from "@inertiajs/inertia-vue3";
 const callsToAction = [
   { name: "Watch Demo", href: "#", icon: PlayIcon },
   { name: "Contact Sales", href: "#", icon: PhoneIcon },
@@ -365,16 +365,16 @@ const resources = [
   },
   {
     name: "About Us",
-    href: "/#about",
+    href: "/about",
   },
   {
     name: "News",
-    href: "https://blog.adspot.co",
+    href: "/news",
   },
 
   {
     name: "Contact us",
-    href: "/#contact",
+    href: "/contact",
   },
 ];
 const recentPosts = [
@@ -414,7 +414,11 @@ export default {
       })
     }
     onMounted(()=>{
-      getcart()
+      if(usePage().props.value.auth.user){
+     
+getcart()
+      }
+
       emitter.on("addtocart", (data) => {
       getcart()
     });

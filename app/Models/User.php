@@ -57,7 +57,10 @@ class User extends Authenticatable
     }
 
 
-
+    public function blogs()
+    {
+        return $this->hasMnay(Blog::class);
+    }
     public function role()
     {
         return $this->hasOne(Role::class);

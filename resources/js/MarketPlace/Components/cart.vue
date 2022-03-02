@@ -66,15 +66,30 @@
 
                   <div class="mt-8">
                     <div class="flow-root">
-                      <ul role="list" class=" divide-y divide-gray-200">
+                      <div class="text-right mb-3">
+                        <span
+                          @click="clearcart"
+                          class="flex items-center ml-auto"
+                        >
+                          Clear cart <XIcon class="w-4 h-4 ml-1"
+                        /></span>
+                      </div>
+                      <ul role="list" class="divide-y divide-gray-200">
                         <li
                           v-for="item in cart"
                           :key="item.product.id"
-                          class="py-3 px-3 flex justify-between border rounded-lg mb-4"
+                          class="
+                            py-3
+                            px-3
+                            flex
+                            justify-between
+                            border
+                            rounded-lg
+                            mb-4
+                          "
                         >
                           <div
                             class="
-
                               w-16
                               h-16
                               border border-gray-200
@@ -83,50 +98,43 @@
                             "
                           >
                             <img
-                            v-if="item.product.media"
+                              v-if="item.product.media"
                               :src="item.product.media[0]"
                               :alt="item.product.name"
                               class="w-full h-full object-center object-cover"
                             />
                           </div>
 
-                          <div class= "flex flex-col">
+                          <div class="flex flex-col">
                             <div>
-                              <div
-                                class="
-
-                                  text-base
-                                  font-medium
-                                  text-gray-900
-                                "
-                              >
+                              <div class="text-base font-medium text-gray-900">
                                 <h3 class="mb-4">
-
-                                    {{ item.product.name }}
-
+                                  {{ item.product.name }}
                                 </h3>
 
-
-                                <div class="leading-3 ">
-                                    <span class="text-xs text-muted">Subtotal</span>
-                                  <p
-                                    class="
-                                      text-sm
-                                      font-medium
-                                      text-gray-900
-                                      mb-0
-                                    "
-                                  >
-                                    {{
-                                      currency(item.product.price)
-                                    }}
-                                  </p>
-
+                                <div class="flex items-end">
+                                  <div class="leading-3">
+                                    <span class="text-xs text-muted"
+                                      >Subtotal</span
+                                    >
+                                    <p
+                                      class="
+                                        text-sm
+                                        font-medium
+                                        text-gray-900
+                                        mb-0
+                                      "
+                                    >
+                                      {{ currency(item.product.price) }}
+                                    </p>
+                                  </div>
+                                  <TrashIcon
+                                    @click="removefromcart(item.id)"
+                                    class="w-4 h-4 ml-4"
+                                  />
                                 </div>
                               </div>
-
                             </div>
-
                           </div>
                         </li>
                       </ul>
@@ -155,11 +163,10 @@
                       <p class="text-sm font-medium text-gray-900 mb-0">
                         {{ currency(total) }}
                       </p>
-
                     </div>
                   </div>
                   <p class="mt-0.5 text-sm text-gray-500">
-                    Shipping and taxes calculated at checkout.
+                   Taxes calculated at checkout.
                   </p>
                   <div class="mt-6">
                     <a
@@ -216,7 +223,7 @@
 </template>
 
 <script>
-import { ref} from "vue";
+import { ref } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -225,7 +232,11 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { XIcon } from "@heroicons/vue/outline";
-import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/vue/solid";
+import {
+  PlusCircleIcon,
+  MinusCircleIcon,
+  TrashIcon,
+} from "@heroicons/vue/solid";
 
 export default {
   components: {
@@ -237,6 +248,7 @@ export default {
     XIcon,
     PlusCircleIcon,
     MinusCircleIcon,
+    TrashIcon,
   },
   inject: ["emitter", "currency"],
   props: ["open"],
@@ -247,7 +259,7 @@ export default {
   },
   data() {
     return {
-      cart:[],
+      cart: [],
       cartItems: [],
       rate: null,
     };
@@ -257,63 +269,51 @@ export default {
     this.emitter.on("addtocart", () => {
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
     });
-
   },
   computed: {
     total() {
-      if (!this.cartItems.length) return 0;
-      return this.cartItems
-        .map((item) => item.price * item.quantity)
-        .reduce((a, b) => a + b);
+      if (!this.cart.length) return 0;
+      return this.cart.map((item) => item.price).reduce((a, b) => a + b);
     },
   },
   watch: {
     open: "getcart",
   },
   methods: {
-    convertCurrency(fromCurrency, toCurrency) {
-      var apiKey = "53f033dd7da6dbc5695d";
-      var query = fromCurrency + "_" + toCurrency;
-      var url =
-        "https://free.currconv.com/api/v7/convert?q=" +
-        query +
-        "&compact=ultra&apiKey=" +
-        apiKey;
-      axios.get(url).then((res) => {
-        this.rate = res.data.USD_NGN;
-      });
-    },
     getcart() {
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
-       axios.get('/getfullcart').then(res=>{
-        this.cart = res.data
-      })
+      axios.get("/getfullcart").then((res) => {
+        this.cart = res.data;
+      });
     },
     removefromcart(id) {
-      this.cartItems = this.cartItems.filter((item) => item.id !== id);
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify(this.cartItems.length ? this.cartItems : [])
-      );
-      this.emitter.emit("updatecart");
-    },
-    reducecart(id) {
-      this.cartItems = this.cartItems.map((item) => {
-        if (item.id == id && item.quanity > 1) {
-          item.quanity = item.quantity--;
+      axios.delete(`/remove/cart/${id}`).then((res) => {
+        if (res.status === 200) {
+          this.emitter.emit("addtocart");
+          this.cart = this.cart.slice().filter((item) => item.id != id);
         }
-        return item;
       });
-      localStorage.setItem("cartItems", JSON.stringify(this.cartItems));
+      // this.cartItems = this.cartItems.filter((item) => item.id !== id);
+      // localStorage.setItem(
+      //   "cartItems",
+      //   JSON.stringify(this.cartItems.length ? this.cartItems : [])
+      // );
     },
-    addcart(id) {
-      this.cartItems = this.cartItems.map((item) => {
-        if (item.id == id) {
-          item.quanity = item.quantity++;
+
+    clearcart() {
+      axios.get(`/clear/cart`).then((res) => {
+        if (res.status === 200) {
+          this.emitter.emit("addtocart");
+          this.cart = [];
         }
-        return item;
       });
-      localStorage.setItem("cartItems", JSON.stringify(this.cartItems));
+      // this.cartItems = this.cartItems.map((item) => {
+      //   if (item.id == id && item.quanity > 1) {
+      //     item.quanity = item.quantity--;
+      //   }
+      //   return item;
+      // });
+      // localStorage.setItem("cartItems", JSON.stringify(this.cartItems));
     },
   },
 };

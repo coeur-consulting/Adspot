@@ -42,7 +42,7 @@ const props = defineProps({
     type:Array
   }
 });
-const cart = ref([]);
+
 const emitter = inject("emitter")
 function addtocart() {
   let data = {

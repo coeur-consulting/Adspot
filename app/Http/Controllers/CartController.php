@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -53,18 +54,15 @@ class CartController extends Controller
     public function removecart(Cart $cart)
     {
 
-        if ($cart->quantity > 1) {
-            $cart->quantity =  $cart->quantity--;
-            $cart->save();
-        } else {
+
             $cart->delete();
-        }
+
         return response('ok');
     }
     public function carttotal()
     {
 
-        $user = auth::user();
+        $user = auth()->user();
         $carttotal = $user->cart()->get()->map(function ($cart) {
             return $cart->quantity * $cart->price;
         })->reduce(function ($a, $b) {
@@ -86,9 +84,11 @@ class CartController extends Controller
     public function destroy()
     {
 
-        $user = auth::user();
+        $user = auth()->user();
         $carts = $user->cart()->get();
-        $carts->delete();
+         foreach($carts as $cart){
+            $cart->delete();
+         }
         return response('ok');
     }
 }

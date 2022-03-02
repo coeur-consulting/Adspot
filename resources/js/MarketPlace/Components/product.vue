@@ -9,7 +9,7 @@
         product.media ? product.media[0] : '/images/banner.png'
       })`"
     ></div>
-    <div class="w-full md:w-4/6 mr-auto px-5 py-10">
+   <div class="w-full md:w-4/6 mr-auto px-5 py-10">
       <div class="mr-5 flex flex-col md:flex-row justify-between">
         <div class="mb-4 w-full md:w-[73%]">
           <div class="flex mr-5 mb-5 items-center">
@@ -62,16 +62,16 @@
         z-40
       "
     >
-      <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
+       <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
         <p class="mb-2 text-base text-black">
           {{ product.impressions }} Weekly impressions
         </p>
         <p class="mb-1 font-bold text-3xl text-black">
-          {{ currency(product.price) }} / {{ product.duration }}
+          {{ currency(product.price) }} <span class="text-xs">/ {{product.duration}} days</span>
         </p>
         <p class="mb-1 text-base">
           <span class="text-black">Ad type</span> :
-          <span class="text-slate-400">{{ product.subcategory.name }}</span>
+          <span class="text-slate-400 capitalize">{{ product.subcategory.name }}</span>
         </p>
         <p class="mb-1 text-base leading-snug">
           <span class="text-black">Location</span> :
@@ -98,7 +98,7 @@
             </p>
           </div>
         </div>
-        <div class="my-3" v-if="product.negotiable">
+        <div class="my-3" v-if="product.type=='negotiable'">
           <label for="negotiate" class="block font-medium text-sm text-gray-700"
             >Negotiation</label
           >
@@ -136,9 +136,9 @@
             </div>
           </div>
         </div>
-        <div class="mt-8">
-        <AddToCart :product="product" :negotiation="negotiation"/>
-        </div>
+        <!-- <div class="mt-8">
+        <AddToCart :product="product" :negotiation="negotiation" :cart="cart"/>
+        </div> -->
       </div>
 
       <div class="bg-gray-50 rounded-lg p-5">
@@ -174,7 +174,7 @@ import "v-calendar/dist/style.css";
 import AddToCart from '@/Components/AddToCart'
 export default {
   inject: ["currency", "emitter"],
-  props: ["product"],
+  props: ["product","cart"],
   components: {
     RadioGroup,
     RadioGroupLabel,

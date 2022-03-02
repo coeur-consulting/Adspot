@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Blog;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Offer;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\CategoryController;
@@ -59,15 +61,35 @@ Route::get('/marketplace', function () {
     ]);
 });
 
-Route::get('/blog', function () {
-    return Inertia::render('Blog', []);
+//News route
+Route::get('/news', function () {
+    return Inertia::render('Blogs', []);
 });
+Route::get('/get/news', function () {
+    return Blog::latest()->paginate(24);
+});
+Route::post('/add/news', [BlogController::class, 'store']);
+Route::put('/update/news/{blog}', [BlogController::class, 'update']);
+Route::delete('/delete/news/{blog}', [BlogController::class, 'destroy']);
+
+Route::get('/news/{id}', function ($id) {
+    return Inertia::render('Blog', [
+        'content'=> Blog::find($id),
+        'others' => Blog::inRandomeOrder()->where('id','!=',$id)->take(10)
+    ]);
+});
+
+
 Route::get('/about', function () {
     return Inertia::render('About', []);
 });
+
 Route::get('/contact', function () {
     return Inertia::render('Contact', []);
 });
+Route::post('/send/contact', [ContactController::class,'sendcontact']);
+
+
 Route::get('/transaction', function () {
     return Inertia::render('Transaction', []);
 });
@@ -149,8 +171,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::post('/addtocart', [CartController::class, 'addtocart']);
-    Route::delete('/removefromcart/{product}', [CartController::class, 'removefromcart']);
-    Route::get('/clearcart', [CartController::class, 'destroy']);
+    Route::delete('/remove/cart/{cart}', [CartController::class, 'removecart']);
+    Route::get('/clear/cart', [CartController::class, 'destroy']);
 });
 
 

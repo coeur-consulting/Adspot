@@ -37,7 +37,7 @@
 
          <div class="mt-8">
 
-            <BreezeTextarea id="complaint" type="text" class="mt-1 block w-full" placeholder="Enter description"  v-model="form.message" required autocomplete="complaints" > </BreezeTextarea>
+            <BreezeTextarea id="complaint" type="text" class="mt-1 block w-full" placeholder="Enter message"  v-model="form.message" required autocomplete="complaints" > </BreezeTextarea>
         </div>
 
 
@@ -64,6 +64,7 @@ import BreezeTextarea from "@/Components/Textarea.vue";
 import BreezeLabel from "@/Components/Label.vue";
 import BreezeValidationErrors from "@/Components/ValidationErrors.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
+import axios from 'axios'
 export default {
   components: {
     BreezeButton,
@@ -76,12 +77,12 @@ export default {
   },
   data() {
     return {
-      form: this.$inertia.form({
+      form: {
         name: "",
         email: "",
-        phone: "",
+
         message: "",
-      }),
+      },
       content:[
         {
           title:'Creative Development',
@@ -98,11 +99,22 @@ export default {
       ]
     };
   },
+  methods:{
+    submit(){
+       axios.post('/send/contact',this.form).then((res)=>{
+         if(res.status === 200){
+           this.form = {
+        name: "",
+        email: "",
+        message: "",
+      }
+         }
+       })
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 section {
-
 }
-
 </style>
