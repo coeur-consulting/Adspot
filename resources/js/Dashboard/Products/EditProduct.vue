@@ -128,7 +128,7 @@
        <BreezeLabel for="location" value="Location" />
         <BreezeInput
           id="location"
-          type="number"
+  type="text"
           class="mt-1 block w-full"
           v-model="form.location"
           required
@@ -153,7 +153,7 @@
        <BreezeLabel for="dimension" value="Dimension" />
         <BreezeInput
           id="dimension"
-          type="number"
+           type="text"
           class="mt-1 block w-full"
           v-model="form.dimension"
           required

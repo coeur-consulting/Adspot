@@ -127,7 +127,7 @@ class ProductController extends Controller
 
         $product->save();
         $user  = auth()->user();
-        $products = Product::paginate(30);
+        $products = ProductResource::collection(Product::with('offers', 'category', 'subcategory')->paginate(30));
         return Inertia::render('Admin/Products', [
             'products' => $products,
             'flash' => ['message' => 'success']
