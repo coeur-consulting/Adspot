@@ -58,7 +58,9 @@ class ProductController extends Controller
 
         $products = ProductResource::collection(Product::with('offers','category','subcategory')->paginate(30));
         return Inertia::render('Admin/Products', [
-            'products' => $products
+            'products' => $products,
+            'categories' => Category::all(),
+            'subcategories' => Subcategory::all(),
         ]);
     }
     public function allproducts()
@@ -130,6 +132,8 @@ class ProductController extends Controller
         $products = ProductResource::collection(Product::with('offers', 'category', 'subcategory')->paginate(30));
         return Inertia::render('Admin/Products', [
             'products' => $products,
+            'categories' => Category::all(),
+            'subcategories' => Subcategory::all(),
             'flash' => ['message' => 'success']
         ]);
     }
@@ -142,6 +146,8 @@ class ProductController extends Controller
         $products = ProductResource::collection($user->products()->with('offers','category','subcategory')->paginate(30));
         return Inertia::render('Admin/Products', [
             'products' => $products,
+            'categories' => Category::all(),
+            'subcategories' => Subcategory::all(),
             'flash' => ['message' => 'success']
         ]);
     }
