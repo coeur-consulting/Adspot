@@ -374,7 +374,7 @@ export default {
     },
     submit() {
       this.form.post(this.route("products.store"), {
-        onFinish: () => {
+        onSuccess: () => {
 
           this.files = [];
           this.$emit("updatepage");

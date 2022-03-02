@@ -203,7 +203,7 @@ export default {
     },
     update() {
       this.$inertia.put(this.route("categories.update", this.$props.category.id), this.form,{
-        onFinish: () => {
+        onSuccess: () => {
           this.$emit("updatepage");
         },
       });

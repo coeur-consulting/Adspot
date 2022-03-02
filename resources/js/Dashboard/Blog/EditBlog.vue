@@ -373,7 +373,7 @@ export default {
     },
     update() {
       this.$inertia.put(this.route("products.update", this.$props.product.id), this.form,{
-        onFinish: () => {
+        onSuccess: () => {
           this.$emit("updatepage");
         },
       });

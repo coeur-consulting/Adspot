@@ -164,7 +164,7 @@ export default {
     },
     submit() {
       this.form.post(this.route("categories.store"), {
-        onFinish: () => {
+        onSuccess: () => {
           this.files = []
           this.$emit('updatepage')
          return this.form.reset('name','image')
