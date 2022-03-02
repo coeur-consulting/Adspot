@@ -157,7 +157,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Auth User routes
 
-    Route::group(['middleware' => 'checkrole:admin'], function () {
+    Route::group(['middleware' => 'checkrole:user'], function () {
 
         Route::resource('orders', OrderController::class);
         Route::get('/checkout', function () {
