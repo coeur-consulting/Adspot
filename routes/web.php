@@ -76,7 +76,7 @@ Route::delete('/delete/news/{blog}', [BlogController::class, 'destroy']);
 Route::get('/news/{id}', function ($id) {
     return Inertia::render('Blog', [
         'content'=> Blog::find($id),
-        'others' => Blog::inRandomeOrder()->where('id','!=',$id)->take(10)
+        'others' => Blog::inRandomeOrder()->where('id','!=',$id)->get()->take(10)
     ]);
 });
 
@@ -191,6 +191,7 @@ Route::post('/findspace', [UtilityController::class, 'findspace']);
 Route::get('/categories', [UtilityController::class, 'getcategories']);
 Route::get('/subcategories', [UtilityController::class, 'getsubcategories']);
 Route::get('/get-products', [ProductController::class, 'allproducts']);
+Route::get('/featured-products', [ProductController::class, 'featuredproducts']);
 Route::get('/get-users', [RegisteredUserController::class, 'getusers']);
 Route::get('/get-admins', [RegisteredUserController::class, 'getvendors']);
 Route::get('/searchproducts', [ProductController::class, 'searchproducts']);

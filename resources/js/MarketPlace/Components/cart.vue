@@ -66,7 +66,7 @@
 
                   <div class="mt-8">
                     <div class="flow-root">
-                      <div class="text-right mb-3">
+                      <div class="text-right mb-3" v-if="cart.length">
                         <span
                           @click="clearcart"
                           class="flex items-center ml-auto"

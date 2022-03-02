@@ -19,76 +19,67 @@
       ref="slider"
       class="h-full w-full z-10"
     >
-      <slide v-for="(item, index) in 6" :key="index" class="p-4">
-       <div class="md:h-[400px] bg-white rounded-lg shadow w-full overflow-hidden z-10">
-         <div class=" h-2/4 w-full">
-          <img class=" w-full h-full object-center object-cover h-[150px]"  src="/images/banner.png" />
+      <slide  v-for="(item, index) in products"
+        :key="index" class="p-4">
+       <div
+        class="bg-white rounded-lg shadow w-full overflow-hidden z-10"
 
-         </div>
-         <div class="h-2/4 w-full p-4 text-left">
-          <p class="text-sm  truncate text-ellipsis overflow-hidden ...">90,000 Weekly impressions</p>
-          <p class="font-bold text-xl  truncate text-ellipsis overflow-hidden ..."> ₦80,000 /4 week</p>
-         <p class="text-xs  truncate text-ellipsis overflow-hidden ..."><span >Ad type</span> : <span class="text-slate-400">Billboard</span> </p>
-          <p class="text-xs  truncate text-ellipsis overflow-hidden ..."><span>Location</span> : <span class="text-slate-400"> Marina Express Ibeju Lekki, Lagos</span> </p>
-           <p class="text-xs  truncate text-ellipsis overflow-hidden ..."><span>Dimension</span> : <span class="text-slate-400">4000 x 5000</span></p>
-<div class="flex justify-between mt-5">
-   <a
 
-            href="/register"
-            class="
-              hidden
-              md:inline
+      >
+        <div  >
+          <img
+            class="w-full h-full object-center object-cover h-[200px]"
+            :src="item.media?item.media[0]:'/images/banner.png'"
+          />
+        </div>
+        <div class=" p-4 text-left"  >
+          <p   class="text-sm truncate text-ellipsis overflow-hidden ...">
+            {{ item.impressions }} Weekly impressions
+          </p>
+          <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
+          <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
+            <span>Ad type</span> : <span class="text-slate-400 capitalize">{{item.category.name}}</span>
+          </p>
+          <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
+            <span>Location</span> :
+            <span class="text-slate-400">
+             {{item.location}}</span
+            >
+          </p>
+          <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
+            <span>Dimension</span> :
+            <span class="text-slate-400">{{item.dimension}}</span>
+          </p>
+          <div class="flex flex-col md:flex-row mt-5 justify-between">
+            <button
+             @click="toggleModal(item)"
+              class="
 
-              whitespace-nowrap
-              inline-flex
-              items-center
-              justify-center
-              px-8
-              py-2
-              border border-orange-500
-              rounded-full
-              shadow-sm
-              text-xs
-              text-orange-500
-              font-bold
-              text-white
-              bg-white
-              hover:bg-orange-500
-              hover:text-white
-            "
-          >
-          More details
-          </a>
-           <a
-            v-if="!$page.props.auth.user"
-            href="/register"
-            class="
-              hidden
-              md:inline
+                inline
+                whitespace-nowrap
+                inline-flex
+                items-center
+                justify-center
+                px-6
+                py-2
+                border border-orange-500
+                rounded-full
+                shadow-sm
+                text-xs text-orange-500
+                font-bold
+                text-white
+                bg-white
+                hover:bg-orange-500 hover:text-white
+                mb-4 md:mb-0
+              "
 
-              whitespace-nowrap
-              inline-flex
-              items-center
-              justify-center
-              px-8
-              py-2
-              border border-orange-500
-              rounded-full
-              shadow-sm
-              text-xs
-              text-white
-              font-bold
-              text-white
-             bg-orange-500
-              hover:bg-orange-300
-
-            "
-          >
-          Add to cart
-          </a>
-</div>
-         </div>
-       </div>
+            >
+              More details
+            </button>
+            <AddToCart :product="item" :cart="cart"/>
+          </div>
+        </div>
+      </div>
       </slide>
 
       <template #addons="{ currentSlide }">
@@ -101,20 +92,112 @@
      <span class="absolute top-[2%] left-[-4%] z-[1] rotate-45"><img src="/images/spiral.png" class="w-[100%]" /></span>
 
   </section>
+    <TransitionRoot as="template" :show="open">
+    <Dialog
+      as="div"
+      class="fixed z-10 inset-0 overflow-y-auto"
+      @close="open = false"
+    >
+      <div
+        class="
+          flex
+          items-end
+          justify-center
+          min-h-screen
+          pt-4
+          px-4
+          pb-20
+          text-center
+          sm:block sm:p-0
+        "
+      >
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <DialogOverlay
+            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          />
+        </TransitionChild>
+
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          enter-to="opacity-100 translate-y-0 sm:scale-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100 translate-y-0 sm:scale-100"
+          leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        >
+          <div
+            class="
+              inline-block
+              align-bottom
+              bg-white
+              rounded-lg
+              text-left
+              overflow-hidden
+              shadow-xl
+              transform
+              transition-all
+              sm:my-8 sm:align-middle sm:max-w-[80%] sm:w-full
+            "
+          >
+            <div class="">
+                <Product  @toggleModal="toggleModal" :product="product" :cart="cart"/>
+            </div>
+
+          </div>
+        </TransitionChild>
+      </div>
+    </Dialog>
+  </TransitionRoot>
 </template>
 <script>
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide } from "vue3-carousel";
+import axios from "axios";
+import AddToCart from "@/Components/AddToCart";
+import Product from '@/MarketPlace/Components/product'
+import {
+  Dialog,
+  DialogOverlay,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
 export default {
   components: {
     Carousel,
     Slide,
     ChevronLeftIcon,
     ChevronRightIcon,
+    AddToCart,
+      Dialog,
+  DialogOverlay,
+  DialogTitle,
+  TransitionChild,
+  TransitionRoot,
+  Product
   },
   data() {
     return {
+      products: [],
+      product:{},
+      cart: [],
+      open:false,
       index: 0,
       breakpoints: {
         // 700px and up
@@ -130,10 +213,30 @@ export default {
       },
     };
   },
+  inject: ["emitter", "currency"],
+  mounted() {
+    this.getproducts();
+    this.emitter.on("getcart", (data) => {
+      this.cart = data;
+    });
+  },
   methods: {
     goto(n) {
       n === "next" ? this.$refs.slider.next() : this.$refs.slider.prev();
     },
+    getproducts() {
+      axios.get("/featured-products").then((res) => {
+        if (res.status === 200) {
+          this.products = res.data;
+        }
+      });
+    },
+    toggleModal(data){
+     
+      this.product = data
+      this.open = !this.open
+    }
+
   },
 };
 </script>

@@ -67,6 +67,12 @@ class ProductController extends Controller
         return  ProductResource::collection(Product::with('offers','category','subcategory')->inRandomOrder()->paginate(30));
     }
 
+    public function featuredproducts()
+    {
+
+        return  Product::with('offers', 'category', 'subcategory')->where('featured', 1)->inRandomOrder()->get()->take(10);
+    }
+
 
 
     public function show(Product $product)
