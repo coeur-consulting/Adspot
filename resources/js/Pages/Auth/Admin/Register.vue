@@ -14,10 +14,7 @@
             <BreezeLabel for="email" value="Email" />
             <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
         </div>
-          <div>
-            <BreezeLabel for="address" value="Address" />
-            <BreezeInput id="address" type="text" class="mt-1 block w-full" v-model="form.address" required autofocus autocomplete="address" />
-        </div>
+
 
         <div class="mt-4">
             <BreezeLabel for="password" value="Password" />
@@ -34,9 +31,15 @@
                 Already registered?
             </Link>
 
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
+           <div class="ml-4">
+            <BreezeButton
+              class="rounded-full bg-orange-500 text-white w-full capitalize justify-center px-10"
+              :class="{ 'opacity-25': form.processing }"
+              :disabled="form.processing"
+            >
+              Register
             </BreezeButton>
+          </div>
         </div>
     </form>
 </template>
