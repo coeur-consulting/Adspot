@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
+use Inertia\Inertia;
+
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Admin/Blog', [
+            'blogs' => Blog::paginate(20)
+
+
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ContactController;
@@ -117,6 +118,16 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
 
         Route::resource('products', ProductController::class, [
+            'names' => [
+                'index' => 'products.index',
+                'store' => 'products.store',
+                'destroy' => 'products.destroy',
+                'update' => 'products.update',
+
+            ]
+        ]);
+
+        Route::resource('admin-news', BlogController::class, [
             'names' => [
                 'index' => 'products.index',
                 'store' => 'products.store',
