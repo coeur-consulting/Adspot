@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers','category','subcategory')->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers','category','subcategory')->latest()->paginate(30)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -56,17 +56,12 @@ class ProductController extends Controller
 
         ]);
 
-        $products = ProductResource::collection(Product::with('offers','category','subcategory')->paginate(30));
-        return Inertia::render('Admin/Products', [
-            'products' => $products,
-            'categories' => Category::all(),
-            'subcategories' => Subcategory::all(),
-        ]);
+        return new ProductResource($product->load('offers', 'category', 'subcategory'));
     }
     public function allproducts()
     {
 
-        return  ProductResource::collection(Product::with('offers','category','subcategory')->inRandomOrder()->paginate(30));
+        return  ProductResource::collection(Product::with('offers','category','subcategory')->inRandomOrder()->latest()->paginate(30));
     }
 
     public function featuredproducts()
@@ -129,13 +124,8 @@ class ProductController extends Controller
 
         $product->save();
         $user  = auth()->user();
-        $products = ProductResource::collection(Product::with('offers', 'category', 'subcategory')->paginate(30));
-        return Inertia::render('Admin/Products', [
-            'products' => $products,
-            'categories' => Category::all(),
-            'subcategories' => Subcategory::all(),
-            'flash' => ['message' => 'success']
-        ]);
+        return new ProductResource($product->load('offers', 'category', 'subcategory'));
+
     }
 
     public function destroy($id)
@@ -143,13 +133,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $user  = auth()->user();
         $product->delete();
-        $products = ProductResource::collection($user->products()->with('offers','category','subcategory')->paginate(30));
-        return Inertia::render('Admin/Products', [
-            'products' => $products,
-            'categories' => Category::all(),
-            'subcategories' => Subcategory::all(),
-            'flash' => ['message' => 'success']
-        ]);
+       return response('ok');
     }
 
     public function searchproducts(Request $request)
@@ -158,7 +142,7 @@ class ProductController extends Controller
 
         if ($request->has('query') && $query) {
 
-            return Product::query()->with('offers','category','subcategory')->whereLike('name', $query)->paginate(30);
+            return Product::query()->with('offers','category','subcategory')->whereLike('name', $query)->latest()->paginate(30);
         }
         return response()->json([
             'status' => 'success',

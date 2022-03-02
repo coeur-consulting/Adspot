@@ -4,7 +4,7 @@
     <div class="flex justify-between mb-3 w-full">
       <div class="flex items-center">
         <input
-          placeholder="Search name"
+          placeholder="Search title"
           v-model="query"
           type="search"
           class="py-2 px-4 border border-gray-50 rounded-lg md:w-[250px] mr-4 shadow-sm"
@@ -38,8 +38,8 @@
           border border-transparent
           rounded-md
           shadow-sm
-          bg-purple-700
-          hover:bg-purple-500
+          bg-orange-500
+          hover:bg-orange-500
           flex
           justify-between
         "
@@ -85,7 +85,7 @@
                     tracking-wider
                   "
                 >
-                  Name
+                  title
                 </th>
                 <th
                   scope="col"
@@ -147,7 +147,7 @@
                           ...
                         "
                       >
-                        {{ item.name }}
+                        {{ item.title }}
                       </div>
                     </div>
                   </div>
@@ -170,7 +170,7 @@
                       text-sm text-gray-900 text-ellipsis
                       overflow-hidden
                       ...
-                      w-[160px]
+                    
                     "
                   >
                     {{ item.status }}
@@ -210,7 +210,7 @@
           ><ArrowCircleLeftIcon
             :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
             @click="prev"
-            class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
+            class="cursor-pointe w-8 h-8 text-orange-500 mr-2"
         /></span>
         <input
           class="
@@ -219,7 +219,7 @@
             py-1
             px-3
             text-center
-            border border-orange-700
+            border border-orange-500
             rounded
           "
           :disabled="current_page == last_page"
@@ -229,7 +229,7 @@
           ><ArrowCircleRightIcon
             :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
             @click="next"
-            class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
+            class="w-8 h-8 text-orange-500 ml-2 cursor-pointer" /></span
       ></span>
     </div>
 
@@ -323,7 +323,7 @@
                   bg-white
                   text-base
                   font-medium
-                  text-gray-700
+                  text-gray-500
                   hover:bg-gray-50
                   focus:outline-none
                   focus:ring-2
@@ -453,7 +453,19 @@ export default {
       this.type = val;
       this.blog = blog;
     },
-    updatepage() {
+   updatepage(data) {
+
+      if(this.type == 'edit'){
+        this.blogs.map(item=>{
+          if(item.id == this.blog.id){
+            item = data
+          }
+          return item
+        })
+
+      }else{
+        this.blogs.unshift(data)
+      }
       this.open = false;
     },
     dropBlog(id) {

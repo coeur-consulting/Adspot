@@ -23,7 +23,7 @@
     </div>
     <div class="mt-4 grid grid-cols-2 gap-4 justify-between">
       <div class="">
-        <label for="category_id" class="block text-sm font-medium text-gray-700"
+        <label for="category_id" class="block text-sm font-medium text-gray-500"
           >Category</label
         >
         <select
@@ -51,7 +51,7 @@
         </select>
       </div>
        <div class="">
-        <label for="subcategory_id" class="block text-sm font-medium text-gray-700"
+        <label for="subcategory_id" class="block text-sm font-medium text-gray-500"
           >Subcategory</label
         >
         <select
@@ -94,7 +94,7 @@
       <div class="mt-4">
 
          <div class="">
-        <label for="type" class="block text-sm font-medium text-gray-700"
+        <label for="type" class="block text-sm font-medium text-gray-500"
           >Type</label
         >
         <select
@@ -261,6 +261,12 @@
       </div>
 
     </div>
+       <div class="bg-orange-300 p-2 transition ease-in-out " v-if="start">
+       <svg class="animate-spin mx-auto h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      </div>
      <div v-if="form.media.length" class="grid grid-cols-4 span-2 my-6">
     <img v-for="item in form.media" :key="item" :src="item" class="h-16 w-16" alt="image"/>
       </div>
@@ -273,19 +279,19 @@
           inline-flex
           justify-center
           rounded-md
-          border border-purple-300
+          border border-orange-300
           shadow-sm
           px-4
           py-2
-          bg-purple-600
+          bg-orange-600
           text-base
           font-medium
           text-slate-200
-          hover:bg-purple-300
+          hover:bg-orange-300
           focus:outline-none
           focus:ring-2
           focus:ring-offset-2
-          focus:ring-purple-500
+          focus:ring-orange-500
           sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
         "
         :class="{ 'opacity-25': form.processing }"
@@ -387,11 +393,13 @@ export default {
       });
     },
     update() {
-      this.$inertia.put(this.route("products.update", this.$props.product.id), this.form,{
-        onSuccess: () => {
-          this.$emit("updatepage");
-        },
-      });
+      axios.put(this.route("products.update", this.$props.product.id), this.form).then(res=>{
+        if(res.status===200){
+
+          this.$emit("updatepage", res.data);
+        }
+      })
+
     },
   },
    computed:{

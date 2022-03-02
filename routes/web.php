@@ -107,7 +107,7 @@ Route::group(['middleware' => 'auth'], function () {
             return Inertia::render('AdminDashboard');
         })->name('AdminDashboard');
 
-        Route::resource('categories', CategoryController::class, [
+        Route::resource('admin-categories', CategoryController::class, [
             'names' => [
                 'index' => 'categories.index',
                 'store' => 'categories.store',

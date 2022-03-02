@@ -1,5 +1,5 @@
 <template>
-  <Head title="Log in" />
+  <Head title="Create blog" />
 
   <BreezeValidationErrors class="mb-4" />
 
@@ -11,177 +11,31 @@
     <legend class="text-center font-bold mb-4">Add Blog</legend>
 
     <div class="mt-4">
-      <BreezeLabel for="name" value="Name" />
+      <BreezeLabel for="title" value="Title" />
       <BreezeInput
-        id="name"
+        id="title"
         type="text"
         class="mt-1 block w-full"
-        v-model="form.name"
+        v-model="form.title"
         required
-        autocomplete="name"
+        autocomplete="title"
       />
     </div>
-    <div class="mt-4 grid grid-cols-2 gap-4 justify-between">
-      <div class="">
-        <label for="category_id" class="block text-sm font-medium text-gray-700"
-          >Category</label
-        >
-        <select
-          id="category_id"
-          v-model="form.category_id"
-          name="category"
-          autocomplete="category"
-          class="
-            mt-1
-            block
-            w-full
-            py-2
-            px-3
-            border border-gray-300
-            bg-white
-            rounded-md
-            shadow-sm
-            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
-            sm:text-sm
-            capitalize
-          "
-        >
-          <option value="" disabled>Select category </option>
-          <option :value="category.id" v-for="(category,id) in categories" :key="id">{{category.name}}</option>
-        </select>
-      </div>
-       <div class="">
-        <label for="subcategory_id" class="block text-sm font-medium text-gray-700"
-          >Subcategory</label
-        >
-        <select
-          id="subcategory_id"
-          v-model="form.subcategory_id"
-          name="subcategory"
-          autocomplete="subcategory_id"
-          class="
-            mt-1
-            block
-            w-full
-            py-2
-            px-3
-            border border-gray-300
-            bg-white
-            rounded-md
-            shadow-sm
-            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
-            sm:text-sm
-            capitalize
-          "
-        >
-          <option value="" disabled>Select subcategory </option>
-          <option :value="subcategory.id" v-for="(subcategory,id) in subcategories" :key="id">{{subcategory.name}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-5">
-      <div class="mt-4">
-        <BreezeLabel for="price" value="Price" />
-        <BreezeInput
-          id="price"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.price"
-          required
-          autocomplete="price"
-        />
-      </div>
-      <div class="mt-4">
-
-         <div class="">
-        <label for="type" class="block text-sm font-medium text-gray-700"
-          >Type</label
-        >
-        <select
-          id="category_id"
-          v-model="form.type"
-          name="category"
-
-          class="
-            mt-1
-            block
-            w-full
-            py-2
-            px-3
-            border border-gray-300
-            bg-white
-            rounded-md
-            shadow-sm
-            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
-            sm:text-sm
-            capitalize
-          "
-        >
-          <option value="" disabled>Select type </option>
-          <option value="negotiable" >Negotiable</option>
-            <option value="non-negotiable" >Non-Negotiable</option>
-        </select>
-      </div>
-      </div>
-    </div>
-    <div class="mt-4">
-       <BreezeLabel for="location" value="Location" />
-        <BreezeInput
-          id="location"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.location"
-          required
-          autocomplete="location"
-        />
-    </div>
-    <div  class="grid grid-cols-2 gap-5">
-        <div class="mt-4">
-       <BreezeLabel for="impressions" value="Impressions" />
-        <BreezeInput
-          id="impressions"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.impressions"
-          required
-
-          autocomplete="impressions"
-        />
-
-    </div>
-       <div class="mt-4">
-       <BreezeLabel for="dimension" value="Dimension" />
-        <BreezeInput
-          id="dimension"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.dimension"
-          required
-          placeholder="e.g 2000 x 400"
-          autocomplete="dimension"
-        />
-    </div>
-    </div>
-
 
 
     <div class="mt-4">
-      <BreezeLabel for="description" value="Description" />
+      <BreezeLabel for="content" value="Content" />
       <BreezeTextarea
-        id="description"
+        id="content"
         type="text"
         class="mt-1 block w-full"
-        v-model="form.description"
+        v-model="form.content"
         required
-        autocomplete="description"
+        autocomplete="content"
       />
     </div>
-    <div class="mt-4 flex">
 
-      <BreezeCheckbox id='featured' class="mr-2" v-model="form.featured" />
-       <BreezeLabel for="featured" value="Feature in popular" />
 
-    </div>
     <div class="mt-4">
       <div
         class="
@@ -236,20 +90,28 @@
                 @change="handleFileUpload($event)"
                 name="file-upload"
                 type="file"
-                multiple
+
                 class="sr-only"
               />
               </div>
 
 
           </div>
-          <span>Upload  images</span>
+          <span>Upload  cover</span>
         </div>
       </div>
 
     </div>
-     <div v-if="form.media.length" class="grid grid-cols-4 span-2 my-6">
-    <img v-for="item in form.media" :key="item" :src="item" class="h-16 w-16" alt="image"/>
+      <div class="text-center">
+      <div class="bg-orange-300 p-2 transition ease-in-out " v-if="start">
+       <svg class="animate-spin mx-auto h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      </div>
+    </div>
+     <div v-if="form.cover" class="grid grid-cols-4 span-2 my-6">
+    <img :src="form.cover" class="h-16 w-16" alt="image"/>
       </div>
 
     <div class="mt-4">
@@ -261,19 +123,19 @@
           inline-flex
           justify-center
           rounded-md
-          border border-purple-300
+          border border-orange-300
           shadow-sm
           px-4
           py-2
-          bg-purple-600
+          bg-orange-600
           text-base
           font-medium
           text-slate-200
-          hover:bg-purple-300
+          hover:bg-orange-300
           focus:outline-none
           focus:ring-2
           focus:ring-offset-2
-          focus:ring-purple-500
+          focus:ring-orange-500
           sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
         "
         :class="{ 'opacity-25': form.processing }"
@@ -319,17 +181,9 @@ export default {
   data() {
     return {
       form: this.$inertia.form({
-        name: "",
-        category_id: "",
-        subcategory_id:'',
-        description: "",
-        media: [],
-        location: null,
-        impressions:null,
-        price: null,
-        dimension:null,
-        type:'',
-        featured:false
+       title:'',
+       cover:'',
+       content:''
 
       }),
       cloudinary: {
@@ -348,11 +202,10 @@ export default {
       var upload_preset = this.cloudinary.uploadPreset;
       var url = "https://api.cloudinary.com/v1_1/" + cloudName + "/upload";
 
-      var files = e.target.files;
-      const uploads = Array.from(Array(e.target.files.length).keys()).map(
-        (i) => {
+      var file = e.target.files[0];
+
           const formData = new FormData();
-          formData.append("file", files[i]);
+          formData.append("file", file);
           formData.append("upload_preset", upload_preset); // Replace the preset name with your own
           formData.append("api_key", "843343413274745"); // Replace API key with your own Cloudinary API key
           formData.append("timestamp", (Date.now() / 1000) | 0);
@@ -361,38 +214,32 @@ export default {
             .post(`${url}`, formData, {
               headers: { "X-Requested-With": "XMLHttpRequest" },
             })
-            .then((response) => this.form.media.push(response.data.secure_url))
+            .then((response) => {
+              this.start= false;
+              this.form.cover =response.data.secure_url})
             .catch((err) => {
               this.start = false;
             });
-        }
-      );
 
-      axios.all(uploads).then(() => {
-        this.start = false;
-      });
+
+
     },
     submit() {
-      this.form.post(this.route("products.store"), {
-        onSuccess: () => {
 
-          this.files = [];
-          this.$emit("updatepage");
+      axios.post(this.route("blogs.store"),this.form).then(res=>{
+        if(res.status===201){
+           this.files = [];
+          this.$emit("updatepage",res.data);
           return this.form.reset(
-            "name",
-            "category_id",
-            "description",
-            "subcategory_id",
-            "price",
-            'impressions',
-            "location",
-            "dimension",
-            "media",
-            "type",
-            "featured"
+            "title",
+            "content",
+            "cover",
+
           );
-        },
+
+        }
       });
+
     },
   },
   computed:{
