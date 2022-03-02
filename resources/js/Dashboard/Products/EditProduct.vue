@@ -1,5 +1,5 @@
 <template>
-  <Head title="Products" />
+  <Head title="Edit product" />
 
   <BreezeValidationErrors class="mb-4" />
 

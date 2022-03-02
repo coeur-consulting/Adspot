@@ -56,7 +56,7 @@ class ProductController extends Controller
 
         ]);
 
-        $products = Product::get();
+        $products = ProductResource::collection(Product::with('offers','category','subcategory')->paginate(30));
         return Inertia::render('Admin/Products', [
             'products' => $products
         ]);

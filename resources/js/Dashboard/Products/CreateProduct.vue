@@ -1,5 +1,5 @@
 <template>
-  <Head title="Log in" />
+  <Head title="Create product" />
 
   <BreezeValidationErrors class="mb-4" />
 
@@ -176,12 +176,26 @@
         autocomplete="description"
       />
     </div>
-    <div class="mt-4 flex">
+   <div class="grid md:grid-cols-2 gap-6">
+      <div class="mt-4 flex">
 
       <BreezeCheckbox id='featured' class="mr-2" v-model="form.featured" />
        <BreezeLabel for="featured" value="Feature in popular" />
 
     </div>
+     <div class="mt-4">
+        <BreezeLabel for="duration" value="Duration" />
+        <BreezeInput
+          id="duration"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.duration"
+          required
+          placeholder="Duration in days"
+          autocomplete="duration"
+        />
+      </div>
+   </div>
     <div class="mt-4">
       <div
         class="
@@ -329,7 +343,8 @@ export default {
         price: null,
         dimension:null,
         type:'',
-        featured:false
+        featured:false,
+        duration:null
 
       }),
       cloudinary: {
@@ -375,7 +390,7 @@ export default {
     submit() {
       this.form.post(this.route("products.store"), {
         onFinish: () => {
-          
+
           this.files = [];
           this.$emit("updatepage");
           return this.form.reset(
@@ -389,7 +404,7 @@ export default {
             "dimension",
             "media",
             "type",
-            "featured"
+            "featured","duration"
           );
         },
       });
