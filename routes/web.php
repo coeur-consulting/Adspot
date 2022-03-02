@@ -129,10 +129,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('admin-news', BlogController::class, [
             'names' => [
-                'index' => 'products.index',
-                'store' => 'products.store',
-                'destroy' => 'products.destroy',
-                'update' => 'products.update',
+                'index' => 'blogs.index',
+                'store' => 'blogs.store',
+                'destroy' => 'blogs.destroy',
+                'update' => 'blogs.update',
 
             ]
         ]);
