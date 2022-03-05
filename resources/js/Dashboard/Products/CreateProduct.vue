@@ -520,25 +520,22 @@ export default {
       },
       start: false,
       files: [],
+       range: {
+        start: null,
+        end: null,
+      },
     };
   },
   setup() {
-    const range = reactive({
-      start: new Date(),
-      end: new Date(),
-    });
 
     const modelConfig = reactive({
       type: "string",
       mask: "YYYY-MM-DD", // Uses 'iso' if missing
     });
-    const adDuration = computed(() => {
-      return moment(this.range.end).diff(moment(this.range.start), "days");
-    });
+
     return {
       modelConfig,
-      range,
-      adDuration,
+      moment
     };
   },
   watch: {
@@ -553,7 +550,8 @@ export default {
 
   methods: {
     setDuration() {
-      this.product.duration = this.adDuration;
+      
+      this.form.duration = this.adDuration;
     },
     handleFileUpload(e) {
       this.start = true;
@@ -618,6 +616,9 @@ export default {
     },
   },
   computed: {
+     adDuration () {
+      return moment(this.range.end).diff(moment(this.range.start), "days");
+    },
     categories() {
       return this.$page.props.categories;
     },

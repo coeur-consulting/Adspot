@@ -23,17 +23,18 @@ class LinkedSocialAccountController extends Controller
 
     public function handleCallback($provider)
     {
+        //validate provider
         $validated = $this->validateProvider($provider);
         if (!is_null($validated)) {
             return $validated;
         }
         try {
             $user = Socialite::driver($provider)->user();
-
         } catch (ClientException $exception) {
             return response()->json(['error' => 'Invalid credentials provided.'], 422);
         }
 
+        //Create or update user
         $userCreated = User::firstOrCreate(
             [
                 'email' => $user->getEmail()
@@ -41,11 +42,12 @@ class LinkedSocialAccountController extends Controller
             [
                 'email_verified_at' => now(),
                 'name' => $user->getName(),
-                'username' => str_replace(' ','', $user->getName()),
+                'username' => str_replace(' ', '', $user->getName()),
                 'profile' => $user->getAvatar()
 
             ]
         );
+        //update or create social account
         $userCreated->socialaccounts()->updateOrCreate(
             [
                 'provider' => $provider,
@@ -53,10 +55,13 @@ class LinkedSocialAccountController extends Controller
             ]
 
         );
+        //braodcast 
         event(new Registered($userCreated));
 
+        //user login
         Auth::login($userCreated);
 
+        //redirect user to home
         return redirect(RouteServiceProvider::HOME);
     }
 

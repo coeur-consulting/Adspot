@@ -221,7 +221,12 @@
       <span class="block text-gray-600 text-sm text-left font-bold mb-2"
         >Select Availabilty Range</span
       >
-      <v-date-picker mode="date" v-model="range"  :modelConfig="modelConfig" is-range>
+      <v-date-picker
+        mode="date"
+        v-model="range"
+        :modelConfig="modelConfig"
+        is-range
+      >
         <template v-slot="{ inputValue, inputEvents, isDragging }">
           <div class="flex flex-col sm:flex-row justify-start items-center">
             <div class="relative flex-grow">
@@ -511,30 +516,39 @@ export default {
       },
       start: false,
       files: [],
+      range: {
+        start: null,
+        end: null,
+      },
     };
   },
   mounted() {
     this.form = this.$props.product;
-
+    this.range.start = new Date(this.$props.product.start_time);
+    this.range.end = this.$props.product.end_time;
   },
 
- setup({product}){
-     const range = reactive({
-      start:product.start_time,
-      end: product.end_time,
-    });
-
+  setup() {
     const modelConfig = reactive({
       type: "string",
       mask: "YYYY-MM-DD", // Uses 'iso' if missing
     });
-    return{
+    return {
       modelConfig,
-      range
-    }
+    };
   },
-
+  watch: {
+    range: {
+      deep: true,
+      handler() {
+        this.setDuration();
+      },
+    },
+  },
   methods: {
+    setDuration() {
+      this.form.duration = this.adDuration;
+    },
     handleFileUpload(e) {
       this.start = true;
       var cloudName = this.cloudinary.cloudName;
@@ -583,6 +597,9 @@ export default {
     },
   },
   computed: {
+    adDuration() {
+      return moment(this.range.end).diff(moment(this.range.start), "days");
+    },
     categories() {
       return this.$page.props.categories;
     },
