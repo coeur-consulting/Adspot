@@ -22,7 +22,10 @@ class Product extends Model
         'impressions',
         'subcategory_id',
         'dimension',
-        'duration'
+        'duration',
+        'duration_type',
+         'start_time',
+          'end_time'
 
     ];
 
@@ -41,7 +44,7 @@ class Product extends Model
     }
     public function subcategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Subcategory::class);
     }
     public function user()
     {
@@ -49,7 +52,7 @@ class Product extends Model
     }
     public function offers()
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Offer::class)->with('user');
     }
 
     protected $casts = [

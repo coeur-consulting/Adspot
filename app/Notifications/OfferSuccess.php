@@ -16,9 +16,10 @@ class OfferSuccess extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public $detail;
+    public function __construct($detail)
     {
-        //
+        $this->detail = $detail;
     }
 
     /**
@@ -42,9 +43,10 @@ class OfferSuccess extends Notification
     {
         return (new MailMessage)
             ->subject('Bid Success')
-            ->from('tefzon@gmail.com', 'Adspot')
-            ->greeting('Hello !')
-            ->line('Your offer has been accepted')
+            ->from('adspot@gmail.com', 'Adspot')
+            ->greeting('Hello ' . $this->detail['name'])
+            ->line($this->detail['body'])
+            ->line('You can proceed to make your payment.')
             ->line('Thank you for using our platform!');
     }
 
@@ -57,7 +59,8 @@ class OfferSuccess extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'body' => $this->detail['body'],
+            'url' => $this->detail['url']
         ];
     }
 }

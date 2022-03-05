@@ -82,14 +82,16 @@
                             py-3
                             px-3
                             flex
-                            justify-between
+                            item-center
                             border
                             rounded-lg
+
                             mb-4
                           "
                         >
                           <div
                             class="
+                             mr-4
                               w-16
                               h-16
                               border border-gray-200
@@ -105,16 +107,17 @@
                             />
                           </div>
 
-                          <div class="flex flex-col">
+                          <div class="flex flex-col grow">
                             <div>
                               <div class="text-base font-medium text-gray-900">
-                                <h3 class="mb-4">
+                                <h3 class="mb-2">
                                   {{ item.product.name }}
                                 </h3>
+                                <p class="text-xs text-slate-500">{{item.duration}} x days</p>
 
-                                <div class="flex items-end">
-                                  <div class="leading-3">
-                                    <span class="text-xs text-muted"
+                                <div class="flex justify-between items-end">
+                                  <div class="leading-3 flex items-end">
+                                    <span class="text-xs text-muted mr-2"
                                       >Subtotal</span
                                     >
                                     <p
@@ -125,12 +128,12 @@
                                         mb-0
                                       "
                                     >
-                                      {{ currency(item.product.price) }}
+                                      {{ currency(item.price) }}
                                     </p>
                                   </div>
                                   <TrashIcon
                                     @click="removefromcart(item.id)"
-                                    class="w-4 h-4 ml-4"
+                                    class="w-4 h-4 ml-4 text-red-500"
                                   />
                                 </div>
                               </div>
@@ -287,12 +290,16 @@ export default {
       });
     },
     removefromcart(id) {
-      axios.delete(`/remove/cart/${id}`).then((res) => {
+     let confirm = window.confirm('Are you sure?')
+     if(confirm){
+        axios.delete(`/remove/cart/${id}`).then((res) => {
         if (res.status === 200) {
           this.emitter.emit("addtocart");
           this.cart = this.cart.slice().filter((item) => item.id != id);
         }
       });
+     }
+
       // this.cartItems = this.cartItems.filter((item) => item.id !== id);
       // localStorage.setItem(
       //   "cartItems",

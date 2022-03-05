@@ -1,41 +1,103 @@
 <template>
   <div class="bg-transparent container mx-auto">
-    <div class="grid  gap-8 p-5" :class="viewType=='grid'?'grid-cols-1 sm:grid-cols-3 md:grid-cols-4':'grid-cols-1'">
+    <div
+      class="grid gap-8 p-5"
+      :class="
+        viewType == 'grid'
+          ? 'grid-cols-1 sm:grid-cols-3 md:grid-cols-4'
+          : 'grid-cols-1'
+      "
+    >
       <div
         class="bg-white rounded-lg shadow w-full overflow-hidden z-10"
-        :class="viewType=='grid'?'':'md:flex'"
+        :class="viewType == 'grid' ? '' : 'md:flex'"
         v-for="(item, index) in products"
         :key="index"
       >
-        <div  :class="viewType=='grid'?'w-full':'md:w-[40%]'">
+        <div :class="viewType == 'grid' ? 'w-full' : 'md:w-[40%]'">
           <img
             class="w-full h-full object-center object-cover h-[200px]"
-            :src="item.media?item.media[0]:'/images/banner.png'"
+            :src="item.media ? item.media[0] : '/images/banner.png'"
           />
         </div>
-        <div class=" p-4 text-left"  :class="viewType=='grid'?'w-full':'md:w-[60%]'">
-          <p   :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
-            {{ item.impressions }} Weekly impressions
+        <div
+          class="p-4 text-left"
+          :class="viewType == 'grid' ? 'w-full' : 'md:w-[60%]'"
+        >
+          <p
+            :class="
+              viewType == 'grid'
+                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
+                : ''
+            "
+          >
+            {{ item.impressions.toLocaleString("en-US") }} Weekly impressions
           </p>
-          <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
-          <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
-            <span>Ad type</span> : <span class="text-slate-400 capitalize">{{item.category.name}}</span>
+          <p class="font-bold text-xl">
+            {{ currency(item.price) }}
+            <span class="text-xs">/ {{ item.duration }} days</span>
           </p>
-          <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
+          <p
+            :class="
+              viewType == 'grid'
+                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
+                : ''
+            "
+          >
+            <span class="">Duration</span> :
+            <span class="text-slate-600 capitalize">{{
+              item.duration_type
+            }}</span>
+          </p>
+          <p
+            :class="
+              viewType == 'grid'
+                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
+                : ''
+            "
+          >
+            <span>Ad type</span> :
+            <span class="text-slate-600 capitalize">{{
+              item.subcategory.name
+            }}</span>
+          </p>
+          <p
+            :class="
+              viewType == 'grid'
+                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
+                : ''
+            "
+          >
             <span>Location</span> :
-            <span class="text-slate-400">
-             {{item.location}}</span
-            >
+            <span class="text-slate-600"> {{ item.location }}</span>
           </p>
-          <p  :class="viewType=='grid'?'text-sm truncate text-ellipsis overflow-hidden ...':''">
+          <p
+            :class="
+              viewType == 'grid'
+                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
+                : ''
+            "
+          >
             <span>Dimension</span> :
-            <span class="text-slate-400">{{item.dimension}}</span>
+            <span class="text-slate-600">{{ item.dimension }}</span>
           </p>
-          <div class="flex flex-col md:flex-row mt-5"  :class="viewType=='grid'?' justify-between':' justify-end'">
+          <p
+            :class="
+              viewType == 'grid'
+                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
+                : ''
+            "
+          >
+            <span>Type</span> :
+            <span class="text-slate-600 capitalize">{{ item.type }}</span>
+          </p>
+          <div
+            class="flex flex-col md:flex-row mt-5"
+            :class="viewType == 'grid' ? ' justify-between' : ' justify-end'"
+          >
             <button
-             @click="toggleModal(item)"
+              @click="toggleModal(item)"
               class="
-
                 inline
                 whitespace-nowrap
                 inline-flex
@@ -51,13 +113,56 @@
                 text-white
                 bg-white
                 hover:bg-orange-500 hover:text-white
-                mb-4 md:mb-0
+                mb-4
+                md:mb-0
               "
-                :class="viewType=='grid'?' ':'mr-3'"
+              :class="viewType == 'grid' ? ' ' : 'mr-3'"
             >
               More details
             </button>
-            <AddToCart :product="item" :cart="cart"/>
+            <AddToCart
+              v-if="
+                item.type == 'non-negotiable' && item.duration_type == 'fixed'
+              "
+              :product="item"
+              :cart="cart"
+              :negotiation="item.price"
+              :duration="parseInt(item.duration)"
+              :start="item.start_time"
+              :end="item.end_time"
+            />
+
+            <button
+              v-if="
+                item.type == 'negotiable' || item.duration_type == 'flexible'
+              "
+              @click="toggleModal(item)"
+              class="
+                inline
+                whitespace-nowrap
+                inline-flex
+                items-center
+                justify-center
+                px-6
+                py-2
+                border
+                rounded-full
+                shadow-base
+                text-white
+                font-bold
+                text-white
+                hover:bg-orange-300
+                text-xs
+              "
+              :class="
+                incart(item.id)
+                  ? 'bg-gray-300 border-gray-100'
+                  : 'bg-orange-500 border-orange-500'
+              "
+              :disabled="incart(item.id)"
+            >
+              Negotiate
+            </button>
           </div>
         </div>
       </div>
@@ -155,9 +260,12 @@
             "
           >
             <div class="">
-                <Product  @toggleModal="toggleModal" :product="product" :cart="cart"/>
+              <Product
+                @toggleModal="toggleModal"
+                :product="product"
+                :cart="cart"
+              />
             </div>
-
           </div>
         </TransitionChild>
       </div>
@@ -188,52 +296,10 @@ import axios from "axios";
 import _ from "lodash";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import { usePage } from "@inertiajs/inertia-vue3";
-import Product from './product'
-import AddToCart from '@/Components/AddToCart'
+import Product from "./product";
+import AddToCart from "@/Components/AddToCart";
+import moment from "moment";
 export default {
-  computed: {
-    filteredproducts() {
-      var products = this.products;
-
-      if (this.filterData) {
-        if (
-          this.filterData.storeIds.length ||
-          this.filterData.categoryIds.length
-        ) {
-          return products.filter(
-            (item) =>
-              this.filterData.storeIds.includes(item.user_id) ||
-              this.filterData.categoryIds.includes(item.category_id)
-          );
-        }
-
-        if (this.filterData.priceType == "lth") {
-          return products.sort((a, b) => {
-            if (a.price < b.price) {
-              return -1;
-            }
-            if (a.price > b.price) {
-              return 1;
-            }
-            return 0;
-          });
-        }
-        if (this.filterData.priceType == "htl") {
-          return products.sort((a, b) => {
-            if (a.price > b.price) {
-              return -1;
-            }
-            if (a.price < b.price) {
-              return 1;
-            }
-            return 0;
-          });
-        }
-      }
-      return products;
-    },
-  },
-
   components: {
     ShoppingCartIcon,
     ArrowCircleLeftIcon,
@@ -242,13 +308,13 @@ export default {
     SortDescendingIcon,
     SearchIcon,
     Link,
-      Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-  Product,
-  AddToCart
+    Dialog,
+    DialogOverlay,
+    DialogTitle,
+    TransitionChild,
+    TransitionRoot,
+    Product,
+    AddToCart,
   },
   data() {
     return {
@@ -260,7 +326,7 @@ export default {
   setup() {
     const open = ref(false);
     const emitter = inject("emitter");
-     const currency = inject("currency");
+    const currency = inject("currency");
     const products = ref([]);
     const current_page = ref(1);
     const last_page = ref(1);
@@ -268,22 +334,47 @@ export default {
     const filterData = ref({});
     const viewType = ref("grid");
     const category_id = ref(0);
-    const product = ref(null)
-    const cart = ref([])
-    onMounted(() => {
+    const product = ref(null);
+    const cart = ref([]);
 
+    onMounted(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      let subcategory = urlParams.get("subcategory");
+      let location = urlParams.get("location");
+      let start = urlParams.get("start");
+      let end = urlParams.get("end");
+      if (subcategory && location && start && end) {
+        loadSearchResult(subcategory, location, start, end);
+      } else {
+        loadProducts();
+      }
+
+      emitter.on("reset", () => {
+        loadProducts();
+      });
+    });
+    function loadProducts() {
       axios.get(`get-products?page=${current_page}`).then((res) => {
         if (res.status === 200) {
           products.value = res.data.data;
           last_page.value = res.data.last_page;
         }
       });
-    });
+    }
+    function loadSearchResult(subcategory, location, start, end) {
+      filterData.subcategory_id = subcategory;
+      filterData.location = location;
+      filterData.datevalue = [moment(new Date(start)), moment(new Date(end))];
+      filterData.typeFilter = ["negotiable", "non-negotiable"];
+      filterData.durationFilter = ["fixed", "flexible"];
+
+      searchInventory();
+    }
 
     emitter.on("getCategory", (data) => {
       category_id.value = data;
     });
-     emitter.on("getcart", (data) => {
+    emitter.on("getcart", (data) => {
       cart.value = data;
     });
     emitter.on("filterData", (data) => {
@@ -291,10 +382,32 @@ export default {
       filterData.subcategory_id = data.subcategory_id;
       filterData.location = data.location;
       filterData.datevalue = data.datevalue;
+      filterData.typeFilter = data.typeFilter;
+      filterData.durationFilter = data.durationFilter;
+      searchInventory();
     });
     emitter.on("toggleView", (data) => {
       viewType.value = data;
     });
+    function searchInventory() {
+      axios.post("/search-inventory", filterData).then((res) => {
+        if (res.status === 200) {
+          products.value = res.data.data;
+          last_page.value = res.data.last_page;
+        }
+      });
+    }
+    const incart = (id) => {
+      if (!cart.value.length) return false;
+      let result = cart.value.some(
+        (item) =>
+          item.product_id == id &&
+          ((item.status == "pending" && item.type == "negotiable") ||
+            (item.status == "success" && item.type == "non-negotiable"))
+      );
+
+      return result;
+    };
 
     function next() {
       if (current_page == last_page) return;
@@ -329,9 +442,12 @@ export default {
         : subcat.filter((item) => item.category_id == category_id.value);
     });
 
-    function toggleModal(data){
-      product.value = data
-      open.value = !open.value
+    function toggleModal(data) {
+      if (data) {
+        product.value = data;
+      }
+
+      open.value = !open.value;
     }
 
     watch(current_page, (current_page, prevCurrent_page) => {
@@ -359,7 +475,8 @@ export default {
       toggleModal,
       product,
       open,
-      currency
+      currency,
+      incart,
     };
   },
   methods: {
@@ -368,7 +485,17 @@ export default {
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
     },
     inCart(id) {
-      return this.cartItems.some((item) => item.id == id);
+      let result = this.cart.some(
+        (item) =>
+          item.id == id &&
+          ((item.status == "pending" && item.type == "negotiable") ||
+            (item.status == "success" && item.type == "non-negotiable"))
+      );
+      console.log(
+        "🚀 ~ file: products.vue ~ line 479 ~ inCart ~ result",
+        result
+      );
+      return result;
     },
   },
 };

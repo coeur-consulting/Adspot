@@ -44,9 +44,9 @@ class NewOfferAlert extends Notification
         return (new MailMessage)
             ->subject('New Offer Alert')
             ->from('tefzon@gmail.com', 'Adspot')
-            ->greeting('Hello !')
-            ->line('Your have a new offer')
-            ->line('Thank you for using our platform!');
+            ->greeting('Hello Admin')
+            ->line($this->detail['body'])
+            ->line('Thank you!');
     }
 
     /**

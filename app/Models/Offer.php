@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
-    protected $fillable = ['result','bid_price','user_id','product_id'];
+    protected $fillable = ['result','bid_price','user_id','product_id','duration','cart_id','start','end', 'status'];
 
     public function user(){
         return $this->belongsTo(User::class);

@@ -29,6 +29,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        return $request->all();
         return  DB::transaction(function () use ($request) {
             $user = User::firstOrNew(
                 ['email', $request->email],
@@ -40,7 +41,7 @@ class OrderController extends Controller
                     'phone_no' =>  $request->phone,
                     'country' =>  $request->country,
                     'password' =>Hash::make('default'),
-                  
+
                 ]
 
             );

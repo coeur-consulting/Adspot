@@ -182,7 +182,7 @@ export default {
   props: {
     canResetPassword: Boolean,
     status: String,
-    product: Object,
+    blog: Object,
   },
   emits: ["updatepage"],
   data() {

@@ -7,47 +7,50 @@
           placeholder="Search title"
           v-model="query"
           type="search"
-          class="py-2 px-4 border border-gray-50 rounded-lg md:w-[250px] mr-4 shadow-sm"
+          class="
+            py-2
+            px-4
+            border border-gray-50
+            rounded-lg
+            md:w-[250px]
+            mr-4
+            shadow-sm
+          "
         />
         <div class="mr-3 flex">
-
-      <BreezeCheckbox id='featured' class="mr-2" v-model="showFeatured" />
-       <BreezeLabel for="featured" value="Featured " />
-
-    </div>
-    <div class="mr-3 flex">
-
-      <BreezeCheckbox id='active' class="mr-2" v-model="showStatus" />
-       <BreezeLabel for="active" value="Inactive" />
-
-    </div>
-
+          <BreezeCheckbox id="featured" class="mr-2" v-model="showFeatured" />
+          <BreezeLabel for="featured" value="Featured " />
+        </div>
+        <div class="mr-3 flex">
+          <BreezeCheckbox id="active" class="mr-2" v-model="showStatus" />
+          <BreezeLabel for="active" value="Inactive" />
+        </div>
       </div>
-     <div>
+      <div>
         <button
-        @click="toggleModal('create')"
-        type="button"
-        class="
-          font-bold
-          px-4
-          py-2
-          text-sm
-          whitespace-nowrap
-          relative
-          cursor-pointer
-          border border-transparent
-          rounded-md
-          shadow-sm
-          bg-orange-500
-          hover:bg-orange-500
-          flex
-          justify-between
-        "
-      >
-        <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
-        <span class="text-white">Add blog</span>
-      </button>
-     </div>
+          @click="toggleModal('create')"
+          type="button"
+          class="
+            font-bold
+            px-4
+            py-2
+            text-sm
+            whitespace-nowrap
+            relative
+            cursor-pointer
+            border border-transparent
+            rounded-md
+            shadow-sm
+            bg-orange-500
+            hover:bg-orange-500
+            flex
+            justify-between
+          "
+        >
+          <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
+          <span class="text-white">Add blog</span>
+        </button>
+      </div>
     </div>
   </div>
   <div class="flex flex-col">
@@ -101,7 +104,6 @@
                 >
                   Description
                 </th>
-
 
                 <th
                   scope="col"
@@ -164,13 +166,12 @@
                     {{ item.content }}
                   </div>
                 </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-6 py-4 whitespace-nowrap">
                   <div
                     class="
                       text-sm text-gray-900 text-ellipsis
                       overflow-hidden
                       ...
-                    
                     "
                   >
                     {{ item.status }}
@@ -204,34 +205,34 @@
       </div>
     </div>
   </div>
-   <div class="pagination text-center mt-8" v-show="last_page > 1">
-      <span class="flex justify-center items-center">
-        <span
-          ><ArrowCircleLeftIcon
-            :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
-            @click="prev"
-            class="cursor-pointe w-8 h-8 text-orange-500 mr-2"
-        /></span>
-        <input
-          class="
-            form-input
-            w-12
-            py-1
-            px-3
-            text-center
-            border border-orange-500
-            rounded
-          "
-          :disabled="current_page == last_page"
-          v-model="current_page" />
-        <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
-        <span
-          ><ArrowCircleRightIcon
-            :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
-            @click="next"
-            class="w-8 h-8 text-orange-500 ml-2 cursor-pointer" /></span
-      ></span>
-    </div>
+  <div class="pagination text-center mt-8" v-show="last_page > 1">
+    <span class="flex justify-center items-center">
+      <span
+        ><ArrowCircleLeftIcon
+          :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
+          @click="prev"
+          class="cursor-pointe w-8 h-8 text-orange-500 mr-2"
+      /></span>
+      <input
+        class="
+          form-input
+          w-12
+          py-1
+          px-3
+          text-center
+          border border-orange-500
+          rounded
+        "
+        :disabled="current_page == last_page"
+        v-model="current_page" />
+      <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+      <span
+        ><ArrowCircleRightIcon
+          :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
+          @click="next"
+          class="w-8 h-8 text-orange-500 ml-2 cursor-pointer" /></span
+    ></span>
+  </div>
 
   <!-- This example requires Tailwind CSS v2.0+ -->
 
@@ -352,13 +353,16 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ExclamationIcon, ArrowCircleLeftIcon,
-    ArrowCircleRightIcon, } from "@heroicons/vue/outline";
+import {
+  ExclamationIcon,
+  ArrowCircleLeftIcon,
+  ArrowCircleRightIcon,
+} from "@heroicons/vue/outline";
 import CreateBlog from "./CreateBlog";
 import EditBlog from "./EditBlog";
 import { PlusCircleIcon } from "@heroicons/vue/solid";
 import { usePage } from "@inertiajs/inertia-vue3";
-import { ref,  onMounted, computed, watch, inject, reactive } from "vue";
+import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeCheckbox from "@/Components/Checkbox.vue";
 import BreezeLabel from "@/Components/Label.vue";
 export default {
@@ -373,10 +377,10 @@ export default {
     ExclamationIcon,
     CreateBlog,
     EditBlog,
-     ArrowCircleLeftIcon,
+    ArrowCircleLeftIcon,
     ArrowCircleRightIcon,
     BreezeCheckbox,
-    BreezeLabel
+    BreezeLabel,
   },
   data() {
     return {
@@ -387,10 +391,10 @@ export default {
   setup() {
     const blogs = ref([]);
     const query = ref("");
-     const current_page = ref(1);
-      const showFeatured = ref(false);
-       const showStatus = ref(false);
-        const showNonnegotiable = ref(false);
+    const current_page = ref(1);
+    const showFeatured = ref(false);
+    const showStatus = ref(false);
+    const showNonnegotiable = ref(false);
     const last_page = ref(1);
     blogs.value = usePage().props.value.blogs.data;
     last_page.value = usePage().props.value.blogs.last_page;
@@ -403,14 +407,14 @@ export default {
       if (!query.value) {
         blogs.value = usePage().props.value.blogs.data;
         last_page.value = usePage().props.value.blogs.last_page;
-        return
+        return;
       }
       axios.get(`/searchblogs?query=${query.value}`).then((res) => {
         blogs.value = res.data.data;
-        current_page.value = 1
+        current_page.value = 1;
       });
     };
-     function next() {
+    function next() {
       if (current_page == last_page) return;
       current_page.value++;
     }
@@ -418,7 +422,7 @@ export default {
       if (current_page == 1) return;
       current_page.value--;
     }
-      function getblogs(page) {
+    function getblogs(page) {
       axios.get(`get-blogs?page=${page}`).then((res) => {
         if (res.status === 200) {
           blogs.value = res.data.data;
@@ -427,13 +431,16 @@ export default {
       });
     }
 
-      watch(current_page, (current_page, prevCurrent_page) => {
+    watch(current_page, (current_page, prevCurrent_page) => {
       getblogs(current_page);
     });
 
-    watch(query,  _.debounce(() => {
-      searchBlogs();
-    },2000));
+    watch(
+      query,
+      _.debounce(() => {
+        searchBlogs();
+      }, 2000)
+    );
     return {
       blogs,
       last_page,
@@ -444,7 +451,6 @@ export default {
       //filteredBlogs,
       showStatus,
       showFeatured,
-
     };
   },
   methods: {
@@ -453,18 +459,16 @@ export default {
       this.type = val;
       this.blog = blog;
     },
-   updatepage(data) {
-
-      if(this.type == 'edit'){
-        this.blogs.map(item=>{
-          if(item.id == this.blog.id){
-            item = data
+    updatepage(data) {
+      if (this.type == "edit") {
+        this.blogs.map((item) => {
+          if (item.id == this.blog.id) {
+            item = data;
           }
-          return item
-        })
-
-      }else{
-        this.blogs.unshift(data)
+          return item;
+        });
+      } else {
+        this.blogs.unshift(data);
       }
       this.open = false;
     },

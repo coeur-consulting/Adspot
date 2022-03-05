@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Offer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Notifications\OfferFailed;
+use Illuminate\Support\Facades\DB;
 use App\Notifications\OfferSuccess;
 
 class OfferController extends Controller
@@ -41,37 +43,71 @@ class OfferController extends Controller
         $offer->save();
         return $offer;
     }
-    public function approveoffer(Product $product, Request $request){
-        $offers  = $product->offers()->get();
+    public function handleoffers(Request $request)
+    {
 
-        foreach($offers->chunks(1000) as $offer){
-            $user = User::find($offer->user_id);
-            if($offer->user_id == $request->user_id){
-                $offer->result = 'success';
-                $user->notify(new OfferSuccess());
+        $offer = Offer::find($request->id)->load('user', 'product');
+        $offers = Offer::where('product_id', $offer->product_id)->with('user', 'product')->get();
+        $product = Product::find($offer->product_id);
+        $user_id = $request->user_id;
 
-            }else{
-                $offer->result = 'failed';
-                $user->notify(new OfferFailed());
+
+        return $request->type == 'accept' ? $this->approveoffer($offers, $request->id, $product) : $this->declineoffer($offer);
+    }
+    public function approveoffer($offers, $id, $product)
+    {
+
+        return  DB::transaction(function () use ($offers, $id, $product) {
+            foreach ($offers as $offer) {
+                $user = User::find($offer->user_id);
+                if ($offer->id == $id) {
+                    $offer->result = 'success';
+                    $data = [
+                        'name' => $user->name,
+                        'body' => 'Your offer for the space, ' . ucfirst($offer->product->name) . ' with a bid of NGN' . $offer->bid_price . ' has been approved'
+                    ];
+                     $user->notify(new OfferSuccess($data));
+                } else {
+                    $data = [
+                        'name' => $user->name,
+                        'body' => 'Your offer for the space, ' . ucfirst($offer->product->name) . ' with a bid of NGN' . $offer->bid_price . ' has been declined',
+                        'url' => 'http://localhost:3000/cart'
+                    ];
+                    $offer->result = 'failed';
+                    $user->notify(new OfferFailed($data));
+                }
+                $offer->status = false;
+                $offer->save();
+                $cart = Cart::find($offer->cart_id);
+                $cart->status = 'success';
+                $cart->save();
             }
-
-            $offer->save();
-
-        }
-        $product->status = 'ended';
-        $product->save();
-        return $offers;
-
+            $product->status = false;
+            $product->save();
+            return $offers;
+        });
     }
     public function declineoffer(Offer $offer)
     {
 
-                $user = User::find($offer->user_id);
-                $offer->result = 'failed';
-                $user->notify(new OfferFailed());
-                $offer->save();
+     return  DB::transaction(function() use($offer){
+            $user = User::find($offer->user_id);
+            $offer->result = 'failed';
+            $data = [
+                'name' => $user->name,
+                'body' => 'Your offer for the space, ' . ucfirst($offer->product->name) . ' with a bid of NGN' . $offer->bid_price . ' has been declined.',
+                'url' => 'http://localhost:3000/cart'
+            ];
 
-                return $offer;
+            $user->notify(new OfferFailed($data));
+            $offer->status = false;
+            $offer->save();
+            $cart = Cart::find($offer->cart_id);
+            $cart->status = 'success';
+            $cart->save();
+
+            return $offer;
+       });
     }
 
     public function destroy(Offer $offer)

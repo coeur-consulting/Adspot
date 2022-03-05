@@ -9,7 +9,7 @@
         product.media ? product.media[0] : '/images/banner.png'
       })`"
     ></div>
-   <div class="w-full md:w-4/6 mr-auto px-5 py-10">
+    <div class="w-full md:w-4/6 mr-auto px-5 py-10">
       <div class="mr-5 flex flex-col md:flex-row justify-between">
         <div class="mb-4 w-full md:w-[73%]">
           <div class="flex mr-5 mb-5 items-center">
@@ -44,12 +44,13 @@
         <v-date-picker
           color="orange"
           mode="date"
-
           v-model="range"
           :columns="$screens({ default: 1, lg: 2 })"
           is-range
           is-expanded
           :modelConfig="modelConfig"
+          :min-date="product.start_time"
+          :max-date="product.end_time"
         />
       </div>
     </div>
@@ -62,46 +63,62 @@
         z-40
       "
     >
-       <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
+      <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
         <p class="mb-2 text-base text-black">
-          {{ product.impressions }} Weekly impressions
+          {{ product.impressions.toLocaleString("en-US") }} Weekly impressions
         </p>
         <p class="mb-1 font-bold text-3xl text-black">
-          {{ currency(product.price) }} <span class="text-xs">/ {{product.duration}} days</span>
+          {{ currency(product.price) }}
+          <span class="text-xs">/ {{ product.duration }} days</span>
+        </p>
+        <p class="mb-1 text-base">
+          <span class="text-black">Duration </span> :
+          <span class="text-slate-600 capitalize">{{
+            product.duration_type
+          }}</span>
         </p>
         <p class="mb-1 text-base">
           <span class="text-black">Ad type</span> :
-          <span class="text-slate-400 capitalize">{{ product.subcategory.name }}</span>
+          <span class="text-slate-600 capitalize">{{
+            product.subcategory.name
+          }}</span>
         </p>
         <p class="mb-1 text-base leading-snug">
           <span class="text-black">Location</span> :
-          <span class="text-slate-400"> {{ product.location }}</span>
+          <span class="text-slate-600"> {{ product.location }}</span>
         </p>
         <p class="mb-2 text-base">
           <span class="text-black">Dimension</span> :
-          <span class="text-slate-400">{{ product.dimension }}</span>
+          <span class="text-slate-600">{{ product.dimension }}</span>
+        </p>
+        <p class="mb-1 text-base">
+          <span class="text-black">Type</span> :
+          <span class="text-slate-600 capitalize">{{ product.type }}</span>
         </p>
 
-        <div
-          class="my-6 border bg-gray-50 rounded-lg grid grid-cols-2 gap-6 p-4"
-        >
-          <div>
-            <p class="text-xs text-slate-400">Start Date</p>
-            <p class="font-bold text-sm">
-              {{ moment(range.start).format("MMM DD, yyyy") }}
-            </p>
+        <div v-if="product.duration_type != 'fixed'">
+          <div
+            v-if="range.start && range.end"
+            class="my-6 border bg-gray-50 rounded-lg grid grid-cols-2 gap-6 p-4"
+          >
+            <div>
+              <p class="text-xs text-slate-600">Start Date</p>
+              <p class="font-bold text-sm">
+                {{ moment(range.start).format("MMM DD, yyyy") }}
+              </p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-600">End Date</p>
+              <p class="font-bold text-sm">
+                {{ moment(range.end).format("MMM DD, yyyy") }}
+              </p>
+            </div>
           </div>
-          <div>
-            <p class="text-xs text-slate-400">End Date</p>
-            <p class="font-bold text-sm">
-              {{moment(range.end).format("MMM DD, yyyy") }}
-            </p>
+          <div class="my-6 border bg-gray-50 rounded-lg p-6 text-center" v-else>
+            <span>Select a date</span>
           </div>
         </div>
-        <div class="my-3" v-if="product.type=='negotiable'">
-          <label for="negotiate" class="block font-medium text-sm text-gray-700"
-            >Negotiation</label
-          >
+        <div class="my-3" v-if="product.type == 'negotiable'">
           <div
             class="
               flex
@@ -130,15 +147,31 @@
                   focus:ring-opacity-50
                 "
                 v-model="negotiation"
+                :readonly="product.type == 'non-negotiable'"
                 type="number"
-                placeholder="Price"
+                placeholder="Negotiate price"
               />
             </div>
           </div>
         </div>
-        <!-- <div class="mt-8">
-        <AddToCart :product="product" :negotiation="negotiation" :cart="cart"/>
-        </div> -->
+        <div class="my-3 text-center">
+          <span class="text-base font-bold mx-auto text-orange-500">
+            <span class="text-orange-500">{{ currency(negotiation) }}</span> x
+            <span class="text-orange-500">{{ adDuration }} days</span></span
+          >
+        </div>
+        <div class="mt-4">
+          <AddToCart
+            class="w-full text-base"
+            :product="product"
+            :negotiation="parseInt(negotiation)"
+            :duration="parseInt(adDuration)"
+            :cart="cart"
+            :start="range.start"
+            :end="range.end"
+            :cartId="product.offer?product.offer.cart_id:null"
+          />
+        </div>
       </div>
 
       <div class="bg-gray-50 rounded-lg p-5">
@@ -171,25 +204,21 @@ import { usePage } from "@inertiajs/inertia-vue3";
 import { ShoppingCartIcon } from "@heroicons/vue/solid";
 import moment from "moment";
 import "v-calendar/dist/style.css";
-import AddToCart from '@/Components/AddToCart'
+import AddToCart from "@/Components/AddToCart";
 export default {
   inject: ["currency", "emitter"],
-  props: ["product","cart"],
+  props: ["product", "cart"],
   components: {
     RadioGroup,
     RadioGroupLabel,
     RadioGroupOption,
     XCircleIcon,
     ShoppingCartIcon,
-    AddToCart
+    AddToCart,
   },
   setup(props, context) {
     const { product } = toRefs(props);
-  const negotiation = ref(product.price)
-    const range = reactive({
-      start: new Date(),
-      end:  moment().add(product.duration,'days').format('YYYY-MM-DD'),
-    });
+    const negotiation = ref(product.price);
 
     const modelConfig = reactive({
       type: "string",
@@ -209,25 +238,60 @@ export default {
       context.emit("toggleModal", data);
     };
 
-
     return {
-      range,
       modelConfig,
       center,
       markers,
       toggleModal,
       product,
       moment,
-      negotiation
+      negotiation,
     };
   },
   data() {
     return {
       date: new Date(),
+      range: {
+        start: null,
+        end: null,
+      },
     };
+  },
+  mounted() {
+    this.setnegotiation();
+     this.range.start = this.product.start_time;
+      this.range.end = this.product.end_time;
+  },
+  watch: {
+    flexiblePrice: "setnegotiation",
+  },
+  computed: {
+    flexiblePrice() {
+      if (this.product.duration_type == "fixed") return this.product.price;
+      if (!this.range.start && !this.range.end) return this.product.price;
+      let days = moment(this.range.end).diff(moment(this.range.start), "days");
+      let perDayPrice =
+        parseInt(this.product.price) / parseInt(this.product.duration);
+      return parseInt(perDayPrice) * parseInt(days);
+    },
+    adDuration() {
+      if (this.product.duration_type == "fixed") return this.product.duration;
+      if (!this.range.start && !this.range.end) return this.product.duration;
+      return Number(
+        moment(this.range.end).diff(moment(this.range.start), "days")
+      );
+    },
   },
 
   methods: {
+    setnegotiation() {
+      this.negotiation = this.flexiblePrice;
+      if(this.product.duration_type == 'fixed'){
+        this.range.start = this.product.start_time;
+      this.range.end = this.product.end_time;
+      }
+
+    },
     addtocart(product) {
       this.emitter.emit("addtocart", product);
       this.cartItems = JSON.parse(localStorage.getItem("cartItems"));

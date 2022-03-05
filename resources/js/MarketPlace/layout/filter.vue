@@ -1,7 +1,5 @@
 <template >
-  <div class=" container p-6 flex
-        flex-col
-        md:flex-row justify-between mx-auto">
+  <div class="container p-6 flex flex-col md:flex-row justify-between mx-auto">
     <form
       @submit.prevent="sendFilter"
       class="
@@ -9,12 +7,12 @@
         bg-white
         py-2
         md:px-3
-        flex
-        flex-col
+        flex flex-col
         md:flex-row
         justify-between
         items-center
-       w-full md:w-[89%]
+        w-full
+        md:w-[89%]
         border
         rounded
       "
@@ -34,28 +32,51 @@
             capitalize
           "
         >
-          <option :value="null" disabled>Select a subcategory</option>
+          <option value="" disabled>Select a subcategory</option>
           <option :value="item.id" v-for="item in subcategories" :key="item.id">
             {{ item.name }}
           </option>
         </select>
       </div>
-      <div class="px-3  py-2 md:py-0 text-white border-b md:border-b-0 md:border-l w-full md:w-auto">
+      <div
+        class="
+          px-3
+          py-2
+          md:py-0
+          text-white
+          border-b
+          md:border-b-0 md:border-l
+          w-full
+          md:w-auto
+        "
+      >
         <h6 class="font-bold text-xs">Date</h6>
         <div class="flex">
           <Datepicker
-            class="text-[.7rem] w-[300px]"
+            :enableTimePicker="false"
+            class="text-[.7rem] w-[250px]"
             required
+            :format="formatter.date"
             v-model="form.datevalue"
             range
             placeholder="When will the Ad run?"
           ></Datepicker>
         </div>
       </div>
-      <div class="px-3  py-2 md:py-0 border-b md:border-b-0 md:border-l w-full md:w-auto">
+      <div
+        class="
+          px-3
+          py-2
+          md:py-0
+          border-b
+          md:border-b-0 md:border-l
+          w-full
+          md:w-auto
+        "
+      >
         <h6 class="font-bold text-xs">Location</h6>
         <input
-          required
+
           type="text"
           v-model="form.location"
           placeholder="Where will  this Ad run?"
@@ -72,7 +93,7 @@
           "
         />
       </div>
-      <div class="px-3  py-2 md:py-0 text-white">
+      <div class="px-3 py-2 md:py-0 text-white">
         <button
           type="submit"
           class="
@@ -116,7 +137,20 @@
       </div>
     </form>
 
-    <div class="border rounded p-5 w-[10%]  grid-cols-2 justify-between hidden md:grid">
+    <div
+      class="
+        border
+        rounded
+        px-4
+        py-5
+
+        grid-cols-4
+        gap-2
+        justify-between
+        hidden
+        md:grid
+      "
+    >
       <div class="text-center">
         <ViewGridIcon
           @click="switchView('grid')"
@@ -131,23 +165,129 @@
           class="w-8 h-8 mx-auto"
         />
       </div>
+      <div class="text-center">
+        <Popover v-slot="{ filter }" class="relative">
+          <PopoverButton :class="filter ? '' : 'text-opacity-90'" class="">
+            <AdjustmentsIcon
+              @click="toggleFilter"
+              :class="filter ? '' : 'text-opacity-70'"
+              class="w-8 h-8 mx-auto"
+            />
+          </PopoverButton>
+
+          <transition
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="translate-y-1 opacity-0"
+            enter-to-class="translate-y-0 opacity-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="translate-y-0 opacity-100"
+            leave-to-class="translate-y-1 opacity-0"
+          >
+            <PopoverPanel
+              class="
+                absolute
+                z-40
+                w-[180px]
+                px-4
+                mt-3
+                transform
+                -translate-x-1/2
+                left-1/2
+                sm:px-0
+              "
+            >
+              <div
+                class="
+                  overflow-hidden
+                  rounded-lg
+                  shadow-lg
+                  ring-1 ring-black ring-opacity-5
+                "
+              >
+                <div class="relative grid gap-4 bg-white p-4">
+                  <label
+                    v-for="item in typeFilters"
+                    class="capitalize flex items-center"
+                    :key="item"
+                  >
+                    <input
+                      type="checkbox"
+                      :value="item"
+                      v-model="form.typeFilter"
+                      class="
+                        hover:bg-gray-50
+                        focus:outline-none
+                        focus-visible:ring
+                        focus-visible:ring-orange-500
+                        focus-visible:ring-opacity-50
+                        mr-2
+                      "
+                    />{{ item }}
+                  </label>
+                </div>
+                <div class="relative grid gap-4 bg-white p-4">
+                  <label
+                    v-for="item in durationFilters"
+                    class="capitalize flex items-center"
+                    :key="item"
+                  >
+                    <input
+                      type="checkbox"
+                      :value="item"
+                      v-model="form.durationFilter"
+                      class="
+                        hover:bg-gray-50
+                        focus:outline-none
+                        focus-visible:ring
+                        focus-visible:ring-orange-500
+                        focus-visible:ring-opacity-50
+                        mr-2
+                      "
+                    />{{ item }}
+                  </label>
+                </div>
+              </div>
+            </PopoverPanel>
+          </transition>
+        </Popover>
+      </div>
+       <div class="text-center">
+        <ReplyIcon
+          @click="reset"
+
+          class="w-8 h-8 mx-auto cursor-pointer"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { usePage } from "@inertiajs/inertia-vue3";
 import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
-import { SearchIcon, ViewGridIcon, ViewListIcon } from "@heroicons/vue/solid";
+import {
+  SearchIcon,
+  ViewGridIcon,
+  ViewListIcon,
+  AdjustmentsIcon,
+  ReplyIcon
+} from "@heroicons/vue/solid";
 import axios from "axios";
-
+const typeFilters = ["negotiable", "non-negotiable"];
+const durationFilters = ["fixed", "flexible"];
 export default {
   components: {
     Datepicker,
     SearchIcon,
     ViewGridIcon,
     ViewListIcon,
+    AdjustmentsIcon,
+    ReplyIcon,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
   },
 
   data() {
@@ -160,25 +300,48 @@ export default {
   setup() {
     const form = reactive({
       category_id: 1,
-      subcategory_id: null,
+      subcategory_id: '',
       location: "",
       datevalue: null,
+      durationFilter: ["fixed", "flexible"],
+      typeFilter: ["negotiable", "non-negotiable"],
     });
+    const selectedFilters = ref([]);
+    const filter = ref(false);
     const emitter = inject("emitter");
     const category_id = ref(0);
     const viewType = ref("grid");
     const myRef = ref(null);
+
+    onMounted(()=>{
+      const urlParams = new URLSearchParams(window.location.search);
+      let subcategory = urlParams.get("subcategory");
+      let location = urlParams.get("location");
+      let start = urlParams.get("start");
+      let end = urlParams.get("end");
+       if (subcategory && location && start && end) {
+         form.subcategory_id =subcategory
+         form.location = location
+         form.datevalue = [start,end]
+       }
+    })
     emitter.on("getCategory", (data) => {
       category_id.value = data;
       form.category_id = data;
     });
+    function reset(){
+      emitter.emit('reset')
+    }
 
     function sendFilter() {
       emitter.emit("filterData", form);
     }
     function switchView(data) {
-      viewType.value = data
+      viewType.value = data;
       emitter.emit("toggleView", data);
+    }
+    function toggleFilter() {
+      filter.value = !filter.value;
     }
 
     const subcategories = computed(() => {
@@ -188,7 +351,7 @@ export default {
         : subcat.filter((item) => item.category_id == category_id.value);
     });
     const formatter = ref({
-      date: "DD MMM YYYY",
+     date: "dd MMM yyyy",
       month: "MMM",
     });
     return {
@@ -199,6 +362,10 @@ export default {
       form,
       sendFilter,
       switchView,
+      reset,
+      typeFilters,
+      durationFilters,
+      toggleFilter,
     };
   },
   methods: {

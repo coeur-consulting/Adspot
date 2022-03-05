@@ -37,8 +37,11 @@ class ProductResource extends JsonResource
             'subcategory' => $this->subcategory,
             'category_id' => $this->category_id,
             'subcategory_id'=> $this->subcategory_id,
-            'has_bid' => count($this->offers)?$this->handleBids($this->offers):false,
-            'bid_count' => count($this->offers),
+            'offers' => count($this->offers),
+            // 'bid_count' => count($this->offers),
+            'duration_type' => $this->duration_type,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time
         ];
     }
 }

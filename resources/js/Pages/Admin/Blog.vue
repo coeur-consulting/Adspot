@@ -52,7 +52,7 @@ const user = {
 const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Products", href: "/products", current: false },
-   { name: "Orders", href: "/store/orders", current: false },
+  //  { name: "Orders", href: "/store/orders", current: false },
      { name: "News", href: "/admin-news", current: false },
   { name: "Reports", href: "/reports", current: false },
 ];

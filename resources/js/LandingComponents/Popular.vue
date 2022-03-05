@@ -34,9 +34,13 @@
         </div>
         <div class=" p-4 text-left"  >
           <p   class="text-sm truncate text-ellipsis overflow-hidden ...">
-            {{ item.impressions }} Weekly impressions
+            {{ item.impressions.toLocaleString('en-US') }} Weekly impressions
           </p>
           <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
+
+ <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
+            <span>Duration</span> : <span class="text-slate-400 capitalize">{{item.duration_type}}</span>
+          </p>
           <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
             <span>Ad type</span> : <span class="text-slate-400 capitalize">{{item.category.name}}</span>
           </p>
@@ -49,6 +53,9 @@
           <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
             <span>Dimension</span> :
             <span class="text-slate-400">{{item.dimension}}</span>
+          </p>
+            <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
+            <span>Type</span> : <span class="text-slate-400 capitalize">{{item.type}}</span>
           </p>
           <div class="flex flex-col md:flex-row mt-5 justify-between">
             <button
@@ -232,7 +239,7 @@ export default {
       });
     },
     toggleModal(data){
-     
+
       this.product = data
       this.open = !this.open
     }

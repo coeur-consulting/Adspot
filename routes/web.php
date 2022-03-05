@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
@@ -146,9 +147,17 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('view/orders', function () {
             return Inertia::render('Admin/Orders', [
-                    'offers'=> Offer::all()
+                    'orders'=> Order::all()
             ]);
         })->name('orders');
+
+        //Offers start
+        Route::get('offers/{id}', function ($id) {
+            return Inertia::render('Admin/Offers', [
+                'product' => Product::find($id)->load('offers')
+            ]);
+        })->name('offers');
+        Route::post('/handle/offers', [OfferController::class,'handleoffers']);
 
         Route::get('/reports', function () {
             return Inertia::render('Admin/Reports');
@@ -176,7 +185,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
     });
     Route::get('/getfullcart', function () {
-       return auth()->user()->cart->load('product');
+       return auth()->user()->cart->load('product','offer');
 
     });
 
@@ -191,6 +200,7 @@ Route::post('/findspace', [UtilityController::class, 'findspace']);
 Route::get('/categories', [UtilityController::class, 'getcategories']);
 Route::get('/subcategories', [UtilityController::class, 'getsubcategories']);
 Route::get('/get-products', [ProductController::class, 'allproducts']);
+Route::post('/search-inventory', [ProductController::class, 'searchinventory']);
 Route::get('/featured-products', [ProductController::class, 'featuredproducts']);
 Route::get('/get-users', [RegisteredUserController::class, 'getusers']);
 Route::get('/get-admins', [RegisteredUserController::class, 'getvendors']);

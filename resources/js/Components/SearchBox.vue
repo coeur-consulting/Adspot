@@ -11,18 +11,18 @@
         >{{ item.name }}</span
       >
     </div>
-    <form @submit.prevent="postdata" class="bottombox bg-white p-3 flex justify-between items-center w-[80%]">
+    <form @submit.prevent="searchInventory" class="bottombox bg-white p-3 flex justify-between items-center w-[80%]">
       <div class="px-3 ">
         <h6 class="font-bold text-xs">Subcategories</h6>
         <select required v-model="form.subcategory_id" class="border-0 text-[.7rem]  focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize">
-          <option :value="null" disabled>Select a subcategory</option>
+          <option value="" disabled>Select a subcategory</option>
           <option :value="item.id" v-for="item in filteredsubcategories"  :key="item.id">{{item.name}}</option>
         </select>
       </div>
       <div class="px-3  border-l text-white">
         <h6 class="font-bold text-xs">Date</h6>
        <div class="flex">
-    <Datepicker class="text-[.7rem] w-[300px]" required v-model="form.datevalue" range  placeholder="When will the Ad run?"></Datepicker>
+    <Datepicker class="text-[.7rem] w-[300px]" :format="formatter.date" :enableTimePicker="false" required v-model="form.datevalue" range  placeholder="When will the Ad run?"></Datepicker>
   </div>
       </div>
       <div class="px-3 border-l  ">
@@ -49,9 +49,11 @@
             focus:ring-2 focus:ring-inset focus:ring-orange-500
             flex items-center
             relative
-          " :disabled="disabled">
+          " :disabled="disabled"
+          :class="disabled?'bg-orange-300':''"
+          >
 
-        <span class="mr-2 text-white font-bold relative">Search inventory</span> <SearchIcon v-if="!disabled" class="w-3 h-3"/>
+        <span class="mr-2 text-white font-bold relative">{{disabled?'Searching inventory':'Search inventory'}}</span> <SearchIcon v-if="!disabled" class="w-3 h-3"/>
        <span class="flex h-3 w-3 relative" v-if="disabled">
   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-50 opacity-75"></span>
   <span class="relative inline-flex rounded-full h-3 w-3 bg-slate-100"></span>
@@ -81,7 +83,7 @@ components:{
     const myRef = ref(null);
 
     const formatter = ref({
-      date: "DD MMM YYYY",
+      date: "dd MMM yyyy",
       month: "MMM",
     });
 
@@ -100,7 +102,7 @@ components:{
 
       form:{
          category_id:1,
-      subcategory_id: null,
+      subcategory_id: '',
         location:'',
         datevalue:null
       }
@@ -110,6 +112,14 @@ components:{
  this.getcategories()
   },
   methods:{
+      searchInventory(){
+        this.disabled =true
+        let url = `/marketplace?subcategory=${this.form.subcategory_id}&start=${new Date(this.form.datevalue[0])}&end=${new Date(this.form.datevalue[1])}&location=${this.form.location}`
+        setTimeout(()=>{
+          window.location.href = url
+        },2000)
+    },
+
     setCategory(id){
     this.form.category_id = id
     this.active = id
@@ -126,12 +136,7 @@ components:{
         }
       })
     },
-    postdata(){
-    this.disabled=true
-    axios.post('/findspace', this.form).catch(()=>{
-this.disabled = false
-    })
-    }
+
   },
   computed:{
     filteredsubcategories(){

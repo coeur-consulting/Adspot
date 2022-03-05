@@ -27,37 +27,56 @@
           </button>
 </template>
 <script setup>
-import { ref, computed,inject } from "vue";
+import { ref, computed, inject } from "vue";
 import axios from "axios";
 
 const props = defineProps({
   product: {
     type: Object,
   },
+  duration: {
+    type: Number,
+  },
 
   negotiation: {
     type: Number,
   },
-  cart:{
-    type:Array
+  cart: {
+    type: Array,
+  },
+  start:{
+    type:String
+  },
+  end:{
+    type:String
+  },
+  cartId:{
+    type:Number
   }
 });
 
-const emitter = inject("emitter")
+const emitter = inject("emitter");
 function addtocart() {
   let data = {
-    product_id: props.product.id
-    };
+    product_id: props.product.id,
+    duration: props.duration,
+    price: props.negotiation,
+    type:props.product.type,
+    start:props.start,
+    end:props.end,
+    cartId:props.cartId
+  };
+
 
   axios.post("/addtocart", data).then((res) => {
-    if(res.status === 200){
-emitter.emit('addtocart')
+    if (res.status === 200) {
+      emitter.emit("addtocart");
     }
   });
 }
 const incart = computed(() => {
   if (!props.cart.length) return false;
-  return props.cart.some((item) => item.product_id == props.product.id);
+  return props.cart.some((item) => item.product_id == props.product.id && ((item.status=="pending" && item.type =='negotiable')|| (item.status=="success" && item.type =='non-negotiable')));
 });
 </script>
 <style lang="">

@@ -16,9 +16,10 @@ class OfferFailed extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public $detail;
+    public function __construct($detail)
     {
-        //
+        $this->detail = $detail;
     }
 
     /**
@@ -29,7 +30,7 @@ class OfferFailed extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -42,9 +43,11 @@ class OfferFailed extends Notification
     {
         return (new MailMessage)
             ->subject('Bid Fail')
-            ->from('tefzon@gmail.com', 'Adspot')
-            ->greeting('Hello !')
-            ->line('Your offer has been declined')
+            ->from('adspot@gmail.com', 'Adspot')
+            ->greeting('Hello '.$this->detail['name'])
+            ->line($this->detail['body'])
+            ->line('You can proceed to reapply with a better offer if it is still available.')
+            ->action('Re-apply here',$this->detail['url'])
             ->line('Thank you for using our platform!');
     }
 
@@ -57,7 +60,8 @@ class OfferFailed extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'body' => $this->detail['body'],
+            'url' => $this->detail['url']
         ];
     }
 }

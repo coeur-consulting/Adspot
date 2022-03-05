@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -21,16 +22,46 @@ class CartController extends Controller
 
         ]);
 
-     $product = Product::find($request->product_id);
-        $user  = auth()->user();
-        $user->cart()->create([
-            'quantity' => 1,
-            'price'  => $product->price,
-            'total'  => intval($product->price) ,
-            'product_id'  =>  $request->product_id,
+        return DB::transaction(function () use ($request) {
+            $product = Product::find($request->product_id);
+            $user  = auth()->user();
 
-        ]);
-        return response(['message'=>'ok']);
+            $status =  $product->type == 'negotiable' ? 'pending' : 'success';
+            $active =  $product->type == 'negotiable' ? true : false;
+
+            if ($request->has('cartId') && $request->filled('cartId')) {
+                $cart = Cart::find($request->cartId);
+                $cart->price = intval($request->price);
+                $cart->duration = $request->duration;
+                $cart->status = $status;
+                $cart->save();
+            } else {
+                $cart =  $user->cart()->create([
+                    'quantity' => 1,
+                    'price'  => $request->price,
+                    'total'  => intval($request->price),
+                    'product_id'  =>  $request->product_id,
+                    'type' => $product->type,
+                    'duration' => $request->duration,
+                    'status' => $status
+
+                ]);
+            }
+
+
+            $user->offers()->create([
+                'bid_price' => $request->price,
+                'duration' => $request->duration,
+                'product_id' => $request->product_id,
+                'cart_id' => $cart->id,
+                'start' => $request->start,
+                'end' => $request->end,
+                'result' => $status,
+                'status' => $active
+            ]);
+
+            return response(['message' => 'ok']);
+        });
     }
     public function addcart(Request $request)
     {
@@ -55,7 +86,7 @@ class CartController extends Controller
     {
 
 
-            $cart->delete();
+        $cart->delete();
 
         return response('ok');
     }
@@ -86,9 +117,9 @@ class CartController extends Controller
 
         $user = auth()->user();
         $carts = $user->cart()->get();
-         foreach($carts as $cart){
+        foreach ($carts as $cart) {
             $cart->delete();
-         }
+        }
         return response('ok');
     }
 }

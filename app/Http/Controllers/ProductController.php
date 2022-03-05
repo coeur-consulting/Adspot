@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SingleProductResource;
 
@@ -16,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers','category','subcategory')->latest()->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -25,6 +26,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        return $request->all();
 
         $request->validate([
             'name' => 'required',
@@ -52,7 +54,10 @@ class ProductController extends Controller
             'featured' => $request->featured,
             'dimension' => $request->dimension,
             'duration' => $request->duration,
-            'impressions' => $request->impressions
+            'impressions' => $request->impressions,
+            'duration_type' => $request->duration_type,
+            'start_time' => Carbon::parse($request->start_time),
+            'end_time' => Carbon::parse($request->end_time)
 
         ]);
 
@@ -61,7 +66,7 @@ class ProductController extends Controller
     public function allproducts()
     {
 
-        return  ProductResource::collection(Product::with('offers','category','subcategory')->inRandomOrder()->latest()->paginate(30));
+        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->inRandomOrder()->latest()->paginate(30));
     }
 
     public function featuredproducts()
@@ -93,7 +98,7 @@ class ProductController extends Controller
         if ($request->has('impressions') && $request->filled('impressions')) {
             $product->impressions = $request->impressions;
         }
-         if ($request->has('dimension') && $request->filled('dimension')) {
+        if ($request->has('dimension') && $request->filled('dimension')) {
             $product->dimension = $request->dimension;
         }
         if ($request->has('duration') && $request->filled('duration')) {
@@ -121,11 +126,19 @@ class ProductController extends Controller
         if ($request->has('subcategory_id') && $request->filled('subcategory_id')) {
             $product->subcategory_id = $request->subcategory_id;
         }
+        if ($request->has('duration_type') && $request->filled('duration_type')) {
+            $product->duration_type = $request->duration_type;
+        }
+        if ($request->has('start_time') && $request->filled('start_time')) {
+            $product->start_time = Carbon::parse($request->start_time);
+        }
+        if ($request->has('end_time') && $request->filled('end_time')) {
+            $product->end_time = Carbon::parse($request->end_time);
+        }
 
         $product->save();
         $user  = auth()->user();
         return new ProductResource($product->load('offers', 'category', 'subcategory'));
-
     }
 
     public function destroy($id)
@@ -133,7 +146,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $user  = auth()->user();
         $product->delete();
-       return response('ok');
+        return response('ok');
     }
 
     public function searchproducts(Request $request)
@@ -142,11 +155,34 @@ class ProductController extends Controller
 
         if ($request->has('query') && $query) {
 
-            return Product::query()->with('offers','category','subcategory')->whereLike('name', $query)->latest()->paginate(30);
+            return Product::query()->with('offers', 'category', 'subcategory')->whereLike('name', $query)->latest()->paginate(30);
         }
         return response()->json([
             'status' => 'success',
             'message' => 'no product found'
         ]);
+    }
+    public function searchinventory(Request $request)
+    {
+
+        $location = $request->location;
+        $subcategory_id = $request->subcategory_id;
+        $start = Carbon::parse($request->datevalue[0]);
+        $end = Carbon::parse($request->datevalue[1]);
+        $typeFilter = $request->typeFilter;
+        $durationFilter = $request->durationFilter;
+
+        $product = Product::with('subcategory', 'category')
+            ->where(function ($query) use ($start, $end) {
+                $query->where('start_time', '<=', $start)->where('end_time', '>=', $end);
+            })
+            ->where('location', 'LIKE', '%' . $location . '%')
+            ->where('subcategory_id', $subcategory_id)
+            ->whereIn('type', $typeFilter)
+            ->whereIn('duration_type', $durationFilter)
+
+
+            ->paginate(30);
+        return ProductResource::collection($product);
     }
 }
