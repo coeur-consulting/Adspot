@@ -516,16 +516,11 @@ export default {
       },
       start: false,
       files: [],
-      range: {
-        start: null,
-        end: null,
-      },
+
     };
   },
   mounted() {
     this.form = this.$props.product;
-    this.range.start = new Date(this.$props.product.start_time);
-    this.range.end = this.$props.product.end_time;
   },
 
   setup() {
@@ -535,6 +530,7 @@ export default {
     });
     return {
       modelConfig,
+      moment
     };
   },
   watch: {
@@ -544,9 +540,11 @@ export default {
         this.setDuration();
       },
     },
+    'range.start':'setDuration'
   },
   methods: {
     setDuration() {
+
       this.form.duration = this.adDuration;
     },
     handleFileUpload(e) {
@@ -597,7 +595,22 @@ export default {
     },
   },
   computed: {
-    adDuration() {
+    range: {
+      get: function () {
+        let range = {};
+        range.start = this.$props.product.start_time;
+        range.end = this.$props.product.end_time;
+        return range;
+      },
+      set: function (newrange) {
+        this.form.duration =  moment(newrange.end).diff(moment(newrange.start), "days");
+        this.range.start = newrange.start;
+        this.range.end = newrange.end;
+
+      },
+    },
+    adDuration(){
+    console.log('here')
       return moment(this.range.end).diff(moment(this.range.start), "days");
     },
     categories() {
