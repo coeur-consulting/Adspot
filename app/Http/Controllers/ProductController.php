@@ -26,8 +26,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        return $request->all();
-
+       
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -84,6 +83,7 @@ class ProductController extends Controller
 
     public function update(Product $product, Request $request)
     {
+
 
 
         if ($request->has('name') && $request->filled('name')) {
