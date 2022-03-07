@@ -137,9 +137,9 @@ class ProductController extends Controller
             $product->end_time = Carbon::parse($request->end_time);
         }
         $product->end_time = '2022-03-29T00:00:00.000000Z';
-
+         $product->status = true;
         $product->save();
-       
+
         return new ProductResource($product->load('offers', 'category', 'subcategory'));
     }
 

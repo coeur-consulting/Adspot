@@ -606,13 +606,11 @@ export default {
         this.form.duration =  moment(newrange.end).diff(moment(newrange.start), "days");
         this.range.start = newrange.start;
         this.range.end = newrange.end;
-         this.form.start_time = newrange.start;
-        this.form.end_time = newrange.end;
 
       },
     },
     adDuration(){
-
+ 
       return moment(this.range.end).diff(moment(this.range.start), "days");
     },
     categories() {
