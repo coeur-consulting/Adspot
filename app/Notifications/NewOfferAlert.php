@@ -58,7 +58,8 @@ class NewOfferAlert extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'body' => $this->details['body']
+            'body' => $this->details['body'],
+            'type' => 'newoffer'
         ];
     }
 }

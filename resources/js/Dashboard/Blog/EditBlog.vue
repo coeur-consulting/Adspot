@@ -22,6 +22,14 @@
       />
     </div>
 
+      <div class="mt-4 flex">
+
+ <BreezeCheckbox id="status" class="mr-2" v-model="form.status" />
+   <BreezeLabel for="status" value="Status" />
+    </div>
+
+
+
     <div class="mt-4">
       <BreezeLabel for="content" value="Content" />
       <BreezeTextarea
@@ -191,6 +199,7 @@ export default {
         title: "",
         cover: "",
         content: "",
+        status:''
       }),
       cloudinary: {
         uploadPreset: "arudovwen_preset",

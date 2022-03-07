@@ -1,13 +1,49 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-<div class="mb-3">
-  <ul class="breadcrumb text-xs">
-  <li><a href="/dashboard">Dashboard</a></li>
-  <li>Orders</li>
-
-
-</ul>
-</div>
+  <div class="mb-5">
+    <ul class="breadcrumb text-xs">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li>Orders</li>
+    </ul>
+  </div>
+  <div class="flex items-center mb-4">
+        <input
+          placeholder="Search order no"
+          v-model="query"
+          type="search"
+          class="
+            py-2
+            px-4
+            border border-gray-50
+            rounded-lg
+            md:w-[250px]
+            mr-4
+            shadow-sm
+          "
+        />
+        <div class="mr-3 flex">
+          <BreezeCheckbox id="pending" value="pending" class="mr-2" v-model="showStatus" />
+          <BreezeLabel for="pending" value="Pending " />
+        </div>
+        <div class="mr-3 flex">
+          <BreezeCheckbox
+            id="failed"
+            class="mr-2"
+            value="failed"
+            v-model="showStatus"
+          />
+          <BreezeLabel for="failed" value="Failed" />
+        </div>
+        <div class="flex">
+          <BreezeCheckbox
+            id="success"
+            class="mr-2"
+            v-model="showStatus"
+            value="success"
+          />
+          <BreezeLabel for="success" value="Success" />
+        </div>
+      </div>
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -31,6 +67,7 @@
                 >
                   Order no
                 </th>
+
                 <th
                   scope="col"
                   class="
@@ -43,21 +80,7 @@
                     tracking-wider
                   "
                 >
-                  Product name
-                </th>
-                <th
-                  scope="col"
-                  class="
-                    px-6
-                    py-3
-                    text-left text-xs
-                    font-medium
-                    text-gray-500
-                    uppercase
-                    tracking-wider
-                  "
-                >
-                  Quantity
+                  Status
                 </th>
                 <th
                   scope="col"
@@ -88,12 +111,12 @@
                   Total
                 </th>
                 <th scope="col" class="relative py-3">
-                  <span class=" sr-only ">Action</span>
+                  <span class="sr-only">Action</span>
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="order in orders" :key="order.order_no">
+              <tr v-for="order in filteredOrders" :key="order.order_no">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">
@@ -103,13 +126,9 @@
                     </div>
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
-                    {{ order.product.name }}
-                  </div>
-                </td>
+
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ order.quantity }}
+                  {{ order.status }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ currency(order.price) }}
@@ -125,9 +144,7 @@
                 >
                   {{ currency(order.price * order.quantity) }}
                 </td>
-                <td class="
-
-                  ">
+                <td class="">
                   <a href="#" class="text-indigo-600 hover:text-indigo-900"
                     >View</a
                   >
@@ -139,6 +156,35 @@
       </div>
     </div>
   </div>
+
+    <div class="pagination text-center mt-8" v-show="last_page > 1">
+      <span class="flex justify-center items-center">
+        <span
+          ><ArrowCircleLeftIcon
+            :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
+            @click="prev"
+            class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
+        /></span>
+        <input
+          class="
+            form-input
+            w-12
+            py-1
+            px-3
+            text-center
+            border border-orange-700
+            rounded
+          "
+          :disabled="current_page == last_page"
+          v-model="current_page" />
+        <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+        <span
+          ><ArrowCircleRightIcon
+            :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
+            @click="next"
+            class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
+      ></span>
+    </div>
   <!-- This example requires Tailwind CSS v2.0+ -->
 
   <TransitionRoot as="template" :show="open">
@@ -306,7 +352,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref,onMounted , watch, computed} from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -315,22 +361,109 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { ExclamationIcon } from "@heroicons/vue/outline";
-
-import { PlusCircleIcon } from "@heroicons/vue/solid";
+import BreezeCheckbox from "@/Components/Checkbox.vue";
+import BreezeLabel from "@/Components/Label.vue";
+import { PlusCircleIcon,ArrowCircleRightIcon,ArrowCircleLeftIcon } from "@heroicons/vue/solid";
 
 export default {
+  inject: ["currency"],
   setup() {
     const open = ref(false);
+
+    const orders = ref([]);
+    const current_page = ref(1);
+    const last_page = ref(1);
+    const query = ref("");
+
+    const order = ref(null);
+    const showPending =ref(false)
+    const showFailed = ref(false)
+    const showSuccess = ref(false)
+    const showStatus = ref([])
+
+    onMounted(() => {
+      loadorders();
+    });
+    function loadorders() {
+      axios.get(`/get-orders?page=${current_page}`).then((res) => {
+        if (res.status === 200) {
+          orders.value = res.data.data;
+          last_page.value = res.data.last_page;
+        }
+      });
+    }
+     const filteredOrders = computed(() => {
+      let order = orders.value;
+
+      if (showStatus.value.length) {
+        order = order.filter((item) => showStatus.includes(item.status.toLowerCase()));
+      }
+
+      return order;
+    });
+
+    function next() {
+      if (current_page.value == last_page.value) return;
+      current_page.value++;
+    }
+    function prev() {
+      if (current_page.value == 1) return;
+      current_page.value--;
+    }
+
+    function searchorders() {
+      axios.get(`searchorders?query=${query.value}`).then((res) => {
+        if (res.status === 200) {
+          orders.value = res.data.data;
+          last_page.value = res.data.last_page;
+        }
+      });
+    }
+    function getorders(page) {
+      axios.get(`/get-orders?page=${page}`).then((res) => {
+        if (res.status === 200) {
+          orders.value = res.data.data;
+          last_page.value = res.data.last_page;
+        }
+      });
+    }
+
+    function toggleModal(data) {
+      if (data) {
+        order.value = data;
+      }
+
+      open.value = !open.value;
+    }
+
+    watch(current_page, (current_page, prevCurrent_page) => {
+      getorders(current_page);
+    });
+    watch(query, (query, prevQuery) => {
+      if (query === "") {
+        getorders(1);
+      }
+    });
+
     return {
+      orders,
+      last_page,
+      next,
+      prev,
+      query,
+      current_page,
+      searchorders,
+     filteredOrders,
+      toggleModal,
+      order,
       open,
+      showPending,
+      showFailed,
+      showSuccess,
+      showStatus
     };
   },
-   inject: ["emitter","currency"],
-  computed: {
-    orders() {
-      return this.$page.props.offers;
-    },
-  },
+
   components: {
     PlusCircleIcon,
     Dialog,
@@ -339,6 +472,10 @@ export default {
     TransitionChild,
     TransitionRoot,
     ExclamationIcon,
+    ArrowCircleRightIcon,
+    ArrowCircleLeftIcon,
+    BreezeCheckbox,
+    BreezeLabel
   },
 };
 </script>

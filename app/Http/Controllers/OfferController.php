@@ -16,7 +16,7 @@ class OfferController extends Controller
     public function alluseroffers()
     {
         $user = auth()->user();
-        $offers = $user->offers();
+        $offers = $user->offers()->latest()->get();
         return $offers;
     }
 

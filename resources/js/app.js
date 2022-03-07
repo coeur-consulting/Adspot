@@ -6,6 +6,9 @@ import { InertiaProgress } from "@inertiajs/progress";
 import mitt from "mitt";
 import VCalendar from "v-calendar";
 import VueGoogleMaps from '@fawmi/vue-google-maps'
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 
 if (!localStorage.getItem("cartItems")) {
     localStorage.setItem("cartItems", JSON.stringify([]));
@@ -15,7 +18,9 @@ const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
 
 const emitter = mitt();
-
+const options = {
+    // You can set your default options here
+};
  const currencyFormat = (numb)=> {
     var num = Number(numb);
     if (num) {
@@ -37,6 +42,11 @@ createInertiaApp({
         })
             .use(VCalendar, {})
             .use(plugin)
+            .use(VueToast,{
+    // One of the options
+    position: 'top-right',
+  
+})
             .use(VueGoogleMaps, {
                 load: {
                     key: "YOUR_API_KEY_COMES_HERE",

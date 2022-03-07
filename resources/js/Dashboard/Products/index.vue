@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="mb-3">
+  <div class="mb-5">
     <ul class="breadcrumb text-xs">
       <li><a href="/dashboard">Dashboard</a></li>
       <li>Products</li>
@@ -180,6 +180,20 @@
                 >
                   Offers
                 </th>
+                 <th
+                  scope="col"
+                  class="
+                    px-6
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+
+                </th>
                 <th scope="col" class=" px-6
                     py-3
                     text-center text-xs
@@ -265,35 +279,56 @@
                     {{ product.offers }}
                   </div>
                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                  <div
+                    class="
+                      text-sm text-gray-900
+                    "
+                  >
+                    <span
+                  v-if="product.status"
+                     @click="viewoffers(product.id)"
+                    class="mr-3 text-green-600 hover:text-green-900"
+                    >Check offers</span
+                  >
+                  </div>
+                </td>
                 <td
                   class="
                     px-6
                     py-4
                     whitespace-nowrap
-                    text-right text-sm
+                    text-center text-sm
                     font-medium
+                    flex
+                    justify-end
                   "
                 >
-                  <span
-                     @click="viewoffers(product.id)"
-                    class="mr-3 text-green-600 hover:text-green-900"
-                    >Check offers</span
-                  >
+
                    <span
                      @click="toggleModal('view',product)"
                     class="mr-3 text-blue-600 hover:text-blue-900"
-                    >View </span
-                  >
+                    >
+                    <span class="sr-only mr-1">View</span>
+                    <EyeIcon class="w-4 h-4" />
+                     </span>
                   <span
                     @click="toggleModal('edit', product)"
                     class="mr-3 text-yellow-600 hover:text-yellow-900"
-                    >Edit</span
-                  >
+                    >
+                     <span class="sr-only mr-1">Edit</span>
+                    <PencilAltIcon class="w-4 h-4" />
+
+
+                    </span>
                   <span
                     @click="dropProduct(product.id)"
                     class="text-red-600 hover:text-red-900"
-                    >Delete</span
-                  >
+                    >
+                     <span class="sr-only mr-1">Delete</span>
+                    <TrashIcon class="w-4 h-4" />
+
+                    </span>
                 </td>
               </tr>
             </tbody>
@@ -456,6 +491,7 @@ import {
   ExclamationIcon,
   ArrowCircleLeftIcon,
   ArrowCircleRightIcon,
+  EyeIcon, TrashIcon,PencilAltIcon
 } from "@heroicons/vue/outline";
 import CreateProduct from "./CreateProduct";
 import EditProduct from "./EditProduct";
@@ -481,7 +517,8 @@ export default {
     ArrowCircleRightIcon,
     BreezeCheckbox,
     BreezeLabel,
-    ViewProduct
+    ViewProduct,
+     EyeIcon, TrashIcon,PencilAltIcon
   },
   data() {
     return {
@@ -524,12 +561,12 @@ export default {
         current_page.value = 1;
       });
     };
-    function next() {
-      if (current_page == last_page) return;
+   function next() {
+      if (current_page.value == last_page.value) return;
       current_page.value++;
     }
     function prev() {
-      if (current_page == 1) return;
+      if (current_page.value == 1) return;
       current_page.value--;
     }
     function getproducts(page) {

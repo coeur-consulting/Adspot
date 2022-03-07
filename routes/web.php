@@ -4,6 +4,7 @@ use App\Models\Blog;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Offer;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
@@ -18,6 +19,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UtilityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LinkedSocialAccountController;
 use App\Http\Controllers\Auth\RedirectAuthenticatedUserController;
@@ -68,7 +70,7 @@ Route::get('/news', function () {
     return Inertia::render('Blogs', []);
 });
 Route::get('/get/news', function () {
-    return Blog::latest()->paginate(24);
+    return Blog::where('status', 1)->latest()->paginate(24);
 });
 Route::post('/add/news', [BlogController::class, 'store']);
 Route::put('/update/news/{blog}', [BlogController::class, 'update']);
@@ -102,6 +104,21 @@ Route::post('orders', [OrderController::class, 'store']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/redirectAuthenticatedUser', [RedirectAuthenticatedUserController::class, 'home']);
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'getnotifications']);
+    Route::get('/notifications/unread', [NotificationController::class, 'unreadnotifications']);
+    Route::get('/mark/notifications', [NotificationController::class, 'markreadnotifications']);
+    Route::get('/notifications/{id}/mark', [NotificationController::class, 'marksinglenotification']);
+    Route::delete('notifications/delete', [NotificationController::class, 'destroy']);
+    Route::get('/admin/notifications',function(){
+        return Inertia::render('Admin/Notifications', [
+            'notifications' => auth()->user()->notifications
+        ]);
+    });
+
+
+
     //Auth admin routes
     Route::group(['middleware' => 'checkrole:admin'], function () {
         Route::get('/admin-dashboard', function () {
@@ -128,7 +145,7 @@ Route::group(['middleware' => 'auth'], function () {
             ]
         ]);
 
-        Route::resource('admin-news', BlogController::class, [
+        Route::resource('blogs', BlogController::class, [
             'names' => [
                 'index' => 'blogs.index',
                 'store' => 'blogs.store',
@@ -146,12 +163,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         Route::get('view/orders', function () {
-            return Inertia::render('Admin/Orders', [
-                    'orders'=> Order::all()
-            ]);
+            return Inertia::render('Admin/Orders', []);
         })->name('orders');
+        Route::get('/get-orders', [OrderController::class, 'allorders']);
 
         //Offers start
+
         Route::get('offers/{id}', function ($id) {
             return Inertia::render('Admin/Offers', [
                 'product' => Product::find($id)->load('offers')
@@ -205,5 +222,10 @@ Route::get('/featured-products', [ProductController::class, 'featuredproducts'])
 Route::get('/get-users', [RegisteredUserController::class, 'getusers']);
 Route::get('/get-admins', [RegisteredUserController::class, 'getvendors']);
 Route::get('/searchproducts', [ProductController::class, 'searchproducts']);
+
+Route::get('/searchorders', [OrderController::class, 'searchorders']);
+
+
+
 
 require __DIR__ . '/auth.php';

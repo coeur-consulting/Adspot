@@ -1,5 +1,11 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
+<div class="mb-5">
+    <ul class="breadcrumb text-xs">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li>Categories</li>
+    </ul>
+  </div>
   <div class="flex justify-end mb-6">
     <button
       @click="toggleModal('create')"

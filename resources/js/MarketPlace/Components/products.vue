@@ -409,12 +409,12 @@ export default {
       return result;
     };
 
-    function next() {
-      if (current_page == last_page) return;
+   function next() {
+      if (current_page.value == last_page.value) return;
       current_page.value++;
     }
     function prev() {
-      if (current_page == 1) return;
+      if (current_page.value == 1) return;
       current_page.value--;
     }
 
@@ -491,10 +491,7 @@ export default {
           ((item.status == "pending" && item.type == "negotiable") ||
             (item.status == "success" && item.type == "non-negotiable"))
       );
-      console.log(
-        "🚀 ~ file: products.vue ~ line 479 ~ inCart ~ result",
-        result
-      );
+
       return result;
     },
   },

@@ -32,6 +32,7 @@ class CartController extends Controller
             if ($request->has('cartId') && $request->filled('cartId')) {
                 $cart = Cart::find($request->cartId);
                 $cart->price = intval($request->price);
+                $cart->total = intval($request->price);
                 $cart->duration = $request->duration;
                 $cart->status = $status;
                 $cart->save();

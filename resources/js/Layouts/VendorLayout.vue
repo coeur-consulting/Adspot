@@ -45,7 +45,7 @@
                 "
               >
                 <span class="sr-only">View notifications</span>
-                <BellIcon class="h-6 w-6" aria-hidden="true" />
+                <!-- <BellIcon class="h-6 w-6" aria-hidden="true" /> -->
               </button>
 
               <!-- Profile dropdown -->
@@ -193,7 +193,7 @@
               "
             >
               <span class="sr-only">View notifications</span>
-              <BellIcon class="h-6 w-6" aria-hidden="true" />
+              <!-- <BellIcon class="h-6 w-6" aria-hidden="true" /> -->
             </button>
           </div>
           <div class="mt-3 px-2 space-y-1">

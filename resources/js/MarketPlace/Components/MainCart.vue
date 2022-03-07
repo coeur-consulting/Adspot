@@ -92,10 +92,10 @@
            <div class="text-center mt-3 px-5" v-if="pendingtotal">
   <p class="text-white text-sm flex items-center  bg-red-600 p-2 rounded-sm">You  still have pending offers, wait till confirmation or remove them to proceed</p>
 </div>
-           <div class=" p-5 " v-if="total">
+           <div class="p-5" >
 
 
-                      <Paybtn v-if="!pendingtotal" :disabled="pendingtotal" class="mx-auto" :amount="total" :email="$page.props.auth.user.email"/>
+                      <Paybtn :disabled="pendingtotal" :amount="total" :email="$page.props.auth.user.email"/>
            </div>
 
          </div>
@@ -194,6 +194,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
+
 export default {
   components: {
     TrashIcon,
@@ -215,16 +216,22 @@ export default {
   },
   setup() {
     const open = ref(false);
+
     return {
       moment,
       open,
+
     };
   },
   mounted() {
+
     this.getcart();
-     this.emitter.on("addtocart",()=>{
-       this.getcart();
-     });
+    this.emitter.on("addtocart", () => {
+      this.getcart();
+    });
+    //  this.emitter.on("clearcart", () => {
+    //   this.carts=[];
+    // });
   },
   computed: {
     total() {
@@ -266,6 +273,9 @@ export default {
     },
   },
   methods: {
+    resetcart(){
+      this.carts = []
+    },
     reapply(item) {
       this.details = item.product;
       this.details.offer = item.offer;
@@ -275,7 +285,7 @@ export default {
       this.open = !this.open;
     },
     getcart() {
-    //  this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
+      //  this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
       axios.get("/getfullcart").then((res) => {
         this.carts = res.data;
       });

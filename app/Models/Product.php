@@ -52,7 +52,7 @@ class Product extends Model
     }
     public function offers()
     {
-        return $this->hasMany(Offer::class)->with('user');
+        return $this->hasMany(Offer::class)->with('user')->latest();
     }
 
     protected $casts = [

@@ -396,9 +396,9 @@
       </div>
     </div>
     <div class="text-center">
-      <div class="bg-orange-300 p-2 transition ease-in-out" v-if="start">
+      <div class="bg-orange-300 rounded-fulltransition ease-in-out" v-if="start">
         <svg
-          class="animate-spin mx-auto h-6 w-6 text-white"
+          class="animate-spin mx-auto h-8 w-8 text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -550,7 +550,7 @@ export default {
 
   methods: {
     setDuration() {
-      
+
       this.form.duration = this.adDuration;
     },
     handleFileUpload(e) {

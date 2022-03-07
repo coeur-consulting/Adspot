@@ -1,5 +1,11 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
+<div class="mb-5">
+    <ul class="breadcrumb text-xs">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li>News</li>
+    </ul>
+  </div>
   <div class="flex justify-end mb-6">
     <div class="flex justify-between mb-3 w-full">
       <div class="flex items-center">
@@ -17,10 +23,7 @@
             shadow-sm
           "
         />
-        <div class="mr-3 flex">
-          <BreezeCheckbox id="featured" class="mr-2" v-model="showFeatured" />
-          <BreezeLabel for="featured" value="Featured " />
-        </div>
+
         <div class="mr-3 flex">
           <BreezeCheckbox id="active" class="mr-2" v-model="showStatus" />
           <BreezeLabel for="active" value="Inactive" />
@@ -48,7 +51,7 @@
           "
         >
           <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
-          <span class="text-white">Add blog</span>
+          <span class="text-white">Add news</span>
         </button>
       </div>
     </div>
@@ -119,13 +122,36 @@
                 >
                   Status
                 </th>
-                <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Edit</span>
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  <span class="">Toggle Status</span>
+                </th>
+                <th
+                  scope="col"
+                  class="
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  <span class="sr-only">Action</span>
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(item, index) in blogs" :key="item.id">
+              <tr v-for="(item, index) in filteredBlogs" :key="item.id">
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ index + 1 }}
                 </td>
@@ -174,7 +200,39 @@
                       ...
                     "
                   >
-                    {{ item.status }}
+                    {{ item.status ? "Active" : "Inactive" }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex justify-center">
+                    <div class="form-check form-switch">
+                      <input
+                        class="
+                          form-check-input
+                          appearance-none
+                          w-9
+                          -ml-10
+                          rounded-full
+                          float-left
+                          h-5
+                          align-top
+                          bg-white bg-no-repeat bg-contain bg-gray-300
+                          focus:outline-none
+                          cursor-pointer
+                          shadow-sm
+                        "
+                        @change="updatestatus(item.id, item.status)"
+                        :checked="item.status?true:false"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                      />
+                      <!-- <label
+                        class="form-check-label inline-block text-gray-800"
+                        for="flexSwitchCheckDefault"
+                        >Default switch checkbox input</label
+                      > -->
+                    </div>
                   </div>
                 </td>
 
@@ -365,6 +423,8 @@ import { usePage } from "@inertiajs/inertia-vue3";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeCheckbox from "@/Components/Checkbox.vue";
 import BreezeLabel from "@/Components/Label.vue";
+import { Switch } from "@headlessui/vue";
+
 export default {
   inject: ["emitter", "currency"],
   components: {
@@ -381,6 +441,7 @@ export default {
     ArrowCircleRightIcon,
     BreezeCheckbox,
     BreezeLabel,
+    Switch,
   },
   data() {
     return {
@@ -394,15 +455,15 @@ export default {
     const current_page = ref(1);
     const showFeatured = ref(false);
     const showStatus = ref(false);
-    const showNonnegotiable = ref(false);
     const last_page = ref(1);
+    const enabled = ref(false);
     blogs.value = usePage().props.value.blogs.data;
     last_page.value = usePage().props.value.blogs.last_page;
-    // const filteredBlogs = computed(()=>{
-    //   let blogs =  blogs.value
-
-    //  return blogs
-    // })
+    const filteredBlogs = computed(() => {
+      return showStatus.value
+        ? blogs.value.filter((item) => !item.status)
+        : blogs.value;
+    });
     const searchBlogs = () => {
       if (!query.value) {
         blogs.value = usePage().props.value.blogs.data;
@@ -414,12 +475,12 @@ export default {
         current_page.value = 1;
       });
     };
-    function next() {
-      if (current_page == last_page) return;
+   function next() {
+      if (current_page.value == last_page.value) return;
       current_page.value++;
     }
     function prev() {
-      if (current_page == 1) return;
+      if (current_page.value == 1) return;
       current_page.value--;
     }
     function getblogs(page) {
@@ -448,12 +509,29 @@ export default {
       prev,
       query,
       current_page,
-      //filteredBlogs,
+      filteredBlogs,
       showStatus,
       showFeatured,
+      enabled,
     };
   },
   methods: {
+    updatestatus(id, value) {
+
+      axios
+        .put(this.route("blogs.update", id), { status: !value })
+        .then((res) => {
+          if (res.status === 200) {
+            this.blogs = this.blogs.slice().map((item) => {
+              if (item.id == id) {
+                item.status = res.data.status;
+              }
+              return item;
+            });
+          }
+        });
+    },
+
     toggleModal(val, blog) {
       this.open = !this.open;
       this.type = val;

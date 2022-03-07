@@ -422,13 +422,16 @@ export default {
     };
     onMounted(() => {
       if (usePage().props.value.auth.user) {
-        
+
         getcart();
       }
 
       emitter.on("addtocart", (data) => {
         getcart();
       });
+       emitter.on("clearcart", () => {
+      cart.value=0;
+    });
     });
     return {
       callsToAction,

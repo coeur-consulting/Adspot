@@ -1,4 +1,5 @@
 <template>
+
   <div
     class="bg-white h-full relative px-3 py-4 md:px-0 md:py-0"
     v-if="product"
@@ -184,7 +185,7 @@ export default {
       toggleModal,
       product,
       moment,
-     
+
     };
   },
 

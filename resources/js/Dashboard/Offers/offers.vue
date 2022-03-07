@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="mb-3">
+  <div class="mb-5">
     <ul class="breadcrumb text-xs">
       <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/products">Products</a></li>

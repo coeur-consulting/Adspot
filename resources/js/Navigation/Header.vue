@@ -30,8 +30,7 @@
                 right-[8px]
                 rounded-md
                 bg-orange-500
-                text-white
-                text-xs
+                text-white text-xs
               "
               >{{ cart }}</span
             >
@@ -77,7 +76,6 @@
           </a>
         </PopoverGroup>
         <div class="hidden lg:flex items-center justify-end">
-
           <a
             v-if="!$page.props.auth.user"
             href="/login"
@@ -163,7 +161,7 @@
               </BreezeDropdown>
             </div>
           </div>
-           <span class="px-3 py-2 relative" @click="open = !open"
+          <span class="px-3 py-2 relative" @click="open = !open"
             ><ShoppingCartIcon class="w-6 h-6 text-white" />
             <span
               v-if="cart"
@@ -174,8 +172,7 @@
                 right-[8px]
                 rounded-md
                 bg-orange-500
-                text-xs
-                text-white
+                text-xs text-white
               "
               >{{ cart }}</span
             >
@@ -218,7 +215,11 @@
           <div class="pt-5 pb-6 px-5">
             <div class="flex items-center justify-between">
               <div>
-                <img class="h-8 w-auto" src="/images/logo-orange.png" alt="adspot" />
+                <img
+                  class="h-8 w-auto"
+                  src="/images/logo-orange.png"
+                  alt="adspot"
+                />
               </div>
               <div class="-mr-2">
                 <PopoverButton
@@ -264,7 +265,6 @@
           </div>
           <div class="py-6 px-5 space-y-6">
             <div class="grid grid-cols-2 gap-y-4 gap-x-8">
-
               <a
                 v-for="item in resources"
                 :key="item.name"
@@ -336,20 +336,18 @@ import {
   PopoverPanel,
 } from "@headlessui/vue";
 import {
-
   MenuAlt3Icon,
   PhoneIcon,
   PlayIcon,
-
   ShoppingCartIcon,
   XIcon,
 } from "@heroicons/vue/solid";
 import { ChevronDownIcon } from "@heroicons/vue/solid";
 import Cart from "@/MarketPlace/Components/cart";
-import { ref,onMounted, computed, watch, inject, reactive} from "vue";
+import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
-import { Link,usePage } from "@inertiajs/inertia-vue3";
+import { Link, usePage } from "@inertiajs/inertia-vue3";
 const callsToAction = [
   { name: "Watch Demo", href: "#", icon: PlayIcon },
   { name: "Contact Sales", href: "#", icon: PhoneIcon },
@@ -406,29 +404,31 @@ export default {
   setup() {
     const open = ref(false);
     const cart = ref(null);
-    const emitter = inject("emitter")
-    const getcart = ()=>{
-      axios.get('/getcart').then(res=>{
-         cart.value = res.data.count;
+    const emitter = inject("emitter");
+    const getcart = () => {
+      axios.get("/getcart").then((res) => {
+        cart.value = res.data.count;
         emitter.emit("getcart", res.data.cart);
-      })
-    }
-    onMounted(()=>{
-      if(usePage().props.value.auth.user){
-     
-getcart()
+      });
+    };
+    onMounted(() => {
+      if (usePage().props.value.auth.user) {
+        getcart();
       }
 
       emitter.on("addtocart", (data) => {
-      getcart()
+        getcart();
+      });
+      emitter.on("clearcart", () => {
+      cart.value=0;
     });
-    })
+    });
     return {
       callsToAction,
       resources,
       recentPosts,
       open,
-      cart
+      cart,
     };
   },
   data() {
@@ -468,9 +468,9 @@ nav {
           border-color: orange;
         }
       }
-       &.active::before {
-          border-color: orange;
-        }
+      &.active::before {
+        border-color: orange;
+      }
     }
   }
 }

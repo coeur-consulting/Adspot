@@ -9,7 +9,7 @@
 
         <h1
           class="text-xl md:text-3xl font-bold text-gray-900"
-          v-if="$page.url === '/admin-news'"
+          v-if="$page.url === '/blogs'"
         >
           News
         </h1>
@@ -53,7 +53,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Products", href: "/products", current: false },
   //  { name: "Orders", href: "/store/orders", current: false },
-     { name: "News", href: "/admin-news", current: false },
+     { name: "News", href: "/blogs", current: false },
   { name: "Reports", href: "/reports", current: false },
 ];
 const userNavigation = [

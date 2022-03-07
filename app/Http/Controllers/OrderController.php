@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
+    public $api_key;
+    public function __construct()
+    {
+    $this->api_key = config('services.paystack.key');
+    }
     public function generateUniqueCode()
     {
         $code = null;
@@ -23,125 +28,81 @@ class OrderController extends Controller
 
         return $code;
     }
-    public function index()
+    public function allorders()
     {
+        return Order::latest()->paginate(20);
     }
 
     public function store(Request $request)
     {
-        return $request->all();
+
         return  DB::transaction(function () use ($request) {
-            $user = User::firstOrNew(
-                ['email', $request->email],
-                [
-                    'name' => $request->name,
-                    'address' => $request->address,
-                    'city' => $request->city,
-                    'state' =>  $request->state,
-                    'phone_no' =>  $request->phone,
-                    'country' =>  $request->country,
-                    'password' =>Hash::make('default'),
 
-                ]
+            $user = auth()->user();
 
-            );
-            $user->save();
 
-            $usercart = $request->cartItems;
+            $usercart = $user->cart()->get();
+            $total = $usercart->map(function ($a) {
+                return $a->price;
+            })->reduce(function ($a, $b) {
+                return $a + $b;
+            });
+
 
             $order = new Order();
             $order->order_no = $this->generateUniqueCode();
             $order->status = 'pending';
-            $order->total_amount = $request->total;
+            $order->total = $total;
             $order->tax = 0;
-            $order->commission = 0;
-            $order->shipping_charges = 0;
-            $order->promo = $request->promo;
-            $order->discount = 0;
-            $order->grand_total = $request->total;
-            $order->user_id = $user->id;
 
+
+            $order->user_id = $user->id;
             $order->save();
 
             $mappedcart = collect($usercart)->map(function ($a) use ($order) {
-                $a['product_id'] = $a['id'];
+
                 $a['order_no'] = $order->order_no;
                 $a['order_id'] = $order->id;
-                $a['subtotal'] = $order->quantity * $order->price;
+
                 return $a;
             });
 
-            $order->orderhistories()->createMany($mappedcart);
-            $order->storeorder()->createMany($mappedcart);
-
-            $orderinfo =    $order->orderinfo()->create([
-                'user_id' => $user->id,
-                'firstName' => $request->name,
-                'lastName' => $request->name,
-                'shipping_method' => 'standard',
-                'shipping_address' => $request->address,
-                'pickup_location' => $request->pickup_location,
-                'email' => $user->email,
-                'city' => $request->city,
-                'state' => $request->state,
-                'phoneNumber' => $request->phone,
-                'extra_instruction' => $request->extra_instruction,
-                'payment_method' => 'online'
-            ]);
-
-            //update user profile here
-            $user->address = $request->address;
-            $user->city = $request->city;
-            $user->state =  $request->state;
-            $user->phone_no =  $request->phone;
-            $user->country =  $request->country;
-            $user->save();
-
-
-
-
-            // &source_amount=2
-            //   &order_number=1
-            //   & currency=BTC
-            //   &email=customer@adspot.co
-            //   &order_name=btc1
-            //   &api_key=SECRET_KEY
-            $amount = $request->total;
-            $apikey = '3EED-2398-ADK';
-            $response =   Http::get('https://adspot.co/api/create-invoice', [
-                'source_amount' => $amount,
-                'order_number' => $order->order_no,
-                'currency' => $request->currency,
-                'email' => $user->email,
-                'order_name' => 'order_name',
-                'api_key' => $apikey,
-                'callback_url' => 'http://localhost:3000/transaction'
-            ]);
-            if ($response['status'] === 'success') {
-                $txn_id = $response['data']['txn_id'];
-                $url = $response['data']['invoice_url'];
-            } else {
-                return response($response['data']['message'], 400);
-            }
+            $order->orderhistories()->createMany($mappedcart->toArray());
 
             $payment = $user->payments()->create([
-                'type' => 'crypto',
+                'type' => 'online',
                 'reference' => $order->order_no,
-                'amount' => $amount,
+                'amount' => $total,
                 'status' => 'pending',
-                'transactionRef' =>  $txn_id,
-                'mesaage' =>  'Awaiting payment'
+                'transactionRef' =>  $request->reference,
+                'message' =>  'Awaiting payment'
 
             ]);
-            return response([
 
-                'url' => $url
-            ], 200);
+            return $this->paystackverify($request->reference);
+
         });
     }
 
     public function update(Order $order, Request $request)
     {
+    }
+    public function paystackverify($ref)
+    {
+
+          $response =  Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->api_key,
+        ])->get(
+            'https://api.paystack.co/transaction/verify/' . $ref
+        );
+        if ($response->json()['status'] && strtolower($response->json()['message']) == 'verification successful') {
+               return $this->verify($ref);
+
+        }else{
+            return response([
+                'status' =>false
+            ]);
+        }
     }
 
     public function verify($txn_id)
@@ -151,11 +112,28 @@ class OrderController extends Controller
         $payment->message = 'successful';
         $payment->save();
         $order = Order::where('order_no', $payment->reference)->first();
-        $items = OrderHistory::where('order_id', $order->id)->count();
+        $order->status = "paid";
+        $order->save();
+
         return  [
+              'status' =>true,
             'order' => $order,
             'payment' => $payment,
-            'items' => $items
+
         ];
+    }
+
+    public function searchorders(Request $request)
+    {
+        $query = $request->query('query');
+
+        if ($request->has('query') && $query) {
+
+            return Order::query()->whereLike('order_no', $query)->latest()->paginate(30);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'no product found'
+        ]);
     }
 }

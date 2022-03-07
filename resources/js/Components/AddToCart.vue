@@ -57,6 +57,8 @@ const props = defineProps({
 
 const emitter = inject("emitter");
 function addtocart() {
+
+
   let data = {
     product_id: props.product.id,
     duration: props.duration,
@@ -71,13 +73,16 @@ function addtocart() {
   axios.post("/addtocart", data).then((res) => {
     if (res.status === 200) {
       emitter.emit("addtocart");
+
     }
   });
 }
+ 
 const incart = computed(() => {
   if (!props.cart.length) return false;
   return props.cart.some((item) => item.product_id == props.product.id && ((item.status=="pending" && item.type =='negotiable')|| (item.status=="success" && item.type =='non-negotiable')));
 });
+
 </script>
 <style lang="">
 </style>
