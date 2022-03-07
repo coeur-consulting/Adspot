@@ -590,7 +590,7 @@ export default {
       axios
         .post(this.route("products.store"), this.form)
         .then((res) => {
-          if (res.status === 200) {
+          if (res.status === 201) {
             this.files = [];
             this.$emit("updatepage", res.data);
             this.form.reset(

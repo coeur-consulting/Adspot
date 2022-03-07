@@ -30,7 +30,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-         
+
 
             'price' => 'required',
             'category_id' => 'required',
@@ -56,7 +56,8 @@ class ProductController extends Controller
             'impressions' => $request->impressions,
             'duration_type' => $request->duration_type,
             'start_time' => Carbon::parse($request->start_time),
-            'end_time' => Carbon::parse($request->end_time)
+            'end_time' => Carbon::parse($request->end_time),
+            'status' => true
 
         ]);
 
@@ -135,9 +136,10 @@ class ProductController extends Controller
         if ($request->has('end_time') && $request->filled('end_time')) {
             $product->end_time = Carbon::parse($request->end_time);
         }
+        $product->end_time = '2022-03-29T00:00:00.000000Z';
 
         $product->save();
-        $user  = auth()->user();
+       
         return new ProductResource($product->load('offers', 'category', 'subcategory'));
     }
 
