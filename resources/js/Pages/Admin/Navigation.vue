@@ -32,6 +32,7 @@
         </div>
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
+            <!-- Notiifcations dropdown -->
             <Popover v-slot="{ openNotification }" class="relative">
               <PopoverButton
                 :class="openNotification ? '' : 'text-opacity-90'"
@@ -50,11 +51,24 @@
                 "
               >
                 <span class="sr-only">View notifications</span>
-               <span class="relative">
+                <span class="relative">
                   <BellIcon class="h-6 w-6" aria-hidden="true" />
-
-               </span>
-                <span class="py-[.01rem] px-1 text-xs bg-red-500 text-white absolute top-[-1px] right-[-1px] rounded-lg" v-if="unreadnotifications">{{unreadnotifications}}</span>
+                </span>
+                <span
+                  class="
+                    py-[.01rem]
+                    px-1
+                    text-xs
+                    bg-red-500
+                    text-white
+                    absolute
+                    top-[-1px]
+                    right-[-1px]
+                    rounded-lg
+                  "
+                  v-if="unreadnotifications"
+                  >{{ unreadnotifications }}</span
+                >
               </PopoverButton>
 
               <transition
@@ -68,7 +82,7 @@
                 <PopoverPanel
                   class="
                     absolute
-                    z-10
+                    z-40
                     w-[300px]
                     max-w-sm
                     p-4
@@ -92,7 +106,13 @@
                         :key="item.name"
                         class="border-b py-2 cursor-pointer"
                       >
-                        <p class="text-sm mb-2" :class="item.read_at?'':'font-extrabold'" @click="readNow(item)">{{ item.data.body }}</p>
+                        <p
+                          class="text-sm mb-2"
+                          :class="item.read_at ? '' : 'font-extrabold'"
+                          @click="readNow(item)"
+                        >
+                          {{ item.data.body }}
+                        </p>
 
                         <div class="text-right">
                           <p class="text-xs">
@@ -101,17 +121,17 @@
                         </div>
                       </li>
                     </ul>
-                    <hr>
+                    <hr />
 
                     <div class="text-center">
-                     <Link href="/admin/notifications"> <span class="text-xs mx-auto">View all</span></Link>
+                      <Link href="/admin/notifications">
+                        <span class="text-xs mx-auto">View all</span></Link
+                      >
                     </div>
                   </div>
                 </PopoverPanel>
               </transition>
             </Popover>
-
-            <!-- Notiifcations dropdown -->
 
             <!-- Profile dropdown -->
             <Menu as="div" class="ml-3 relative">
@@ -132,7 +152,7 @@
                   "
                 >
                   <span class="sr-only">Open user menu</span>
-                 <UserCircleIcon class="w-8 h-8" />
+                  <UserCircleIcon class="w-8 h-8" />
                 </MenuButton>
               </div>
               <transition
@@ -301,8 +321,13 @@ import {
   MenuItems,
 } from "@headlessui/vue";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-import { BellIcon, MenuIcon, XIcon,UserCircleIcon } from "@heroicons/vue/outline";
-import { Link } from "@inertiajs/inertia-vue3";
+import {
+  BellIcon,
+  MenuIcon,
+  XIcon,
+  UserCircleIcon,
+} from "@heroicons/vue/outline";
+import { Link, usePage } from "@inertiajs/inertia-vue3";
 import Index from "@/Dashboard/index";
 import Products from "@/Dashboard/Products/index";
 import Orders from "@/Dashboard/orders";
@@ -343,31 +368,42 @@ export default {
     Popover,
     PopoverButton,
     PopoverPanel,
-    UserCircleIcon
+    UserCircleIcon,
   },
   setup() {
     const openNotification = ref(false);
     const notifications = ref([]);
-    const unreadnotifications = ref(0)
+    const unreadnotifications = ref(0);
     function getnotifications() {
       axios.get("/notifications").then((res) => {
-       if(res.status=== 200){
+        if (res.status === 200) {
           notifications.value = res.data;
-        unreadnotifications.value =  notifications.value.filter(item=>!item.read_at).length
-
-       }
+          unreadnotifications.value = notifications.value.filter(
+            (item) => !item.read_at
+          ).length;
+        }
       });
     }
-    function readNow(item){
+    function readNow(item) {
       axios.get(`/notifications/${item.id}/mark`).then((res) => {
-        if(res.status === 200){
-          window.location.href=item.data.url
+        if (res.status === 200) {
+          window.location.href = item.data.url;
         }
-
-      })
+      });
     }
     onMounted(() => {
-      getnotifications();
+
+      if (usePage().props.value.auth.user) {
+        getnotifications();
+
+      }
+      //Join and listen for events
+      Echo.private('App.Models.User.' + usePage().props.value.auth.user.id)
+     .notification((notification) => {
+
+        notifications.value.unshift(notification)
+        unreadnotifications.value++
+    });
     });
     return {
       readNow,

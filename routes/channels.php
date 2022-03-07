@@ -18,10 +18,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user) {
 });
 
 
-Broadcast::channel('notification', function ($user) {
+Broadcast::channel('notifications', function ($user) {
     return  $user;
 });
-Broadcast::channel('offer', function ($user) {
+
+Broadcast::channel('offers', function ($user) {
     return  $user;
 });
 

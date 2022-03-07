@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Offer;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Events\NewNotification;
 use App\Notifications\OfferFailed;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\OfferSuccess;
@@ -29,6 +30,7 @@ class OfferController extends Controller
 
         $user = auth()->user();
         $offer = $user->offers()->create($request->all());
+
         return $offer;
     }
 
@@ -71,7 +73,7 @@ class OfferController extends Controller
                     $data = [
                         'name' => $user->name,
                         'body' => 'Your offer for the space, ' . ucfirst($offer->product->name) . ' with a bid of NGN' . $offer->bid_price . ' has been declined',
-                        'url' => 'http://localhost:3000/cart'
+                        'url' => url('').'/cart'
                     ];
                     $offer->result = 'failed';
                     $user->notify(new OfferFailed($data));
@@ -84,6 +86,7 @@ class OfferController extends Controller
             }
             $product->status = false;
             $product->save();
+          
             return $offers;
         });
     }
@@ -96,7 +99,7 @@ class OfferController extends Controller
             $data = [
                 'name' => $user->name,
                 'body' => 'Your offer for the space, ' . ucfirst($offer->product->name) . ' with a bid of NGN' . $offer->bid_price . ' has been declined.',
-                'url' => 'http://localhost:3000/cart'
+                'url' => url('').'/cart'
             ];
 
             $user->notify(new OfferFailed($data));
@@ -105,6 +108,7 @@ class OfferController extends Controller
             $cart = Cart::find($offer->cart_id);
             $cart->status = 'success';
             $cart->save();
+
 
             return $offer;
        });

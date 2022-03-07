@@ -76,6 +76,114 @@
           </a>
         </PopoverGroup>
         <div class="hidden lg:flex items-center justify-end">
+          <!-- Notiifcations dropdown -->
+          <Popover
+            v-slot="{ openNotification }"
+            class="relative"
+            v-if="$page.props.auth.user"
+          >
+            <PopoverButton
+              :class="openNotification ? '' : 'text-opacity-90'"
+              class="
+                bg-gray-800
+                p-1
+                rounded-full
+                text-white
+                hover:text-gray-400
+                focus:outline-none
+                focus:ring-2
+                focus:ring-offset-2
+                focus:ring-offset-gray-800
+                focus:ring-white
+                relative
+              "
+            >
+              <span class="sr-only">View notifications</span>
+              <span class="relative">
+                <BellIcon
+                  class="h-6 w-6 text-white hover:text-gray-400"
+                  aria-hidden="true"
+                />
+              </span>
+              <span
+                class="
+                  py-[.01rem]
+                  px-1
+                  text-xs
+                  bg-red-500
+                  text-white
+                  absolute
+                  top-[-1px]
+                  right-[-1px]
+                  rounded-lg
+                "
+                v-if="unreadnotifications"
+                >{{ unreadnotifications }}</span
+              >
+            </PopoverButton>
+
+            <transition
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="translate-y-1 opacity-0"
+              enter-to-class="translate-y-0 opacity-100"
+              leave-active-class="transition duration-150 ease-in"
+              leave-from-class="translate-y-0 opacity-100"
+              leave-to-class="translate-y-1 opacity-0"
+            >
+              <PopoverPanel
+                class="
+                  absolute
+                  z-40
+                  w-[300px]
+                  max-w-sm
+                  p-4
+                  mt-3
+                  right-0
+                  sm:px-0
+                  lg:max-w-sm
+                  bg-white
+                  rounded-lg
+                  shadow-lg
+                  ring-1 ring-black ring-opacity-5
+                  py-4
+                "
+              >
+                <div class="overflow-hidden">
+                  <h6 class="mb-2 font-black px-4">Notifications</h6>
+                  <hr />
+                  <ul class="px-4 max-h-[450px] overflow-auto">
+                    <li
+                      v-for="item in notifications"
+                      :key="item.name"
+                      class="border-b py-2 cursor-pointer"
+                    >
+                      <p
+                        class="text-sm mb-2"
+                        :class="item.read_at ? '' : 'font-extrabold'"
+                        @click="readNow(item)"
+                      >
+                        {{ item.data.body }}
+                      </p>
+
+                      <div class="text-right">
+                        <p class="text-xs">
+                          {{ moment(item.created_at).fromNow() }}
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                  <hr />
+
+                  <div class="text-center">
+                    <Link href="/my/notifications">
+                      <span class="text-xs mx-auto">View all</span></Link
+                    >
+                  </div>
+                </div>
+              </PopoverPanel>
+            </transition>
+          </Popover>
+
           <a
             v-if="!$page.props.auth.user"
             href="/login"
@@ -102,7 +210,7 @@
             SIGN IN
           </a>
           <div
-            class="hidden sm:flex sm:items-center sm:ml-6"
+            class="hidden sm:flex sm:items-center sm:ml-3"
             v-if="$page.props.auth.user"
           >
             <!-- Settings Dropdown -->
@@ -342,12 +450,13 @@ import {
   ShoppingCartIcon,
   XIcon,
 } from "@heroicons/vue/solid";
-import { ChevronDownIcon } from "@heroicons/vue/solid";
+import { ChevronDownIcon, BellIcon } from "@heroicons/vue/solid";
 import Cart from "@/MarketPlace/Components/cart";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeDropdown from "@/Components/Dropdown.vue";
 import BreezeDropdownLink from "@/Components/DropdownLink.vue";
 import { Link, usePage } from "@inertiajs/inertia-vue3";
+import moment from "moment";
 const callsToAction = [
   { name: "Watch Demo", href: "#", icon: PlayIcon },
   { name: "Contact Sales", href: "#", icon: PhoneIcon },
@@ -400,8 +509,31 @@ export default {
     BreezeDropdown,
     BreezeDropdownLink,
     Link,
+    BellIcon,
   },
+
   setup() {
+    const openNotification = ref(false);
+    const notifications = ref([]);
+    const unreadnotifications = ref(0);
+    function getnotifications() {
+      axios.get("/notifications").then((res) => {
+        if (res.status === 200) {
+          notifications.value = res.data;
+          unreadnotifications.value = notifications.value.filter(
+            (item) => !item.read_at
+          ).length;
+        }
+      });
+    }
+    function readNow(item) {
+      axios.get(`/notifications/${item.id}/mark`).then((res) => {
+        if (res.status === 200) {
+          window.location.href = item.data.url;
+        }
+      });
+    }
+
     const open = ref(false);
     const cart = ref(null);
     const emitter = inject("emitter");
@@ -412,16 +544,23 @@ export default {
       });
     };
     onMounted(() => {
+       Echo.private('App.Models.User.' + usePage().props.value.auth.user.id)
+     .notification((notification) => {
+      
+        notifications.value.unshift(notification)
+        unreadnotifications.value++
+    });
       if (usePage().props.value.auth.user) {
         getcart();
+        getnotifications();
       }
 
       emitter.on("addtocart", (data) => {
         getcart();
       });
       emitter.on("clearcart", () => {
-      cart.value=0;
-    });
+        cart.value = 0;
+      });
     });
     return {
       callsToAction,
@@ -429,6 +568,12 @@ export default {
       recentPosts,
       open,
       cart,
+      readNow,
+      unreadnotifications,
+      openNotification,
+
+      notifications,
+      moment,
     };
   },
   data() {

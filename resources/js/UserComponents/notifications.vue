@@ -1,21 +1,21 @@
 <template lang="">
 <div class="mb-3">
   <ul class="breadcrumb text-xs">
-  <li><a href="/dashboard">Dashboard</a></li>
+  <li><a href="/">Home</a></li>
   <li>Notifications</li>
 
 
 </ul>
 </div>
- <div class="py-10">
-    <div class="container mx-auto ">
+ <div class="py-10 mb-10">
+    <div class="container mx-auto lg:max-w-[70%]">
     <!-- <h4 class="font-black mb-5">Notifications</h4> -->
     <!-- <hr> -->
     <div class="px-4 py-2 flex justify-end">
       <span @click="markAsRead">Mark all as read</span>
     </div>
          <div class="bg-white rounded-lg">
-            <ul class="max-h-[80vh] overflow-auto">
+             <ul class="max-h-[80vh] overflow-auto">
                       <li
                         v-for="item in notifications"
                         :key="item.name"

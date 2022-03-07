@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewNotification
+class NewNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,6 +19,7 @@ class NewNotification
      *
      * @return void
      */
+    public $afterCommit = true;
     public function __construct()
     {
         //
@@ -31,6 +32,6 @@ class NewNotification
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('notifications');
     }
 }

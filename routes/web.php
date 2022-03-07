@@ -118,6 +118,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
+    Route::get('/my/notifications', function () {
+        return Inertia::render('Notifications', [
+            'notifications' => auth()->user()->notifications
+        ]);
+    });
+
+
 
     //Auth admin routes
     Route::group(['middleware' => 'checkrole:admin'], function () {

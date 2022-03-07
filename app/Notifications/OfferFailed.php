@@ -3,11 +3,12 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class OfferFailed extends Notification
+class OfferFailed extends Notification  implements ShouldQueue
 {
     use Queueable;
 
@@ -63,5 +64,14 @@ class OfferFailed extends Notification
             'body' => $this->detail['body'],
             'url' => $this->detail['url']
         ];
+    }
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => ['body' => $this->data['body'], 'url' => $this->data['url'],],
+            'type' => 'newoffer',
+            'url' => $this->data['url'],
+            'read_at' => null
+        ]);
     }
 }

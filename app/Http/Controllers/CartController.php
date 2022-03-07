@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Events\NewNotification;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NewOfferAlert;
 
 class CartController extends Controller
 {
@@ -15,8 +18,9 @@ class CartController extends Controller
     }
     public function addtocart(Request $request)
     {
-        $request->validate([
 
+
+        $request->validate([
 
             'product_id'  => 'required',
 
@@ -50,7 +54,7 @@ class CartController extends Controller
             }
 
 
-            $user->offers()->create([
+          $offer =  $user->offers()->create([
                 'bid_price' => $request->price,
                 'duration' => $request->duration,
                 'product_id' => $request->product_id,
@@ -61,11 +65,26 @@ class CartController extends Controller
                 'status' => $active
             ]);
 
+
+            //if($product->type=='negotiable'){
+                //Notify admin
+                $admin = User::where('is_admin', 1)->first();
+                $data = [
+                    'body' => 'There are new offers for ' . ucfirst($product->name),
+                    'url' => url('') . '/offers/' . $product->id, $product,
+                    'read_at'=> null
+                ];
+                $admin->notify(new NewOfferAlert($data));
+
+           // }
+
+
             return response(['message' => 'ok']);
         });
     }
     public function addcart(Request $request)
     {
+
         $user  = auth::user();
         $cart = Cart::where('user_id', $user->id)->where('product_id', $request->product_id)->first();
         if (!is_null($cart)) {

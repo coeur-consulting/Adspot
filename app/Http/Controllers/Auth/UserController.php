@@ -140,7 +140,7 @@ class UserController extends Controller
       }
       $maildata = [
         'title' => 'TFZ Password Reset',
-        'url' => 'http://localhost:8000/?token=' . $token . '&action=password_reset'
+        'url' => url('').'/?token=' . $token . '&action=password_reset'
       ];
 
       Mail::to($credentials['email'])->send(new PasswordReset($maildata));
@@ -316,7 +316,7 @@ class UserController extends Controller
       if ($request->has('name') && $request->filled('name') && !is_null($request->name)) {
         $user->name = $request->name;
       }
-   
+
       if ($request->has('phone') && $request->filled('phone') && !is_null($request->phone)) {
         $user->phone = $request->phone;
       }
