@@ -50,6 +50,10 @@ class Product extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function orderhistories()
+    {
+        return $this->belongsTo(OrderHistory::class);
+    }
     public function offers()
     {
         return $this->hasMany(Offer::class)->with('user')->latest();

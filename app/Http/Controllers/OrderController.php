@@ -30,7 +30,11 @@ class OrderController extends Controller
     }
     public function allorders()
     {
-        return Order::latest()->paginate(20);
+        return Order::with('user')->latest()->paginate(20);
+    }
+    public function show(Order $order)
+    {
+        return $order->load('user','orderhistories');
     }
 
     public function store(Request $request)
@@ -129,7 +133,7 @@ class OrderController extends Controller
 
         if ($request->has('query') && $query) {
 
-            return Order::query()->whereLike('order_no', $query)->latest()->paginate(30);
+            return Order::query()->whereLike('order_no', $query)->latest()->paginate(20);
         }
         return response()->json([
             'status' => 'success',

@@ -7,43 +7,48 @@
     </ul>
   </div>
   <div class="flex items-center mb-4">
-        <input
-          placeholder="Search order no"
-          v-model="query"
-          type="search"
-          class="
-            py-2
-            px-4
-            border border-gray-50
-            rounded-lg
-            md:w-[250px]
-            mr-4
-            shadow-sm
-          "
-        />
-        <div class="mr-3 flex">
-          <BreezeCheckbox id="pending" value="pending" class="mr-2" v-model="showStatus" />
-          <BreezeLabel for="pending" value="Pending " />
-        </div>
-        <div class="mr-3 flex">
-          <BreezeCheckbox
-            id="failed"
-            class="mr-2"
-            value="failed"
-            v-model="showStatus"
-          />
-          <BreezeLabel for="failed" value="Failed" />
-        </div>
-        <div class="flex">
-          <BreezeCheckbox
-            id="success"
-            class="mr-2"
-            v-model="showStatus"
-            value="success"
-          />
-          <BreezeLabel for="success" value="Success" />
-        </div>
-      </div>
+    <input
+      placeholder="Search order no"
+      v-model="query"
+      type="search"
+      class="
+        py-2
+        px-4
+        border border-gray-50
+        rounded-lg
+        md:w-[250px]
+        mr-4
+        shadow-sm
+      "
+    />
+    <div class="mr-3 flex">
+      <BreezeCheckbox
+        id="pending"
+        value="pending"
+        class="mr-2"
+        v-model="showStatus"
+      />
+      <BreezeLabel for="pending" value="Pending " />
+    </div>
+    <div class="mr-3 flex">
+      <BreezeCheckbox
+        id="failed"
+        class="mr-2"
+        value="failed"
+        v-model="showStatus"
+      />
+      <BreezeLabel for="failed" value="Failed" />
+    </div>
+    <div class="flex">
+      <BreezeCheckbox
+        id="success"
+        class="mr-2"
+        v-model="showStatus"
+        value="success"
+      />
+      <BreezeLabel for="success" value="Success" />
+    </div>
+  </div>
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -67,6 +72,20 @@
                 >
                   Order no
                 </th>
+                <th
+                  scope="col"
+                  class="
+                    px-6
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  Customer name
+                </th>
 
                 <th
                   scope="col"
@@ -82,20 +101,7 @@
                 >
                   Status
                 </th>
-                <th
-                  scope="col"
-                  class="
-                    px-6
-                    py-3
-                    text-left text-xs
-                    font-medium
-                    text-gray-500
-                    uppercase
-                    tracking-wider
-                  "
-                >
-                  Price
-                </th>
+
                 <th
                   scope="col"
                   class="
@@ -110,14 +116,25 @@
                 >
                   Total
                 </th>
-                <th scope="col" class="relative py-3">
-                  <span class="sr-only">Action</span>
+                <th
+                  scope="col"
+                  class="
+                    px-6
+                    py-3
+                    text-left text-xs
+                    font-medium
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                  "
+                >
+                  <span class="">Action</span>
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="order in filteredOrders" :key="order.order_no">
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-6 py-4 whitespace-nowrap capitalize">
                   <div class="flex items-center">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
@@ -126,28 +143,51 @@
                     </div>
                   </div>
                 </td>
-
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ order.status }}
+                <td
+                  class="
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                    capitalize
+                    text-sm text-gray-500
+                  "
+                >
+                  {{ order.user.name }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ currency(order.price) }}
+
+                <td
+                  class="
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                    capitalize
+                    text-sm text-gray-500
+                  "
+                >
+                  {{ order.status }}
                 </td>
                 <td
                   class="
                     px-6
                     py-4
                     whitespace-nowrap
-                    text-left text-sm
-                    font-medium
+                    capitalize
+                    text-sm text-gray-500
                   "
                 >
-                  {{ currency(order.price * order.quantity) }}
+                  {{ currency(order.total) }}
                 </td>
-                <td class="">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >View</a
-                  >
+
+                <td
+                  class="
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                    capitalize
+                    text-sm text-gray-500
+                  "
+                >
+                  <span @click="getorder(order.id)" class="">View order</span>
                 </td>
               </tr>
             </tbody>
@@ -157,34 +197,34 @@
     </div>
   </div>
 
-    <div class="pagination text-center mt-8" v-show="last_page > 1">
-      <span class="flex justify-center items-center">
-        <span
-          ><ArrowCircleLeftIcon
-            :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
-            @click="prev"
-            class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
-        /></span>
-        <input
-          class="
-            form-input
-            w-12
-            py-1
-            px-3
-            text-center
-            border border-orange-700
-            rounded
-          "
-          :disabled="current_page == last_page"
-          v-model="current_page" />
-        <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
-        <span
-          ><ArrowCircleRightIcon
-            :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
-            @click="next"
-            class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
-      ></span>
-    </div>
+  <div class="pagination text-center mt-8" v-show="last_page > 1">
+    <span class="flex justify-center items-center">
+      <span
+        ><ArrowCircleLeftIcon
+          :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
+          @click="prev"
+          class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
+      /></span>
+      <input
+        class="
+          form-input
+          w-12
+          py-1
+          px-3
+          text-center
+          border border-orange-700
+          rounded
+        "
+        :disabled="current_page == last_page"
+        v-model="current_page" />
+      <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+      <span
+        ><ArrowCircleRightIcon
+          :class="current_page < last_page ? '' : 'opacity-70 text-slate-300'"
+          @click="next"
+          class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
+    ></span>
+  </div>
   <!-- This example requires Tailwind CSS v2.0+ -->
 
   <TransitionRoot as="template" :show="open">
@@ -246,104 +286,317 @@
               shadow-xl
               transform
               transition-all
-              sm:my-8 sm:align-middle sm:max-w-lg sm:w-full
+              sm:my-8 sm:align-middle md:max-w-lg md:w-full
+              p-5
             "
           >
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div class="sm:flex sm:items-start">
-                <div
-                  class="
-                    mx-auto
-                    flex-shrink-0 flex
-                    items-center
-                    justify-center
-                    h-12
-                    w-12
-                    rounded-full
-                    bg-red-100
-                    sm:mx-0 sm:h-10 sm:w-10
-                  "
-                >
-                  <ExclamationIcon
-                    class="h-6 w-6 text-red-600"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <DialogTitle
-                    as="h3"
-                    class="text-lg leading-6 font-medium text-gray-900"
+            <table class="min-w-full divide-y divide-gray-200">
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
                   >
-                    Deactivate account
-                  </DialogTitle>
-                  <div class="mt-2">
-                    <p class="text-sm text-gray-500">
-                      Are you sure you want to deactivate your account? All of
-                      your data will be permanently removed. This action cannot
-                      be undone.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-            >
-              <button
-                type="button"
-                class="
-                  w-full
-                  inline-flex
-                  justify-center
-                  rounded-md
-                  border border-transparent
-                  shadow-sm
-                  px-4
-                  py-2
-                  bg-red-600
-                  text-base
-                  font-medium
-                  text-white
-                  hover:bg-red-700
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-red-500
-                  sm:ml-3 sm:w-auto sm:text-sm
-                "
-                @click="open = false"
-              >
-                Deactivate
-              </button>
-              <button
-                type="button"
-                class="
-                  mt-3
-                  w-full
-                  inline-flex
-                  justify-center
-                  rounded-md
-                  border border-gray-300
-                  shadow-sm
-                  px-4
-                  py-2
-                  bg-white
-                  text-base
-                  font-medium
-                  text-gray-700
-                  hover:bg-gray-50
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
-                "
-                @click="open = false"
-                ref="cancelButtonRef"
-              >
-                Cancel
-              </button>
-            </div>
+                    Order No
+                  </td>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    {{ order.order_no }}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    Customer Name
+                  </td>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    {{ order.user.name }}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    Customer Email
+                  </td>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    {{ order.user.email }}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    Customer Phone
+                  </td>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    {{ order.user.phone }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    Status
+                  </td>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    {{ order.status }}
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    Amount paid
+                  </td>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    {{ currency(order.total) }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                      flex
+                    "
+                  >
+                    Items
+                  </td>
+                  <td v-for="item in order.orderhistories" :key="item.id"
+                    class="
+                    border-bottom
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      capitalize
+                      text-sm text-gray-500
+                    "
+                  >
+                    <tr>
+                      <td
+                        class="
+                          px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        Product name
+                      </td>
+                      <td
+                        class="
+                         px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        {{ item.product.name }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="
+                          px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        Duration
+                      </td>
+                      <td
+                        class="
+                         px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        <span class="flex p-1 border justify-between">
+                          <span>{{
+                            moment(
+                              item.product.start_time
+                            ).format("MMM DD, yyyy")
+                          }}</span>
+                          <span class="mx-1">-</span>
+                          <span>{{
+                            moment(
+                              item.product.end_time
+                            ).format("MMM DD, yyyy")
+                          }}</span>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="
+                         px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        Location
+                      </td>
+                      <td
+                        class="
+                          px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        {{ item.product.location }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="
+                          px-6
+                          py-4
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        Impressions
+                      </td>
+                      <td
+                        class="
+                          px-6
+                          py-4
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        {{ item.product.impressions }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="
+                         px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        Dimension
+                      </td>
+                      <td
+                        class="
+                         px-4
+                          py-2
+                          whitespace-nowrap
+                          capitalize
+                          text-sm text-gray-500
+                        "
+                      >
+                        {{ item.product.dimension }}
+                      </td>
+                    </tr>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </TransitionChild>
       </div>
@@ -352,7 +605,7 @@
 </template>
 
 <script>
-import { ref,onMounted , watch, computed} from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -363,8 +616,12 @@ import {
 import { ExclamationIcon } from "@heroicons/vue/outline";
 import BreezeCheckbox from "@/Components/Checkbox.vue";
 import BreezeLabel from "@/Components/Label.vue";
-import { PlusCircleIcon,ArrowCircleRightIcon,ArrowCircleLeftIcon } from "@heroicons/vue/solid";
-
+import {
+  PlusCircleIcon,
+  ArrowCircleRightIcon,
+  ArrowCircleLeftIcon,
+} from "@heroicons/vue/solid";
+import moment from 'moment'
 export default {
   inject: ["currency"],
   setup() {
@@ -376,10 +633,10 @@ export default {
     const query = ref("");
 
     const order = ref(null);
-    const showPending =ref(false)
-    const showFailed = ref(false)
-    const showSuccess = ref(false)
-    const showStatus = ref([])
+    const showPending = ref(false);
+    const showFailed = ref(false);
+    const showSuccess = ref(false);
+    const showStatus = ref([]);
 
     onMounted(() => {
       loadorders();
@@ -392,11 +649,21 @@ export default {
         }
       });
     }
-     const filteredOrders = computed(() => {
+    function getorder(id) {
+      axios.get(`/get-orders/${id}`).then((res) => {
+        if (res.status === 200) {
+          order.value = res.data;
+          open.value = true;
+        }
+      });
+    }
+    const filteredOrders = computed(() => {
       let order = orders.value;
 
       if (showStatus.value.length) {
-        order = order.filter((item) => showStatus.includes(item.status.toLowerCase()));
+        order = order.filter((item) =>
+          showStatus.includes(item.status.toLowerCase())
+        );
       }
 
       return order;
@@ -447,20 +714,22 @@ export default {
 
     return {
       orders,
+      getorder,
       last_page,
       next,
       prev,
       query,
       current_page,
       searchorders,
-     filteredOrders,
+      filteredOrders,
       toggleModal,
       order,
       open,
       showPending,
       showFailed,
       showSuccess,
-      showStatus
+      showStatus,
+      moment
     };
   },
 
@@ -475,7 +744,7 @@ export default {
     ArrowCircleRightIcon,
     ArrowCircleLeftIcon,
     BreezeCheckbox,
-    BreezeLabel
+    BreezeLabel,
   },
 };
 </script>

@@ -135,7 +135,7 @@
                     tracking-wider
                   "
                 >
-                  Featured
+                  Duration
                 </th>
                 <th
                   scope="col"
@@ -180,7 +180,7 @@
                 >
                   Offers
                 </th>
-                 <th
+                <th
                   scope="col"
                   class="
                     px-6
@@ -191,16 +191,19 @@
                     uppercase
                     tracking-wider
                   "
-                >
-
-                </th>
-                <th scope="col" class=" px-6
+                ></th>
+                <th
+                  scope="col"
+                  class="
+                    px-6
                     py-3
                     text-center text-xs
                     font-medium
                     text-gray-500
                     uppercase
-                    tracking-wider">
+                    tracking-wider
+                  "
+                >
                   <span class="">Action</span>
                 </th>
               </tr>
@@ -257,15 +260,31 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ product.featured ? "Yes" : "No" }}
+                  <span class="flex p-1 border justify-between">
+                    <span>{{
+                      moment(product.start_time).format("MMM DD, yyyy")
+                    }}</span>
+                    <span class="mx-1">-</span>
+                    <span>{{
+                      moment(product.end_time).format("MMM DD, yyyy")
+                    }}</span>
+                  </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ currency(product.price) }}
                 </td>
 
-
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ !product.status ? "Unavailable" : "Available" }}
+                  <span
+                    class="py-1 px-2 text-xs rounded-full"
+                    :class="
+                      !product.status
+                        ? 'bg-red-100 text-red-500'
+                        : 'bg-green-100 text-green-500'
+                    "
+                  >
+                    {{ !product.status ? "Inactive" : "Active" }}</span
+                  >
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -279,18 +298,12 @@
                     {{ product.offers }}
                   </div>
                 </td>
-                 <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-6 py-4 whitespace-nowrap">
                   <div
-                    class="
-                      text-sm text-gray-900
-                    "
+                    class="text-sm"
+                    :class="product.status ? 'text-gray-900' : 'text-gray-300'"
                   >
-                    <span
-                  v-if="product.status"
-                     @click="viewoffers(product.id)"
-                    class="mr-3 text-green-600 hover:text-green-900"
-                    >Check offers</span
-                  >
+                    <span @click="viewoffers(product.id)">View offers</span>
                   </div>
                 </td>
                 <td
@@ -300,35 +313,73 @@
                     whitespace-nowrap
                     text-center text-sm
                     font-medium
-                    flex
-                    justify-end
+
                   "
                 >
 
-                   <span
-                     @click="toggleModal('view',product)"
-                    class="mr-3 text-blue-600 hover:text-blue-900"
-                    >
-                    <span class="sr-only mr-1">View</span>
+                    <Popover class="relative">
+              <PopoverButton
+
+              >
+                <span class="sr-only"> Actions</span>
+                <span class="relative">
+                  <DotsVerticalIcon class="h-4 w-4" aria-hidden="true" />
+                </span>
+
+              </PopoverButton>
+
+              <transition
+                enter-active-class="transition duration-200 ease-out"
+                enter-from-class="translate-y-1 opacity-0"
+                enter-to-class="translate-y-0 opacity-100"
+                leave-active-class="transition duration-150 ease-in"
+                leave-from-class="translate-y-0 opacity-100"
+                leave-to-class="translate-y-1 opacity-0"
+              >
+                <PopoverPanel
+                  class="
+                    absolute
+                    z-40
+
+
+                    p-4
+                    mt-3
+                    right-0
+                    sm:px-0
+                    lg:max-w-sm
+                    bg-white
+                    rounded-lg
+                    shadow-lg
+
+                    py-4
+                  "
+                >
+                  <div class="overflow-hidden px-3 py-2 flex">
+                     <span
+                    @click="toggleModal('view', product)"
+                    class="mr-3 flex"
+                  >
+                    <span class="text-xs mr-1">View</span>
                     <EyeIcon class="w-4 h-4" />
-                     </span>
+                  </span>
                   <span
                     @click="toggleModal('edit', product)"
-                    class="mr-3 text-yellow-600 hover:text-yellow-900"
-                    >
-                     <span class="sr-only mr-1">Edit</span>
+                    class="mr-3 flex"
+                  >
+                    <span class="text-xs mr-1">Edit</span>
                     <PencilAltIcon class="w-4 h-4" />
-
-
-                    </span>
+                  </span>
                   <span
                     @click="dropProduct(product.id)"
-                    class="text-red-600 hover:text-red-900"
-                    >
-                     <span class="sr-only mr-1">Delete</span>
+                    class="flex"
+                  >
+                    <span class="text-xs mr-1">Delete</span>
                     <TrashIcon class="w-4 h-4" />
-
-                    </span>
+                  </span>
+                  </div>
+                </PopoverPanel>
+              </transition>
+            </Popover>
                 </td>
               </tr>
             </tbody>
@@ -427,9 +478,12 @@
               shadow-xl
               transform
               transition-all
-
             "
-            :class="type=='view'?'sm:my-8 sm:align-middle sm:max-w-[80%] sm:w-full':' sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'"
+            :class="
+              type == 'view'
+                ? 'sm:my-8 sm:align-middle sm:max-w-[80%] sm:w-full'
+                : ' sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'
+            "
           >
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <CreateProduct @updatepage="updatepage" v-if="type == 'create'" />
@@ -438,7 +492,7 @@
                 @updatepage="updatepage"
                 v-if="type == 'edit'"
               />
-              <ViewProduct  :product="product" v-if="type == 'view'"/>
+              <ViewProduct :product="product" v-if="type == 'view'" />
             </div>
             <div
               class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
@@ -491,16 +545,20 @@ import {
   ExclamationIcon,
   ArrowCircleLeftIcon,
   ArrowCircleRightIcon,
-  EyeIcon, TrashIcon,PencilAltIcon
+  EyeIcon,
+  TrashIcon,
+  PencilAltIcon,
 } from "@heroicons/vue/outline";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import CreateProduct from "./CreateProduct";
 import EditProduct from "./EditProduct";
 import ViewProduct from "./ViewProduct";
-import { PlusCircleIcon } from "@heroicons/vue/solid";
+import { PlusCircleIcon,DotsVerticalIcon } from "@heroicons/vue/solid";
 import { usePage } from "@inertiajs/inertia-vue3";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeCheckbox from "@/Components/Checkbox.vue";
 import BreezeLabel from "@/Components/Label.vue";
+import moment from "moment";
 export default {
   inject: ["emitter", "currency"],
   components: {
@@ -518,7 +576,13 @@ export default {
     BreezeCheckbox,
     BreezeLabel,
     ViewProduct,
-     EyeIcon, TrashIcon,PencilAltIcon
+    EyeIcon,
+    TrashIcon,
+    PencilAltIcon,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+    DotsVerticalIcon
   },
   data() {
     return {
@@ -561,7 +625,7 @@ export default {
         current_page.value = 1;
       });
     };
-   function next() {
+    function next() {
       if (current_page.value == last_page.value) return;
       current_page.value++;
     }
@@ -589,7 +653,8 @@ export default {
       }, 2000)
     );
 
-    function viewoffers(id) {
+    function viewoffers(id, status) {
+      if (!status) return;
       window.location.href = `/offers/${id}`;
     }
     return {
@@ -604,6 +669,7 @@ export default {
       showNegotiable,
       showFeatured,
       showNonnegotiable,
+      moment,
     };
   },
   methods: {

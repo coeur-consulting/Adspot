@@ -66,7 +66,12 @@ class ProductController extends Controller
     public function allproducts()
     {
 
-        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->inRandomOrder()->latest()->paginate(30));
+        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30));
+    }
+    public function miniproducts()
+    {
+
+        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->inRandomOrder()->get()->take(10));
     }
 
     public function featuredproducts()
@@ -136,7 +141,7 @@ class ProductController extends Controller
         if ($request->has('end_time') && $request->filled('end_time')) {
             $product->end_time = Carbon::parse($request->end_time);
         }
-       
+
         $product->save();
 
         return new ProductResource($product->load('offers', 'category', 'subcategory'));

@@ -1,17 +1,17 @@
 <template lang="">
 <Topbar/>
 <div class="mt-8">
-  
-  <Orders/>
+
+  <Products/>
 </div>
 </template>
 <script>
 import Topbar from './Components/topbar'
-import Orders from './Components/orders'
+import Products from './Components/products'
 export default {
   components: {
 Topbar,
-Orders
+Products
   },
 };
 </script>

@@ -26,14 +26,7 @@ class Order extends Model
     }
     public function orderhistories()
     {
-        return $this->hasMany(OrderHistory::class);
+        return $this->hasMany(OrderHistory::class)->with('product');
     }
-    public function orderinfo()
-    {
-        return $this->hasOne(OrderInformation::class);
-    }
-    public function storeorder()
-    {
-        return $this->hasMany(StoreOrder::class);
-    }
+
 }

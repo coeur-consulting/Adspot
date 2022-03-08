@@ -100,6 +100,7 @@ Route::get('/transaction', function () {
 Route::get('verify-transaction/{txn_id}', [OrderController::class, 'verify']);
 
 Route::post('orders', [OrderController::class, 'store']);
+Route::get('get-orders/{order}', [OrderController::class, 'show']);
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -224,6 +225,7 @@ Route::post('/findspace', [UtilityController::class, 'findspace']);
 Route::get('/categories', [UtilityController::class, 'getcategories']);
 Route::get('/subcategories', [UtilityController::class, 'getsubcategories']);
 Route::get('/get-products', [ProductController::class, 'allproducts']);
+Route::get('/get-products-mini', [ProductController::class, 'miniproducts']);
 Route::post('/search-inventory', [ProductController::class, 'searchinventory']);
 Route::get('/featured-products', [ProductController::class, 'featuredproducts']);
 Route::get('/get-users', [RegisteredUserController::class, 'getusers']);
