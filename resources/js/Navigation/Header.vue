@@ -544,13 +544,14 @@ export default {
       });
     };
     onMounted(() => {
+       if (usePage().props.value.auth.user) {
        Echo.private('App.Models.User.' + usePage().props.value.auth.user.id)
      .notification((notification) => {
-      
+
         notifications.value.unshift(notification)
         unreadnotifications.value++
     });
-      if (usePage().props.value.auth.user) {
+
         getcart();
         getnotifications();
       }

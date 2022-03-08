@@ -526,6 +526,7 @@ export default {
       });
     };
     onMounted(() => {
+       if (usePage().props.value.auth.user) {
       //Join and listen for events
      Echo.private('App.Models.User.' + usePage().props.value.auth.user.id)
      .notification((notification) => {
@@ -533,7 +534,7 @@ export default {
         notifications.value.unshift(notification)
         unreadnotifications.value++
     });
-      if (usePage().props.value.auth.user) {
+
         getnotifications();
         getcart();
       }
