@@ -127,7 +127,7 @@
                   <span
                     v-if="offer.result == 'success'"
                     class="
-                      text-base
+                      text-sm
                       rounded-full
                       text-green-800
                       font-semibold
@@ -161,15 +161,17 @@
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="inline-flex text-base leading-5 capitalize">
-                    <span>{{
+                  <span class="flex  text-xs border rounded p-1 justify-between items-center">
+                  <span class="flex items-center">
+                      <span class="text-xs">{{
                       moment(offer.start).format("MMM DD, yyyy")
                     }}</span>
                     <span class="mx-2">-</span>
-                    <span class="mr-4">{{
+                    <span class="mr-4 text-xs">{{
                       moment(offer.end).format("MMM DD, yyyy")
                     }}</span>
-                    <span>({{ offer.duration }} days)</span>
+                  </span>
+                    <span class="text-xs">({{ offer.duration }} days)</span>
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -223,7 +225,7 @@
             </tbody>
           </table>
           <div class="text-center mt-8" v-if="!offers.length">
-            <span class="px-6 py-2 bg-blue-50 rounded">No offer available</span>
+            <span class="px-6 py-2 bg-blue-50 rounded text-blue-500 text-sm">No offer available</span>
           </div>
         </div>
       </div>

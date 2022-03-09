@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -77,7 +77,7 @@ class ProductController extends Controller
     public function featuredproducts()
     {
 
-        return  Product::with('offers', 'category', 'subcategory')->where('featured', 1)->inRandomOrder()->get()->take(10);
+        return  Product::with('offers', 'category', 'subcategory')->where('featured', 1)->where('status', 1)->inRandomOrder()->get()->take(10);
     }
 
 
@@ -140,6 +140,7 @@ class ProductController extends Controller
         }
         if ($request->has('end_time') && $request->filled('end_time')) {
             $product->end_time = Carbon::parse($request->end_time);
+            $product->space_status = 'started';
         }
 
         $product->save();
@@ -190,5 +191,31 @@ class ProductController extends Controller
 
             ->paginate(30);
         return ProductResource::collection($product);
+    }
+
+    public function handlestatus()
+    {
+        Product::chunk(100, function ($products) {
+            foreach ($products as $product) {
+                if ($product->space_status = 'started') {
+                    $this->handleActive($product);
+                }
+            }
+        });
+    }
+    public function handleActive($product)
+    {
+        $now = Carbon::now();
+        $start = Carbon::parse($product->start_time);
+        $end = Carbon::parse($product->end_time);
+        if ($now->gte($start)) {
+            $product->status = true;
+            $product->save();
+        }
+        if ($now->gte($end)) {
+            $product->status = false;
+            $product->space_status = 'ended';
+            $product->save();
+        }
     }
 }

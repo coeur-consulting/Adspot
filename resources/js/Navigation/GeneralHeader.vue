@@ -239,6 +239,14 @@
                 </template>
 
                 <template #content>
+                   <BreezeDropdownLink
+                   v-if="$page.props.auth.user.is_admin"
+                    :href="route('dashboard')"
+                    method="get"
+                    as="button"
+                  >
+                    Dashboard
+                  </BreezeDropdownLink>
                   <BreezeDropdownLink
                     :href="route('logout')"
                     method="post"
@@ -404,6 +412,9 @@
               </div>
 
               <div class="mt-3 space-y-1">
+                 <Link :href="route('dashboard')" method="get" as="button">
+                  Dashboard
+                </Link>
                 <Link :href="route('logout')" method="post" as="button">
                   Log Out
                 </Link>

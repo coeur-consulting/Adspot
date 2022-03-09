@@ -264,7 +264,7 @@ const navigation = [
   { name: "Products", href: "/products", current: false },
    { name: "Orders", href: "/view/orders", current: false },
     { name: "Categories", href: "/admin-categories", current: false },
-  { name: "Reports", href: "/reports", current: false },
+  //   // { name: "Reports", href: "/reports", current: false },
 
 ];
 const userNavigation = [

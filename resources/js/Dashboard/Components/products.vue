@@ -2,7 +2,7 @@
 <template>
 
 
-  <div class="flex flex-col bg-white p-4 shadow">
+  <div class="flex flex-col bg-white  shadow rounded">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div
@@ -111,7 +111,7 @@
                 >
                   Offers
                 </th>
-               
+
                 <th scope="col" class=" px-6
                     py-3
                     text-xs
@@ -166,8 +166,8 @@
                       leading-5
                       font-semibold
                       rounded-full
-                      bg-green-100
-                      text-green-800
+                      bg-gray-100
+                      text-gray-500
                       capitalize
                     "
                   >
@@ -176,7 +176,7 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 
-                  <span class="flex p-1 border justify-between">
+                  <span class="flex p-1 border justify-between text-xs rounded">
                     <span>{{moment(product.start_time).format("MMM DD, yyyy")}}</span>
                     <span class="mx-1">-</span>
                       <span>{{moment(product.end_time).format("MMM DD, yyyy")}}</span>
@@ -211,7 +211,7 @@
                     <span
 
                      @click="viewoffers(product.id,product.status)"
-                    class="mr-3 "
+                    class="mr-3 cursor-pointer"
                     >View offers</span
                   >
                   </div>
@@ -223,7 +223,7 @@
           </table>
         </div>
 
-        <div class="text-right py-5">
+        <div class="text-right py-5 px-4">
        <a href="/products" class="flex justify-end items-center">   <span class="text-orange-500 mr-1">View all</span> <ArrowNarrowRightIcon class="w-4 h-4 text-orange-500"/></a>
         </div>
       </div>
@@ -290,7 +290,7 @@ export default {
     }
 
     function viewoffers(id,status) {
-      if(!status) return;
+
       window.location.href = `/offers/${id}`;
     }
     return {

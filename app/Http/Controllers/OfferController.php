@@ -80,13 +80,15 @@ class OfferController extends Controller
                 }
                 $offer->status = false;
                 $offer->save();
+
                 $cart = Cart::find($offer->cart_id);
                 $cart->status = 'success';
                 $cart->save();
             }
             $product->status = false;
+            $product->space_status = 'ended';
             $product->save();
-          
+
             return $offers;
         });
     }

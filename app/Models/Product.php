@@ -25,7 +25,8 @@ class Product extends Model
         'duration',
         'duration_type',
          'start_time',
-          'end_time'
+          'end_time',
+        'space_status'
 
     ];
 

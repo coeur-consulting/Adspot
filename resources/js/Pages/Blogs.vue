@@ -4,26 +4,26 @@
 <Banner title="Adspot News" :breadcrumbs="breadcrumbs"/>
 
  <div class="min-h-[60vh]">
-   <div class="bg-orange-50 p-5 text-center" v-if="!news.length">
+   <div class="bg-orange-50 p-5 text-orange-400 text-center" v-if="!news.length">
      No news available
    </div>
      <infinite-scroll @infinite-scroll="loadData" v-if="news.length"
-:message="message"
+      :message="message"
       :noResult="noResult"
    >
-     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 p-10 ">
+     <div class="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-10 p-10 ">
      <div class="shadow-lg rounded-lg overflow-hidden" v-for="n in news" :key="n">
     <div class="w-full">
-      <img  src="/images/banner.png" class="w-full h-[200px] object-cover"/>
+      <img  :src="n.cover?n.cover:'/images/banner.png'" class="w-full h-[200px] object-cover"/>
       <div class="p-3">
-        <p class="font-black text-xl">Lorem Ipsum</p>
-        <p class="text-slate-400">consectetur adipiscing elit. Nullam vel neque interdum purus sagittis congue id ut libero. Pellentesque mollis nisl et libero posuere venenatis. Integer placerat leo sed quam dignissim</p>
+        <p class="font-black text-xl">{{n.title}}</p>
+        <p class="text-slate-400 line-clamp-4 min-h-[100px]">{{n.content}}</p>
 
 
       </div >
       <div class="px-3 py-3 flex justify-between border-t">
-<span class="flex items-center"><CalendarIcon class="w-4 h-4 mr-2 text-orange-500"/> <span class="text-xs">Feb 20,2022</span></span>
-<span class="text-orange-500 text-xs">More Details</span>
+<span class="flex items-center"><CalendarIcon class="w-4 h-4 mr-1 text-orange-500"/> <span class="text-xs">{{moment(n.created_at).format("MMM DD, yyyy")}}</span></span>
+<Link :href="`/news/${n.id}`" class="text-orange-500 text-xs flex items-center"><span class="text-orange-500">More Details</span> <ChevronDoubleRightIcon class="w-3 h-3 ml-1"/></Link>
 
       </div>
     </div>
@@ -39,11 +39,12 @@
 <script>
 import Navigation from "@/Navigation/Header";
 import Footer from "@/Navigation/Footer";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head,Link } from "@inertiajs/inertia-vue3";
 import Banner from "@/Components/Banner";
 import { ref, reactive, onMounted } from "vue";
-import { CalendarIcon } from "@heroicons/vue/solid";
+import { CalendarIcon,ChevronDoubleRightIcon } from "@heroicons/vue/solid";
 import InfiniteScroll from "infinite-loading-vue3";
+import moment from "moment";
 export default {
   components: {
     Navigation,
@@ -52,6 +53,8 @@ export default {
     Footer,
     CalendarIcon,
     InfiniteScroll,
+    ChevronDoubleRightIcon,
+    Link
   },
   setup() {
     const breadcrumbs = reactive([
@@ -65,10 +68,13 @@ export default {
 
     async function loadData() {
       try {
-        const result = await axios.get(`/get/news?${page.value}`);
-        if (result.data.items.length) {
-          news.push(...result.data.items);
+        const result = await axios.get(`/get/news?page=${page.value}`);
+
+        if (result.data.data.length) {
+
+          news.push(...result.data.data);
           page.value++;
+
         } else {
           noResult.value = true;
           message.value = "No result found";
@@ -89,6 +95,7 @@ export default {
       page,
       news,
       loadData,
+      moment,
     };
   },
 };

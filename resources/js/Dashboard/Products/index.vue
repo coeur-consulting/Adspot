@@ -180,18 +180,7 @@
                 >
                   Offers
                 </th>
-                <th
-                  scope="col"
-                  class="
-                    px-6
-                    py-3
-                    text-left text-xs
-                    font-medium
-                    text-gray-500
-                    uppercase
-                    tracking-wider
-                  "
-                ></th>
+
                 <th
                   scope="col"
                   class="
@@ -251,8 +240,8 @@
                       leading-5
                       font-semibold
                       rounded-full
-                      bg-green-100
-                      text-green-800
+                      bg-gray-100
+                      text-gray-500
                       capitalize
                     "
                   >
@@ -260,7 +249,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <span class="flex p-1 border justify-between">
+                  <span class="flex p-1 border justify-between text-xs rounded">
                     <span>{{
                       moment(product.start_time).format("MMM DD, yyyy")
                     }}</span>
@@ -298,14 +287,7 @@
                     {{ product.offers }}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div
-                    class="text-sm"
-                    :class="product.status ? 'text-gray-900' : 'text-gray-300'"
-                  >
-                    <span @click="viewoffers(product.id)">View offers</span>
-                  </div>
-                </td>
+
                 <td
                   class="
                     px-6
@@ -313,73 +295,70 @@
                     whitespace-nowrap
                     text-center text-sm
                     font-medium
-
+                    flex
                   "
                 >
-
-                    <Popover class="relative">
-              <PopoverButton
-
-              >
-                <span class="sr-only"> Actions</span>
-                <span class="relative">
-                  <DotsVerticalIcon class="h-4 w-4" aria-hidden="true" />
-                </span>
-
-              </PopoverButton>
-
-              <transition
-                enter-active-class="transition duration-200 ease-out"
-                enter-from-class="translate-y-1 opacity-0"
-                enter-to-class="translate-y-0 opacity-100"
-                leave-active-class="transition duration-150 ease-in"
-                leave-from-class="translate-y-0 opacity-100"
-                leave-to-class="translate-y-1 opacity-0"
-              >
-                <PopoverPanel
-                  class="
-                    absolute
-                    z-40
-
-
-                    p-4
-                    mt-3
-                    right-0
-                    sm:px-0
-                    lg:max-w-sm
-                    bg-white
-                    rounded-lg
-                    shadow-lg
-
-                    py-4
-                  "
-                >
-                  <div class="overflow-hidden px-3 py-2 flex">
-                     <span
-                    @click="toggleModal('view', product)"
-                    class="mr-3 flex"
+                  <div
+                    class="text-sm mr-8"
+                    :class="product.status ? 'text-gray-900' : 'text-gray-300'"
                   >
-                    <span class="text-xs mr-1">View</span>
-                    <EyeIcon class="w-4 h-4" />
-                  </span>
-                  <span
-                    @click="toggleModal('edit', product)"
-                    class="mr-3 flex"
-                  >
-                    <span class="text-xs mr-1">Edit</span>
-                    <PencilAltIcon class="w-4 h-4" />
-                  </span>
-                  <span
-                    @click="dropProduct(product.id)"
-                    class="flex"
-                  >
-                    <span class="text-xs mr-1">Delete</span>
-                    <TrashIcon class="w-4 h-4" />
-                  </span>
+                    <span @click="viewoffers(product.id)">View offers</span>
                   </div>
-                </PopoverPanel>
-              </transition>
-            </Popover>
+
+                  <Popover class="relative">
+                    <PopoverButton>
+                      <span class="sr-only"> Actions</span>
+                      <span class="relative">
+                        <DotsVerticalIcon class="h-4 w-4" aria-hidden="true" />
+                      </span>
+                    </PopoverButton>
+
+                    <transition
+                      enter-active-class="transition duration-200 ease-out"
+                      enter-from-class="translate-y-1 opacity-0"
+                      enter-to-class="translate-y-0 opacity-100"
+                      leave-active-class="transition duration-150 ease-in"
+                      leave-from-class="translate-y-0 opacity-100"
+                      leave-to-class="translate-y-1 opacity-0"
+                    >
+                      <PopoverPanel
+                        class="
+                          absolute
+                          z-40
+                          p-4
+                          mt-3
+                          right-0
+                          sm:px-0
+                          lg:max-w-sm
+                          bg-white
+                          rounded-lg
+                          shadow-lg
+                          py-4
+                        "
+                      >
+                        <div class="overflow-hidden px-3 py-2 flex">
+                          <span
+                            @click="toggleModal('view', product)"
+                            class="mr-3 flex"
+                          >
+                            <span class="text-xs mr-1">View</span>
+                            <EyeIcon class="w-4 h-4" />
+                          </span>
+                          <span
+                            @click="toggleModal('edit', product)"
+                            class="mr-3 flex"
+                          >
+                            <span class="text-xs mr-1">Edit</span>
+                            <PencilAltIcon class="w-4 h-4" />
+                          </span>
+                          <span @click="dropProduct(product.id)" class="flex">
+                            <span class="text-xs mr-1">Delete</span>
+                            <TrashIcon class="w-4 h-4" />
+                          </span>
+                        </div>
+                      </PopoverPanel>
+                    </transition>
+                  </Popover>
                 </td>
               </tr>
             </tbody>
@@ -553,7 +532,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import CreateProduct from "./CreateProduct";
 import EditProduct from "./EditProduct";
 import ViewProduct from "./ViewProduct";
-import { PlusCircleIcon,DotsVerticalIcon } from "@heroicons/vue/solid";
+import { PlusCircleIcon, DotsVerticalIcon } from "@heroicons/vue/solid";
 import { usePage } from "@inertiajs/inertia-vue3";
 import { ref, onMounted, computed, watch, inject, reactive } from "vue";
 import BreezeCheckbox from "@/Components/Checkbox.vue";
@@ -582,7 +561,7 @@ export default {
     Popover,
     PopoverButton,
     PopoverPanel,
-    DotsVerticalIcon
+    DotsVerticalIcon,
   },
   data() {
     return {
@@ -654,7 +633,6 @@ export default {
     );
 
     function viewoffers(id, status) {
-      if (!status) return;
       window.location.href = `/offers/${id}`;
     }
     return {

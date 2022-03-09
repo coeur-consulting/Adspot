@@ -340,7 +340,7 @@ const navigation = [
   { name: "Orders", href: "/view/orders", current: false },
   { name: "Categories", href: "/admin-categories", current: false },
   { name: "News", href: "/blogs", current: false },
-  { name: "Reports", href: "/reports", current: false },
+    // { name: "Reports", href: "/reports", current: false },
 ];
 const userNavigation = [
   // { name: "Your Profile", href: "/profile", method: "get" },

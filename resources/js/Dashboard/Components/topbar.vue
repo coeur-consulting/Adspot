@@ -14,7 +14,7 @@
       <div class="h-full w-full  flex  items-center">
          <SpeakerphoneIcon class="w-16 md:w-20 h-16 md:h-20 px-3 py-4 bg-orange-600 text-white rounded-full mr-5" />
         <div class="text-left">
-           <span class="font-bold text-xl md:text-2xl text-slate-600">{{$page.props.total_orders}} Active Spaces</span>
+           <span class="font-bold text-xl md:text-2xl text-slate-600">{{$page.props.active_spaces}} Active Spaces</span>
 
 
     </div>
@@ -24,7 +24,7 @@
       <div class="h-full w-full  flex  items-center">
          <CreditCardIcon class="w-16 md:w-20 h-16 md:h-20 px-3 py-4 bg-orange-600 text-white rounded-full mr-5" />
         <div class="text-left">
-           <span class="font-bold text-xl md:text-2xl text-slate-600">8 Total Orders</span>
+           <span class="font-bold text-xl md:text-2xl text-slate-600">{{$page.props.total_offers}} Total Offers</span>
 
     </div>
       </div>

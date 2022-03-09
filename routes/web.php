@@ -67,10 +67,12 @@ Route::get('/marketplace', function () {
 
 //News route
 Route::get('/news', function () {
-    return Inertia::render('Blogs', []);
+    return Inertia::render('Blogs', [
+
+    ]);
 });
 Route::get('/get/news', function () {
-    return Blog::where('status', 1)->latest()->paginate(24);
+    return Blog::where('status', 1)->latest()->paginate(20);
 });
 Route::post('/add/news', [BlogController::class, 'store']);
 Route::put('/update/news/{blog}', [BlogController::class, 'update']);
@@ -78,8 +80,8 @@ Route::delete('/delete/news/{blog}', [BlogController::class, 'destroy']);
 
 Route::get('/news/{id}', function ($id) {
     return Inertia::render('Blog', [
-        'content'=> Blog::find($id),
-        'others' => Blog::inRandomeOrder()->where('id','!=',$id)->get()->take(10)
+        'blog'=> Blog::find($id)->load('user'),
+        'others' => Blog::where('id','!=',$id)->where('status',1)->inRandomOrder()->get()->take(10)
     ]);
 });
 
@@ -165,7 +167,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Admin/Dashboard', [
 
-                'total_products' => auth()->user()->products()->count(),
+                'total_products' => Product::get()->count(),
+                'active_spaces' => Product::where('status',1)->get()->count(),
+                'total_offers' => Offer::get()->count(),
             ]);
         })->name('dashboard');
 

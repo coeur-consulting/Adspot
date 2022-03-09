@@ -252,7 +252,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Products", href: "/products", current: false },
    { name: "Orders", href: "/orders", current: false },
-  { name: "Reports", href: "/reports", current: false },
+    // { name: "Reports", href: "/reports", current: false },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "/profile", method: "get" },

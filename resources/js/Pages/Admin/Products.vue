@@ -11,7 +11,7 @@
           class="text-xl md:text-3xl font-bold text-gray-900"
           v-if="$page.url === '/products'"
         >
-          Products
+          Ad Spaces
         </h1>
 
       </div>
@@ -54,7 +54,7 @@ const navigation = [
   { name: "Products", href: "/products", current: false },
    { name: "Orders", href: "/store/orders", current: false },
      { name: "News", href: "/news", current: false },
-  { name: "Reports", href: "/reports", current: false },
+    // { name: "Reports", href: "/reports", current: false },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "/profile", method: "get" },

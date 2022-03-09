@@ -1,26 +1,23 @@
 <template lang="">
-<Head title="News"/>
+<Head :title="blog.title"/>
 <Navigation />
 <Banner title="Adspot News" :breadcrumbs="breadcrumbs"/>
 <div class="p-10 grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 relative">
   <div class="md:col-span-2">
     <div class="w-full mb-6">
-      <img src="/images/banner.png" class="w-full h-[300px] object-cover" />
+        <img :src="blog.cover?blog.cover:'/images/banner.png'" class="w-full h-[300px] object-cover" />
     </div>
     <div>
-      <h1 class="text-xl font-black mb-4">Lorem one llroe sohouoin</h1>
-      <span class="text-xs text-slate-400">Feb 20,2022</span>
-      <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel neque interdum purus sagittis congue id ut libero. Pellentesque mollis nisl et libero posuere venenatis. Integer placerat leo sed quam dignissim malesuada quis viverra dui. Donec lacus neque, suscipit sit amet enim at, condimentum viverra urna. Integer vitae imperdiet ante, elementum porttitor nunc. Praesent elementum magna sit amet lectus sagittis, sed posuere arcu molestie. Nulla venenatis placerat elementum. Donec pellentesque pretium mauris, at maximus orci malesuada eu. Cras congue congue velit, vel maximus enim consectetur vel. Cras euismod nisi in blandit placerat. Nullam aliquet dolor sapien, sit amet suscipit diam aliquam in. Donec quis ex in nisl hendrerit euismod. Aenean nibh tortor, semper at condimentum eget, fringilla vitae quam. Aliquam risus sapien, tincidunt quis egestas eget, tincidunt in sapien.Donec pellentesque pretium mauris, at maximus orci malesuada eu. Cras congue congue velit, vel maximus enim consectetur vel. Cras euismod nisi in blandit placerat. Nullam aliquet dolor sapien, sit amet suscipit diam aliquam in. Donec quis ex in nisl hendrerit euismod. Aenean nibh tortor, semper at condimentum eget, fringilla vitae quam. Aliquam risus sapien, tincidunt quis egestas eget, tincidunt in sapien.
-Donec pellentesque pretium mauris, at maximus orci malesuada eu. Cras congue congue velit, vel maximus enim consectetur vel. Cras euismod nisi in blandit placerat. Nullam aliquet dolor sapien, sit amet suscipit diam aliquam in. Donec quis ex in nisl hendrerit euismod. Aenean nibh tortor, semper at condimentum eget, fringilla vitae quam. Aliquam risus sapien, tincidunt quis egestas eget, tincidunt in sapien.
-Donec pellentesque pretium mauris, at maximus orci malesuada eu. Cras congue congue velit, vel maximus enim consectetur vel. Cras euismod nisi in blandit placerat. Nullam aliquet dolor sapien, sit amet suscipit diam aliquam in. Donec quis ex in nisl hendrerit euismod. Aenean nibh tortor, semper at condimentum eget, fringilla vitae quam. Aliquam risus sapien, tincidunt quis egestas eget, tincidunt in sapien.
-
+      <h1 class="text-xl font-black mb-4">{{blog.title}}</h1>
+      <span class="text-xs text-slate-400">{{moment(blog.created_at).format("MMM DD, yyyy")}}</span>
+      <p class="mb-10" v-html="blog.content">
 </p>
 
 <div class="flex items-center">
   <img src="/images/banner.png" class="w-16 h-16 rounded-full mr-3">
 <span class="leading-1">
    <span class="text-slate-400 text-xs">Written by</span> <br>
-  <span class="font-bold text-sm">John Doe</span>
+  <span class="font-bold text-sm capitalize">{{blog.user.name}}</span>
 </span>
 
 </div>
@@ -40,14 +37,14 @@ Donec pellentesque pretium mauris, at maximus orci malesuada eu. Cras congue con
 
       <div class="max-h-[60vh] overflow-auto">
 
-        <div class="flex mb-3 items-center " v-for="n in 8" :key="n">
+        <div class="flex mb-3 items-center " v-for="n in others" :key="n">
           <div class="w-[35%] h-16 mr-3 ">
             <img src="/images/banner.png" class="w-full h-16  rounded" />
           </div>
           <div class="w-[65%]" >
-            <strong class="font-black text-base truncate ...">How to get away with it</strong>
-            <p class="text-slate-500 text-sm truncate ...">Lorem robovberu rgubuwrbu weuifbuweb webfoubuefb</p>
-            <small class="text-slate-400 text-xs">Feb 20,2022</small>
+            <strong class="font-black text-base truncate ...">{{n.title}}</strong>
+            <p class="text-slate-500 text-sm truncate ...">{{n.content}}</p>
+            <small class="text-slate-400 text-xs">{{moment(n.created_at).format("MMM DD, yyyy")}}</small>
           </div>
         </div>
       </div>
@@ -64,10 +61,11 @@ Donec pellentesque pretium mauris, at maximus orci malesuada eu. Cras congue con
 <script>
 import Navigation from "@/Navigation/Header";
 import Footer from "@/Navigation/Footer";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, usePage } from "@inertiajs/inertia-vue3";
 import Banner from "@/Components/Banner";
-import { reactive } from "vue";
+import { reactive,ref } from "vue";
 import { SearchIcon } from "@heroicons/vue/solid";
+import moment from 'moment'
 
 export default {
   components: {
@@ -75,7 +73,7 @@ export default {
     Head,
     Banner,
     Footer,
-    SearchIcon
+    SearchIcon,
   },
   setup() {
     const breadcrumbs = reactive([
@@ -83,8 +81,17 @@ export default {
       { name: "news", url: "/news" },
       { name: "Title of news", url: null },
     ]);
+     const others = ref(null);
+    const blog = ref(null);
+
+    blog.value = usePage().props.value.blog;
+    breadcrumbs[2].name = blog.value.title;
+    others.value = usePage().props.value.others;
     return {
       breadcrumbs,
+      blog,
+      others,
+      moment
     };
   },
 };

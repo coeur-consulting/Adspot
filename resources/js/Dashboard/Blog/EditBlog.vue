@@ -24,7 +24,7 @@
 
       <div class="mt-4 flex">
 
- <BreezeCheckbox id="status" class="mr-2" v-model="form.status" />
+ <BreezeCheckbox id="status" class="mr-2" v-model="form.status"  :checked="form.status?true:false"/>
    <BreezeLabel for="status" value="Status" />
     </div>
 
@@ -32,14 +32,24 @@
 
     <div class="mt-4">
       <BreezeLabel for="content" value="Content" />
-      <BreezeTextarea
-        id="content"
-        type="text"
-        class="mt-1 block w-full"
+      <editor
         v-model="form.content"
         required
-        autocomplete="content"
-      />
+       api-key="zryhmo2q30xmcrdy1y7c2u2qbcym44l833uxtw2up6f42ya5"
+       :init="{
+         height: 500,
+         menubar: false,
+         plugins: [
+           'advlist autolink lists link image charmap print preview anchor',
+           'searchreplace visualblocks code fullscreen',
+           'insertdatetime media table paste code help wordcount'
+         ],
+         toolbar:
+           'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help'
+       }"
+     />
     </div>
 
     <div class="mt-4">
@@ -170,6 +180,7 @@ import BreezeGuestLayout from "@/Layouts/Guest.vue";
 import BreezeInput from "@/Components/Input.vue";
 import BreezeTextarea from "@/Components/Textarea.vue";
 import BreezeLabel from "@/Components/Label.vue";
+ import Editor from '@tinymce/tinymce-vue'
 
 import BreezeValidationErrors from "@/Components/ValidationErrors.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -185,6 +196,7 @@ export default {
     BreezeValidationErrors,
     Head,
     Link,
+    Editor
   },
 
   props: {
