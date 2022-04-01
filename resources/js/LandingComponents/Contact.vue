@@ -16,9 +16,10 @@
     </div>
 
 
-    <div class=" relative   w-full md:w-[30%] bg-orange-500 p-6 ">
+    <div class=" relative   w-full md:w-[30%] rounded-lg group">
 
-      <div class=" md:p-8 h-full  bg-white rounded-lg relative w-full md:w-[115%] z-[2] border md:-left-16 shadow-sm p-4">
+
+   <div class="z-10 md:p-8 h-full  bg-white rounded-lg relative w-full   border  shadow-sm p-4 peer">
         <BreezeValidationErrors class="mb-4" />
 
     <form @submit.prevent="submit">
@@ -50,7 +51,9 @@
         </div>
     </form>
       </div>
+ <span class="bg-orange-500 rounded-lg w-full h-full top-0 absolute translate-x-2 peer-hover:translate-x-8 peer-hover:translate-y-4 transition ease-in-out duration-300 ">
 
+      </span>
     </div>
 
   </div>
@@ -64,7 +67,7 @@ import BreezeTextarea from "@/Components/Textarea.vue";
 import BreezeLabel from "@/Components/Label.vue";
 import BreezeValidationErrors from "@/Components/ValidationErrors.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import axios from 'axios'
+import axios from "axios";
 export default {
   components: {
     BreezeButton,
@@ -83,35 +86,39 @@ export default {
 
         message: "",
       },
-      content:[
+      content: [
         {
-          title:'Creative Development',
-          text:'We have a team of creatives who are passionate about ensuring the words and images you put out evoke engagement and action from your audience'},
-           {
-          title:'Campaign strategy, planning and execution',
-          text:'Every brand has a unique offering and target market. Find out how we use data to better understand your target customers and decipher the right combination of media channels to reach and engage them'},
-           {
-          title:'Media Planning and Buying',
-          text:'We save you time and money through efficient and effective purchase of media using advanced data, tools and negotiations'},
-           {
-          title:'Market Research/Brand Intelligence',
-          text:'Find out more about the Nigerian consumer and media market, the trends, key players, leading platforms. Arm yourself with information before launching your product, service or a campaign.'},
-      ]
+          title: "Creative Development",
+          text: "We have a team of creatives who are passionate about ensuring the words and images you put out evoke engagement and action from your audience",
+        },
+        {
+          title: "Campaign strategy, planning and execution",
+          text: "Every brand has a unique offering and target market. Find out how we use data to better understand your target customers and decipher the right combination of media channels to reach and engage them",
+        },
+        {
+          title: "Media Planning and Buying",
+          text: "We save you time and money through efficient and effective purchase of media using advanced data, tools and negotiations",
+        },
+        {
+          title: "Market Research/Brand Intelligence",
+          text: "Find out more about the Nigerian consumer and media market, the trends, key players, leading platforms. Arm yourself with information before launching your product, service or a campaign.",
+        },
+      ],
     };
   },
-  methods:{
-    submit(){
-       axios.post('/send/contact',this.form).then((res)=>{
-         if(res.status === 200){
-           this.form = {
-        name: "",
-        email: "",
-        message: "",
-      }
-         }
-       })
-    }
-  }
+  methods: {
+    submit() {
+      axios.post("/send/contact", this.form).then((res) => {
+        if (res.status === 200) {
+          this.form = {
+            name: "",
+            email: "",
+            message: "",
+          };
+        }
+      });
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

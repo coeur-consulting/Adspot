@@ -5,22 +5,22 @@
       <h6 class="font-bolder ">Categories</h6>
       <span class="text-xs text-orange-500 font-bold flex items-center">View all <ArrowNarrowRightIcon  class="ml-2 w-4"/></span>
     </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="... h-32 md:h-60  rounded-lg box bg1 shadow-sm">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+        <div class="... h-32 md:h-60  rounded-lg box bg1 shadow-sm overflow-hidden hover:scale-105 transition ease-in-out duration-300 ">
 
           <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Online</span>
         </div>
-        <div class="... h-32 md:h-60  rounded-lg box bg2 shadow-sm">
+        <div class="... h-32 md:h-60  rounded-lg box bg2 shadow-sm hover:scale-105 transition ease-in-out duration-300 ">
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Radio</span>
         </div>
-        <div class="... h-32 md:h-60  rounded-lg box bg3 shadow-sm">
+        <div class="... h-32 md:h-60  rounded-lg box bg3 shadow-sm hover:scale-105 transition ease-in-out duration-300 ">
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Television</span>
         </div>
 
-        <div class=".. h-32 md:h-60  rounded-lg box bg4 shadow-sm">
+        <div class=".. h-32 md:h-60  rounded-lg box bg4 shadow-sm hover:scale-105 transition ease-in-out duration-300 ">
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Print</span>
         </div>
-        <div class="col-span-2 ... h-32 md:h-60  rounded-lg box bg5 shadow-sm" >
+        <div class="col-span-2 ... h-32 md:h-60  rounded-lg box bg5 shadow-sm hover:scale-105 transition ease-in-out duration-300 " >
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Out of home</span>
         </div>
       </div>

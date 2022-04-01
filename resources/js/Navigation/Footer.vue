@@ -21,11 +21,12 @@
           </small>
         </div>
         <div class="flex">
-          <img src="/images/f.png" class="mr-2 w-4 md:w-8 h-4 md:h-8" />
-          <img src="/images/i.png" class="mr-2 w-4 md:w-8 h-4 md:h-8" /><img
+          <img src="/images/f.png" class="mr-2 w-4 md:w-8 h-4 md:h-8 transition ease-in-out duration-300 hover:rotate-[360deg]" />
+          <img src="/images/i.png" class="mr-2 w-4 md:w-8 h-4 md:h-8 transition ease-in-out duration-300 hover:rotate-[360deg]" />
+          <img
             src="/images/t.png"
-            class= "w-4 md:w-8 h-4 md:h-8"
-          />
+            class= "w-4 md:w-8 h-4 md:h-8 transition ease-in-out duration-300 hover:rotate-[360deg]" />
+          
         </div>
       </div>
     </div>
