@@ -5,7 +5,7 @@
     <div class="mb-5 relative pl-8 lg:pl-0">
 
        <div class="flex justify-between items-center"> <span class="text_work text-sm lg:text-2xl font-bold">
-            Using Adspot is as easy as A, B, C</span>
+            Using Adspots Digital Solutions is as easy as A, B, C</span>
 
       <div class="text_img mb-5 lg:mb-0">
         <img src="/images/world.svg" class="w-52 lg:w-80"/>

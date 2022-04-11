@@ -34,9 +34,9 @@ use App\Http\Controllers\Auth\RedirectAuthenticatedUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-if(App::environment('production')){
-    URL::forceScheme('https');
-}
+// if(App::environment('production')){
+//     URL::forceScheme('https');
+// }
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -47,7 +47,15 @@ Route::get('/', function () {
     ]);
 });
 
-
+Route::get('/terms', function () {
+    return Inertia::render('Terms', []);
+})->name('terms');
+Route::get('/policy', function () {
+    return Inertia::render(
+        'Privacy',
+        []
+    );
+})->name('policy');
 
 Route::get('/auth/login/{provider}', [LinkedSocialAccountController::class, 'handleRedirect']);
 Route::get('/auth/{provider}/callback', [LinkedSocialAccountController::class, 'handleCallback']);
@@ -57,19 +65,17 @@ Route::get('/product/{id}', function ($id) {
         'product' => Product::where('id', $id)->with('user', 'category')->first()
     ]);
 });
-Route::get('/marketplace', function () {
+Route::get('/inventory', function () {
     return Inertia::render('MarketPlace', [
-        'categories' => Category::get(['id','name']),
-        'subcategories' => Subcategory::get(['id', 'name','category_id']),
+        'categories' => Category::get(['id', 'name']),
+        'subcategories' => Subcategory::get(['id', 'name', 'category_id']),
 
     ]);
 });
 
 //News route
 Route::get('/news', function () {
-    return Inertia::render('Blogs', [
-
-    ]);
+    return Inertia::render('Blogs', []);
 });
 Route::get('/get/news', function () {
     return Blog::where('status', 1)->latest()->paginate(20);
@@ -80,8 +86,8 @@ Route::delete('/delete/news/{blog}', [BlogController::class, 'destroy']);
 
 Route::get('/news/{id}', function ($id) {
     return Inertia::render('Blog', [
-        'blog'=> Blog::find($id)->load('user'),
-        'others' => Blog::where('id','!=',$id)->where('status',1)->inRandomOrder()->get()->take(10)
+        'blog' => Blog::find($id)->load('user'),
+        'others' => Blog::where('id', '!=', $id)->where('status', 1)->inRandomOrder()->get()->take(10)
     ]);
 });
 
@@ -93,7 +99,7 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return Inertia::render('Contact', []);
 });
-Route::post('/send/contact', [ContactController::class,'sendcontact']);
+Route::post('/send/contact', [ContactController::class, 'sendcontact']);
 
 
 Route::get('/transaction', function () {
@@ -114,7 +120,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/mark/notifications', [NotificationController::class, 'markreadnotifications']);
     Route::get('/notifications/{id}/mark', [NotificationController::class, 'marksinglenotification']);
     Route::delete('notifications/delete', [NotificationController::class, 'destroy']);
-    Route::get('/admin/notifications',function(){
+    Route::get('/admin/notifications', function () {
         return Inertia::render('Admin/Notifications', [
             'notifications' => auth()->user()->notifications
         ]);
@@ -168,10 +174,11 @@ Route::group(['middleware' => 'auth'], function () {
             return Inertia::render('Admin/Dashboard', [
 
                 'total_products' => Product::get()->count(),
-                'active_spaces' => Product::where('status',1)->get()->count(),
+                'active_spaces' => Product::where('status', 1)->get()->count(),
                 'total_offers' => Offer::get()->count(),
             ]);
         })->name('dashboard');
+
 
 
         Route::get('view/orders', function () {
@@ -186,7 +193,7 @@ Route::group(['middleware' => 'auth'], function () {
                 'product' => Product::find($id)->load('offers')
             ]);
         })->name('offers');
-        Route::post('/handle/offers', [OfferController::class,'handleoffers']);
+        Route::post('/handle/offers', [OfferController::class, 'handleoffers']);
 
         Route::get('/reports', function () {
             return Inertia::render('Admin/Reports');
@@ -201,7 +208,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/checkout', function () {
             return Inertia::render('Checkout', []);
         });
-
     });
     Route::get('/cart', function () {
         return Inertia::render('Cart', []);
@@ -214,8 +220,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
     });
     Route::get('/getfullcart', function () {
-       return auth()->user()->cart->load('product','offer');
-
+        return auth()->user()->cart->load('product', 'offer');
     });
 
 

@@ -478,8 +478,8 @@ const resources = [
     href: "/",
   },
   {
-    name: "Ad Marketplace",
-    href: "/marketplace",
+    name: "Ad Inventory",
+    href: "/inventory",
   },
   {
     name: "About Us",

@@ -43,7 +43,7 @@
             </div>
 
             <div class="flex justify-center mt-4">
-              <Link href="/marketplace">
+              <Link href="/inventory">
               <button
                 type="button"
                 class="

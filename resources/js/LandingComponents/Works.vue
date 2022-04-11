@@ -5,24 +5,28 @@
       <h4 class="text-white font-bold text-xl">How it works</h4>
     </div>
     <div class="ml-auto w-full md:w-[85%]  px-5 grid grid-cols-1 md:grid-cols-4 gap-5 md:absolute md:bottom-[-15%] right-0">
-      <span class="bg-white rounded ld shadow-lg p-5 text-left" v-for="(n,index) in content" :key="index">
-        <div class="flex items-center mb-5">
+      <span class="group flex flex-col bg-white rounded ld shadow-lg p-5 text-left" v-for="(n,index) in content" :key="index">
+        <div class="grow peer">
+          <div class="flex items-center mb-5">
          <span class="flex justify-center items-center w-8 h-8 rounded-full bg-orange-100 mr-2">
            <span class="text-orange-500 text-sm font-bold">{{index+1}}</span>
 
          </span>
-         <h6 class="font-bold">{{n.text}}</h6>
+         <h6 class="font-bold">{{n.title}}</h6>
         </div>
-        <p class="mb-6">
-          lorem2ea fuqdbouq nbuiebfu ieby iebcieb cuibcui buicbe uiecbui ebcuqbc
+        <p class="mb-6 text-sm">
+         {{ n.text }}
         </p>
+        </div>
 
 
 
-          <a
+         <div>
+            <a
             v-if="!$page.props.auth.user"
             href="/register"
             class="
+         vibrate-1
               hidden
               md:inline
 
@@ -46,6 +50,7 @@
           >
            Get started
           </a>
+         </div>
 
       </span>
     </div>
@@ -54,13 +59,17 @@
 </template>
 <script>
 const content = [
-  { text:'Find spot',
+  { title:'Find spot',
+  text:"Search to find suitable ad spaces for your brand. Access over 10000 advertising spaces and brand solutions across Nigeria. You can search based on location, media channel or budget. Our experts are also available to help you here."
   },
-  { text:'Bid spot',
+  { title:'Bid spot',
+  text:'Confirm availability of space(s) and negotiate to get the best deal. '
   },
-  { text:'Get spot',
+  { title:'Get spot',
+  text:" Pay and start running your campaigns. Campaigns typically start running within 72 hours of payment confirmation and submission of materials by you. Your material must be APCON approved(Our experts can help here as well)"
   },
-  { text:'Place ad',
+  { title:'Place ad',
+  text:'Start running your campaigns'
   }
 ]
 export default {

@@ -29,7 +29,7 @@
 <script setup>
 import { ref, computed, inject } from "vue";
 import axios from "axios";
-
+import {useToast} from 'vue-toast-notification'
 const props = defineProps({
   product: {
     type: Object,
@@ -56,6 +56,7 @@ const props = defineProps({
 });
 
 const emitter = inject("emitter");
+const toast = useToast()
 function addtocart() {
 
 
@@ -73,11 +74,12 @@ function addtocart() {
   axios.post("/addtocart", data).then((res) => {
     if (res.status === 200) {
       emitter.emit("addtocart");
+       toast.success('Added to cart',{position: 'top-right'})
 
     }
   });
 }
- 
+
 const incart = computed(() => {
   if (!props.cart.length) return false;
   return props.cart.some((item) => item.product_id == props.product.id && ((item.status=="pending" && item.type =='negotiable')|| (item.status=="success" && item.type =='non-negotiable')));

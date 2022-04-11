@@ -58,19 +58,19 @@ import { reactive } from "vue";
 import { SearchIcon } from "@heroicons/vue/solid";
 const contents = [
   {
-    title: "Office Location",
+    title: "Social Connect",
     img: "/images/vision.png",
-    text: "10,office road",
+    text: "instagram|@adspots.ng, Facebook|@adspotsng, Linkedin|@adspotsng, Twitter|@adspots.ng",
   },
   {
     title: "Phone number",
     img: "/images/mission.png",
-    text: "+234810374747 / +234810374789",
+    text: "08050692036, 07018123112",
   },
   {
     title: "Email us",
     img: "/images/impact.png",
-    text: "adspot@gmail.com",
+    text: "ekpedemeu@adspots.ng, hello@adspots.ng",
   },
 ];
 export default {

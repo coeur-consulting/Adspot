@@ -1,5 +1,5 @@
 <template lang="">
-<Head title="About Adspot"/>
+<Head title="About Adspots Digital Solutions"/>
 <Navigation />
 <Banner title="About Us" :breadcrumbs="breadcrumbs"/>
   <div class="py-10 px-5 md:px-10 md:py-10 bg-white relative ">

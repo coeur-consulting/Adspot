@@ -10,17 +10,17 @@
 
           <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Online</span>
         </div>
-        <div class="... h-32 md:h-60  rounded-lg box bg2 shadow-sm hover:scale-105 transition ease-in-out duration-300 ">
+        <div class="... h-32 md:h-60  rounded-lg box bg2 shadow-sm hover:scale-105 transition ease-in-out duration-300  ">
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Radio</span>
         </div>
-        <div class="... h-32 md:h-60  rounded-lg box bg3 shadow-sm hover:scale-105 transition ease-in-out duration-300 ">
+        <div class="... h-32 md:h-60  rounded-lg box bg3 shadow-sm hover:scale-105 transition ease-in-out duration-300  ">
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Television</span>
         </div>
 
-        <div class=".. h-32 md:h-60  rounded-lg box bg4 shadow-sm hover:scale-105 transition ease-in-out duration-300 ">
+        <div class=".. h-32 md:h-60  rounded-lg box bg4 shadow-sm hover:scale-105 transition ease-in-out duration-300  ">
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Print</span>
         </div>
-        <div class="col-span-2 ... h-32 md:h-60  rounded-lg box bg5 shadow-sm hover:scale-105 transition ease-in-out duration-300 " >
+        <div class="col-span-2 ... h-32 md:h-60  rounded-lg box bg5 shadow-sm hover:scale-105 transition ease-in-out duration-300  " >
            <span class="bg-white text-black rounded-full px-5 py-1 text-sm absolute bottom-3 right-3 z-10">Out of home</span>
         </div>
       </div>

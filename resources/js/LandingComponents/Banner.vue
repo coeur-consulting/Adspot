@@ -1,14 +1,14 @@
 <template>
-  <section id="banner" class="relative h-[92vh]">
+  <section id="banner" class="relative h-[92vh] group">
     <carousel
       :items-to-show="1"
        :autoplay="5000"
         :wrapAround="true"
       ref="slider"
-      class="h-full w-full"
+      class="h-full w-full "
     >
-      <slide v-for="(item, index) in banners" :key="index">
-        <img class="h-full md:h-[92vh] w-full" :src="item" />
+      <slide v-for="(item, index) in banners" :key="index" class="group">
+        <img class="h-full md:h-[92vh] w-full kenburns-top-right" :src="item" />
       </slide>
 
       <template #addons="{ currentSlide }">
@@ -18,6 +18,7 @@
 
     <div
       class="
+      peer
         container
         mx-auto
         flex flex-col
@@ -34,7 +35,8 @@
     >
       <div class="left_banner w-full md:w-4/6 py-5 px-6 text-white">
         <h1 class="text-white text-3xl font-extrabold mb-4">
-          Nigeria’s number 1 aggregator of advertising spaces and brand
+          Adspots Digital
+            Solutions, Nigeria’s number 1 aggregator of advertising spaces and brand
           solutions
         </h1>
         <div class="banner_m text-left mb-6">
