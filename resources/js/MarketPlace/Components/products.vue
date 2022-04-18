@@ -161,7 +161,7 @@
               "
               :disabled="incart(item.id)"
             >
-              Negotiate
+              {{ incart(item.id) ?'Added to cart':'Negotiate' }}
             </button>
           </div>
         </div>

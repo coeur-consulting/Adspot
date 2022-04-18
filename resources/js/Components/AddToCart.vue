@@ -77,6 +77,10 @@ function addtocart() {
        toast.success('Added to cart',{position: 'top-right'})
 
     }
+  }).catch((err)=>{
+      if(err.response.status==401){
+        toast.info('Login to proceed',{position: 'top-right'})
+      }
   });
 }
 
