@@ -4,8 +4,8 @@
     <div class="w-full md:w-[64%] p-5 text-left z-[1]">
         <h5 class="font-bold mb-5 text-xl">Other Services</h5>
       <div class="grid grid-cols md:grid-cols-2 gap-4 ">
-        <div v-for="n in content" :key="n.title" class="bg-white shadow-lg  rounded-lg p-4">
-          <div class="w-12 h-12 rounded-full shadow-lg bg-orange-500"></div>
+        <div v-for="n in content" :key="n.title" class="bg-white shadow-lg  rounded-lg p-4 group">
+          <div class="w-12 h-12 rounded-full shadow-lg bg-orange-500 group-hover:scale-110 transition ease-in-out duration-300"></div>
 
           <div class="py-4">
             <h6 class="font-bold mb-3">{{n.title}}</h6>
@@ -16,7 +16,7 @@
     </div>
 
 
-    <div class=" relative   w-full md:w-[30%] rounded-lg group">
+    <div class=" relative  mx-auto  w-[90%] md:w-[30%] rounded-lg group  mt-12 md:mt-0">
 
 
    <div class="z-10 md:p-8 h-full  bg-white rounded-lg relative w-full   border  shadow-sm p-4 peer">
@@ -116,6 +116,9 @@ export default {
             message: "",
           };
         }
+        this.$toast.success('Message sent')
+      }).catch(()=>{
+        this.$toast.error('Sending failed')
       });
     },
   },

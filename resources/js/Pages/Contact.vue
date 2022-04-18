@@ -56,6 +56,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 import Banner from "@/Components/Banner";
 import { reactive } from "vue";
 import { SearchIcon } from "@heroicons/vue/solid";
+import {useToast} from'vue-toast-notification'
 const contents = [
   {
     title: "Social Connect",
@@ -82,6 +83,7 @@ export default {
     SearchIcon,
   },
   setup() {
+    const toast = useToast()
     const form = reactive({
       name: "",
       email: "",
@@ -98,6 +100,9 @@ export default {
           form.email = "";
           form.message = "";
         }
+       toast.success('Message sent')
+      }).catch(()=>{
+        toast.error('Sending failed')
       });
     };
     return {
