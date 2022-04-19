@@ -16,6 +16,6 @@ class ContactController extends Controller
          'email' => 'required | email',
          'message'=> 'required'
      ]);
-        Mail::to('succy2010@gmail.com' )->send(new ContactMail($request->all()));
+        Mail::to('support@adspots.ng' )->send(new ContactMail($request->all()));
     }
 }

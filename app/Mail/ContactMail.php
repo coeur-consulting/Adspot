@@ -32,7 +32,7 @@ class ContactMail extends Mailable
     public function build()
     {
         return $this
-        ->subject('New Mail Alert')
+        ->subject('New Message Alert')
         ->markdown('emails.contact', $this->details);
     }
 }
