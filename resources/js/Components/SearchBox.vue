@@ -5,7 +5,7 @@
       <span
         v-for="item in categories"
         :key="item.id"
-        class="py-3 px-2 text-center text-white text-xs capitalize"
+        class="py-3 px-2 text-center text-white text-xs capitalize cursor-pointer"
         :class="{ 'bg-white text-orange-500': active === item.id }"
         @click="setCategory(item.id)"
         >{{ item.name }}</span
