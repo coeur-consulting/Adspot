@@ -13,7 +13,7 @@
         :breakpoints="breakpoints"
         :wrap-around="true"
         :pauseAutoplayOnHover="true"
-      :items-to-show="1.5"
+      :items-to-show="1.2"
       :autoplay="5000"
       :loop="true"
       ref="slider"
@@ -209,12 +209,12 @@ export default {
       breakpoints: {
         // 700px and up
         700: {
-          itemsToShow: 2.5,
+          itemsToShow: 2.3,
           snapAlign: "center",
         },
         // 1024 and up
         1024: {
-          itemsToShow: 3.5,
+          itemsToShow: 3.3,
           snapAlign: "start",
         },
       },

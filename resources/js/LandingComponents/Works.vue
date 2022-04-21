@@ -1,10 +1,10 @@
 <template >
-  <section class="py-16 md:py-0 md:h-80 relative z-[2]">
-    <div class="mb-4 px-5 md:hidden">
+  <section class="py-24 md:py-0 md:h-80 relative z-[2]">
+    <div class="mb-4 px-6 md:hidden">
        <h6 class="text-orange-500">Our Process</h6>
       <h4 class="text-white font-bold text-xl">How it works</h4>
     </div>
-    <div class="ml-auto w-full md:w-[85%]  px-5 grid grid-cols-1 md:grid-cols-4 gap-5 md:absolute md:bottom-[-15%] right-0">
+    <div class="ml-auto w-full md:w-[85%]  px-6 grid grid-cols-1 md:grid-cols-4 gap-5 md:absolute md:bottom-[-15%] right-0">
       <span class="group flex flex-col bg-white rounded ld shadow-lg p-5 text-left" v-for="(n,index) in content" :key="index">
         <div class="grow peer">
           <div class="flex items-center mb-5">

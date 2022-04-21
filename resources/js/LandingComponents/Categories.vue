@@ -1,5 +1,5 @@
 <template >
-  <section id="categories" class="px-5 md:px-0 py-16 relative">
+  <section id="categories" class="px-6 md:px-0 py-24 relative">
     <div class="container mx-auto relative">
     <div class="flex justify-between items-center mb-4">
       <h6 class="font-bolder ">Categories</h6>

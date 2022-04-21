@@ -111,6 +111,7 @@ input::placeholder, :-ms-input-placeholder, ::-webkit-input-placeholder {
   color: white;
   font-size: 0.77rem;
   border-radius: 5px;
+  z-index: index 999;
 }
 .scrolltop:hover {
   opacity: 1;
@@ -2073,6 +2074,14 @@ select {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 .pt-8 {
   padding-top: 2rem;
