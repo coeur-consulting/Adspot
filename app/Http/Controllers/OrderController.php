@@ -43,7 +43,7 @@ class OrderController extends Controller
         return  DB::transaction(function () use ($request) {
 
             $user = auth()->user();
-
+         
 
             $usercart = $user->cart()->get();
             $total = $usercart->map(function ($a) {

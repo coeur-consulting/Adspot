@@ -32,6 +32,7 @@ class CartController extends Controller
 
             $status =  $product->type == 'negotiable' ? 'pending' : 'success';
             $active =  $product->type == 'negotiable' ? true : false;
+            $reference = random_int(10000000, 99999999);
 
             if ($request->has('cartId') && $request->filled('cartId')) {
                 $cart = Cart::find($request->cartId);
@@ -48,7 +49,8 @@ class CartController extends Controller
                     'product_id'  =>  $request->product_id,
                     'type' => $product->type,
                     'duration' => $request->duration,
-                    'status' => $status
+                    'status' => $status,
+
 
                 ]);
             }
@@ -62,7 +64,8 @@ class CartController extends Controller
                 'start' => $request->start,
                 'end' => $request->end,
                 'result' => $status,
-                'status' => $active
+                'status' => $active,
+                'reference' =>  $reference
             ]);
 
 

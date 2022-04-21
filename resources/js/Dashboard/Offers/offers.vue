@@ -35,7 +35,7 @@
                     tracking-wider
                   "
                 >
-                  S/N
+                  Ref
                 </th>
                 <th
                   scope="col"
@@ -112,9 +112,9 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(offer, index) in offers" :key="offer.id">
+              <tr v-for="(offer) in offers" :key="offer.id">
                 <td class="px-6 py-4 whitespace-nowrap text-base text-gray-500">
-                  {{ index + 1 }}
+                  {{ offer.reference }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
