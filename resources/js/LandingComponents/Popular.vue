@@ -1,5 +1,5 @@
 <template lang="">
-  <section id="Popular" class="relative  bg-gray-50 z-[1] px-5 md:px-0">
+  <section id="Popular" class="relative  bg-gray-50 z-[1] px-6 xl:px-0">
     <div class="container mx-auto py-40 md:py-44">
       <div class="mb-5 flex justify-between">
         <h6 class="font-bolder">Most Popular Adspot</h6>

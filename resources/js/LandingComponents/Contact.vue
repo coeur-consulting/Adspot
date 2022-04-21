@@ -1,6 +1,6 @@
 <template lang="">
  <section class="relative h-full py-24 bg-white" id="contact">
-    <div class="container mx-auto h-full w-full text-left px-6 py-3 px-sm-3 flex flex-col md:flex-row justify-between">
+    <div class="container mx-auto h-full w-full text-left  py-3 px-6 xl:px-0 flex flex-col md:flex-row justify-between">
     <div class="w-full md:w-[64%] py-5 text-left z-[1]">
         <h5 class="font-bold mb-5 text-xl">Other Services</h5>
       <div class="grid grid-cols md:grid-cols-2 gap-4 ">

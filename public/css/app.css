@@ -3492,6 +3492,10 @@ select {
     margin-bottom: 0px;
   }
 
+  .lg\:ml-3 {
+    margin-left: 0.75rem;
+  }
+
   .lg\:block {
     display: block;
   }
@@ -3510,6 +3514,10 @@ select {
 
   .lg\:h-\[95vh\] {
     height: 95vh;
+  }
+
+  .lg\:h-10 {
+    height: 2.5rem;
   }
 
   .lg\:w-3\/6 {
@@ -3560,6 +3568,10 @@ select {
     flex-direction: row;
   }
 
+  .lg\:items-center {
+    align-items: center;
+  }
+
   .lg\:gap-x-6 {
     -moz-column-gap: 1.5rem;
          column-gap: 1.5rem;
@@ -3593,6 +3605,11 @@ select {
     padding-bottom: 8rem;
   }
 
+  .lg\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
   .lg\:pt-8 {
     padding-top: 2rem;
   }
@@ -3618,6 +3635,17 @@ select {
   .lg\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+}
+@media (min-width: 1280px) {
+
+  .xl\:w-\[80\%\] {
+    width: 80%;
+  }
+
+  .xl\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 

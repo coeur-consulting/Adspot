@@ -4,14 +4,14 @@
     class="h-16 w-full top-0 z-30 transition ease-in-out duration-300"
     :class="active ? ' fixed shadow  bg-black' : ' bg-transparent absolute'"
   >
-    <div class="px-4 sm:px-0 max-w-screen-xl mx-auto h-full">
+    <div class="px-4 xl:px-0 max-w-screen-xl mx-auto h-full">
       <div class="flex justify-between items-center h-full">
         <div class="flex justify-start items-center mr-6">
           <div class="mr-7 flex-none">
             <a href="/">
               <span class="sr-only">Adspot</span>
               <img
-                class="h-12 w-auto sm:h-10"
+                class="h-12 w-auto lg:h-10"
                 src="/images/logo.png"
                 alt="Adspot"
               />
@@ -139,7 +139,7 @@
                   p-4
                   mt-3
                   right-0
-                  sm:px-0
+                  lg:px-0
                   lg:max-w-sm
                   bg-white
                   rounded-lg
@@ -210,7 +210,7 @@
             SIGN IN
           </a>
           <div
-            class="hidden sm:flex sm:items-center sm:ml-3"
+            class="hidden lg:flex lg:items-center lg:ml-3"
             v-if="$page.props.auth.user"
           >
             <!-- Settings Dropdown -->
