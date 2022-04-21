@@ -33,7 +33,7 @@
         bottom-0
       "
     >
-      <div class="left_banner w-full md:w-4/6 py-5 px-6 text-white">
+      <div class="left_banner w-full md:w-4/6 py-5  text-white">
         <h1 class="text-white text-3xl font-extrabold mb-4">
           Adspots Digital
             Solutions, Nigeria’s number 1 aggregator of advertising spaces and brand
@@ -68,7 +68,7 @@
           </button>
         </div>
       </div>
-      <div class="banner_b text-left w-full px-6 hidden md:block">
+      <div class="banner_b text-left w-full  hidden md:block">
         <SearchBox />
       </div>
 

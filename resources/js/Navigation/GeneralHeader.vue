@@ -13,7 +13,7 @@
       bg-black
     "
   >
-    <div class="px-4 sm:px-6 max-w-screen-xl mx-auto h-full">
+    <div class="px-4 sm:px-0 max-w-screen-xl mx-auto h-full">
       <div class="flex justify-between items-center h-full">
         <div class="flex justify-start items-center mr-6">
           <div class="mr-7 flex-none">

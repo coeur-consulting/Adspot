@@ -1,7 +1,7 @@
 <template lang="">
  <section class="relative h-full py-16 bg-white" id="contact">
     <div class="container mx-auto h-full w-full text-left p-3 flex flex-col md:flex-row justify-between">
-    <div class="w-full md:w-[64%] p-5 text-left z-[1]">
+    <div class="w-full md:w-[64%] py-5 text-left z-[1]">
         <h5 class="font-bold mb-5 text-xl">Other Services</h5>
       <div class="grid grid-cols md:grid-cols-2 gap-4 ">
         <div v-for="n in content" :key="n.title" class="bg-white shadow-lg  rounded-lg p-4 group">

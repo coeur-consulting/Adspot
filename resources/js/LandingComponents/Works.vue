@@ -63,13 +63,13 @@ const content = [
   text:"Search to find suitable ad spaces for your brand. Access over 10000 advertising spaces and brand solutions across Nigeria. You can search based on location, media channel or budget. Our experts are also available to help you here."
   },
   { title:'Bid spot',
-  text:'Confirm availability of space(s) and negotiate to get the best deal. '
+  text:'Confirm availability of space(s) and negotiate to get the best deal. You can rest assured that we will work with you every step of the way to ensure you get value for money and ROI for your brand.  '
   },
   { title:'Get spot',
   text:" Pay and start running your campaigns. Campaigns typically start running within 72 hours of payment confirmation and submission of materials by you. Your material must be APCON approved(Our experts can help here as well)"
   },
   { title:'Place ad',
-  text:'Start running your campaigns'
+  text:'Monitor and track to ensure plan and execution are in alignment. You will receive monthly compliance reports as evidence that campaign ran as planned. You may also engage an independent monitoring agency.'
   }
 ]
 export default {
