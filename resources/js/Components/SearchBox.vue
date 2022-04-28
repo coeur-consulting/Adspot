@@ -1,7 +1,7 @@
 <template >
 
   <div v-if="categories.length" class="transition ease-in-out">
-    <div class="topbox bg-gray-400 grid grid-cols-4 w-[45%]">
+    <div class="topbox bg-gray-400 grid grid-cols-5 w-[60%]">
       <span
         v-for="item in categories"
         :key="item.id"

@@ -19,7 +19,7 @@
             {{ product.description }}
           </p>
         </div>
-        <div class="map bg-blue-100 p-10 rounded-lg w-full md:w-[25%] mb-12">
+        <!-- <div class="map bg-blue-100 p-10 rounded-lg w-full md:w-[25%] mb-12">
           <GMapMap
             :center="center"
             :zoom="7"
@@ -37,7 +37,7 @@
               />
             </GMapCluster>
           </GMapMap>
-        </div>
+        </div> -->
       </div>
       <hr />
       <div class="py-5 mt-6">

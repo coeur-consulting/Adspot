@@ -2,7 +2,7 @@
     <Head title="Welcome" />
     <Navigation />
     <Banner />
-    <Sponsors />
+    <!-- <Sponsors /> -->
     <Categories />
 
     <Works />

@@ -68,6 +68,12 @@ class ProductController extends Controller
 
         return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30));
     }
+    
+    public function allproductsbycategory($id){
+         return  ProductResource::collection(Product::where('category_id', $id)->with('offers', 'category', 'subcategory')->latest()->paginate(30));
+    }
+
+
     public function miniproducts()
     {
 
