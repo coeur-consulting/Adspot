@@ -511,8 +511,8 @@ export default {
         duration_type: "fixed",
       }),
       cloudinary: {
-        uploadPreset: "arudovwen_preset",
-        cloudName: "dv6hfpky1",
+        uploadPreset: "adspots-preset",
+        cloudName: "adspots-cloud",
       },
       start: false,
       files: [],
@@ -559,11 +559,16 @@ export default {
           const formData = new FormData();
           formData.append("file", files[i]);
           formData.append("upload_preset", upload_preset); // Replace the preset name with your own
-          formData.append("api_key", "843343413274745"); // Replace API key with your own Cloudinary API key
+          formData.append("api_key", "427967223253216"); // Replace API key with your own Cloudinary API key
           formData.append("timestamp", (Date.now() / 1000) | 0);
 
           return axios
             .post(`${url}`, formData, {
+                  transformRequest: [function (data, headers) {
+                      delete headers['X-Socket-Id'];
+                      return data;
+                  }]
+              }, {
               headers: { "X-Requested-With": "XMLHttpRequest" },
             })
             .then((response) => this.form.images.push(response.data.secure_url))
@@ -610,7 +615,7 @@ export default {
       },
     },
     adDuration(){
- 
+
       return moment(this.range.end).diff(moment(this.range.start), "days");
     },
     categories() {

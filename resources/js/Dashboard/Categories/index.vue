@@ -21,8 +21,8 @@
         border border-transparent
         rounded-md
         shadow-sm
-        bg-purple-700
-        hover:bg-purple-500
+        bg-orange-700
+        hover:bg-orange-500
         flex
         justify-between
       "
@@ -91,7 +91,7 @@
                   <div class="flex items-center">
 
                     <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
+                      <div class="text-sm font-medium text-gray-900 text-capitalize">
                         {{ category.name }}
                       </div>
                     </div>

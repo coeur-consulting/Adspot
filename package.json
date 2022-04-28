@@ -36,9 +36,11 @@
     },
     "dependencies": {
         "@fawmi/vue-google-maps": "^0.9.4",
-        "@headlessui/vue": "^1.4.3",
+        "@headlessui/vue": "^1.6.0",
         "@heroicons/vue": "^1.0.5",
         "@tinymce/tinymce-vue": "^4.0.6",
+        "@vue-hero-icons/outline": "^1.7.2",
+        "@vue-hero-icons/solid": "^1.7.2",
         "infinite-loading-vue3": "^1.0.1",
         "litepie-datepicker": "^1.0.14",
         "mitt": "^1.2.0",

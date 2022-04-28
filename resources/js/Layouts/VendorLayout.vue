@@ -1,7 +1,7 @@
 
 
 <template>
-  <div class="min-h-screen bg-purple-50">
+  <div class="min-h-screen bg-orange-50">
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -235,7 +235,7 @@
 
       </div>
     </header>
-    <main class="bg-purple-50">
+    <main class="bg-orange-50">
       <div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">
        <slot>
 

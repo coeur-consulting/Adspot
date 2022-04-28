@@ -96,19 +96,19 @@
           inline-flex
           justify-center
           rounded-md
-          border border-purple-300
+          border border-orange-300
           shadow-sm
           px-4
           py-2
-          bg-purple-600
+          bg-orange-600
           text-base
           font-medium
           text-slate-200
-          hover:bg-purple-300
+          hover:bg-orange-300
           focus:outline-none
           focus:ring-2
           focus:ring-offset-2
-          focus:ring-purple-500
+          focus:ring-orange-500
           sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
         "
         :class="{ 'opacity-25': form.processing }"
@@ -188,6 +188,11 @@ export default {
 
           return axios
             .post(`${url}`, formData, {
+                  transformRequest: [function (data, headers) {
+                      delete headers['X-Socket-Id'];
+                      return data;
+                  }]
+              }, {
               headers: { "X-Requested-With": "XMLHttpRequest" },
             })
             .then((response) => this.form.images.push(response.data.secure_url))

@@ -35,7 +35,7 @@
       <editor
         v-model="form.content"
         required
-       api-key="zryhmo2q30xmcrdy1y7c2u2qbcym44l833uxtw2up6f42ya5"
+       api-key="bt2829jw30mae7f9lzl6ut9rxr59ahdsi1n4rbbukwrcjxla"
        :init="{
          height: 500,
          menubar: false,
@@ -214,8 +214,8 @@ export default {
         status:''
       }),
       cloudinary: {
-        uploadPreset: "arudovwen_preset",
-        cloudName: "dv6hfpky1",
+        uploadPreset: "adspots-preset",
+        cloudName: "adspots-cloud",
       },
       start: false,
       files: [],
@@ -237,11 +237,16 @@ export default {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", upload_preset); // Replace the preset name with your own
-      formData.append("api_key", "843343413274745"); // Replace API key with your own Cloudinary API key
+      formData.append("api_key", "427967223253216"); // Replace API key with your own Cloudinary API key
       formData.append("timestamp", (Date.now() / 1000) | 0);
 
       return axios
         .post(`${url}`, formData, {
+                  transformRequest: [function (data, headers) {
+                      delete headers['X-Socket-Id'];
+                      return data;
+                  }]
+              }, {
           headers: { "X-Requested-With": "XMLHttpRequest" },
         })
         .then((response) => {

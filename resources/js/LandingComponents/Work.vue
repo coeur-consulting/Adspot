@@ -56,7 +56,7 @@
 
            </div>
             <div class="banner_b text-center lg:absolute lg:bottom-16 lg:left-1/2">
-            <BreezeButton class="bg-purple-800 text-white">Register now</BreezeButton>
+            <BreezeButton class="bg-orange-800 text-white">Register now</BreezeButton>
 
           </div>
  </section>

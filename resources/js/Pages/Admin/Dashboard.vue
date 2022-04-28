@@ -2,7 +2,7 @@
 
 <template>
 <Head title="Dashboard" />
-  <div class="min-h-screen bg-purple-50">
+  <div class="min-h-screen bg-orange-50">
 <Navigation />
 
     <header class="bg-white shadow">
@@ -16,7 +16,7 @@
 
       </div>
     </header>
-    <main class="bg-purple-50">
+    <main class="bg-orange-50">
       <div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">
         <!-- Replace with your content -->
         <Index />

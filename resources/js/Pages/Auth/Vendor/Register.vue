@@ -82,8 +82,8 @@ export default {
                 phone_no:''
             }),
             cloudinary: {
-        uploadPreset: "arudovwen_preset",
-        cloudName: "dv6hfpky1",
+        uploadPreset: "adspots-preset",
+        cloudName: "adspots-cloud",
       },
         }
     },
@@ -98,7 +98,7 @@ export default {
              const formData = new FormData();
           formData.append("file", file);
           formData.append("upload_preset", upload_preset); // Replace the preset name with your own
-          formData.append("api_key", "843343413274745"); // Replace API key with your own Cloudinary API key
+          formData.append("api_key", "427967223253216"); // Replace API key with your own Cloudinary API key
           formData.append("timestamp", (Date.now() / 1000) | 0);
 
            axios

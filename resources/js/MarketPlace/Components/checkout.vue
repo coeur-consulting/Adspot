@@ -1,6 +1,6 @@
 
 <template>
- 
+
   <div class="container mx-auto py-10">
     <BreezeValidationErrors class="mb-4" />
     <form @submit.prevent="submit" class="mt-10 sm:mt-0">
@@ -32,7 +32,7 @@
                     autocomplete="given-name"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -59,7 +59,7 @@
                     autocomplete="email"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -83,7 +83,7 @@
                     id="phone"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -116,8 +116,8 @@
                       rounded-md
                       shadow-sm
                       focus:outline-none
-                      focus:ring-purple-500
-                      focus:border-purple-500
+                      focus:ring-orange-500
+                      focus:border-orange-500
                       sm:text-sm
                     "
                   >
@@ -142,7 +142,7 @@
                     autocomplete="street-address"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -168,7 +168,7 @@
                     autocomplete="address-level2"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -194,7 +194,7 @@
                     autocomplete="address-level1"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -220,7 +220,7 @@
                     v-model="form.zipcode"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -249,7 +249,7 @@
                     v-model="form.extra_instruction"
                     class="
                       mt-1
-                      focus:ring-purple-500 focus:border-purple-500
+                      focus:ring-orange-500 focus:border-orange-500
                       block
                       w-full
                       shadow-sm
@@ -385,8 +385,8 @@
                   rounded-md
                   shadow-sm
                   focus:outline-none
-                  focus:ring-purple-500
-                  focus:border-purple-500
+                  focus:ring-orange-500
+                  focus:border-orange-500
                   sm:text-sm
                 "
               >
@@ -410,12 +410,12 @@
                   font-medium
                   rounded-md
                   text-white
-                  bg-purple-600
-                  hover:bg-purple-700
+                  bg-orange-600
+                  hover:bg-orange-700
                   focus:outline-none
                   focus:ring-2
                   focus:ring-offset-2
-                  focus:ring-purple-500
+                  focus:ring-orange-500
                 "
                 :disabled="!form.currency"
               >

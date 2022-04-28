@@ -14,11 +14,11 @@
                 </div>
                 <p class="mb-5 p-10">
                   Experience freedom with access to secure wallets, merchant
-                  payment services, instant payouts as a <span class="text-purple-500">Adspot Private Consumer</span>
-                  or<span class="text-purple-500"> Business Owner</span>
+                  payment services, instant payouts as a <span class="text-orange-500">Adspot Private Consumer</span>
+                  or<span class="text-orange-500"> Business Owner</span>
                 </p>
                 <div class="banner_b text-center">
-                  <BreezeButton class="bg-purple-800 text-white"> Get started</BreezeButton>
+                  <BreezeButton class="bg-orange-800 text-white"> Get started</BreezeButton>
                 </div>
               </div>
               <div class="flex justify-center lg:w-3/6">
@@ -44,12 +44,12 @@
               <img src="/images/bag.png" class="w-16 lg:w-40  object-contain" alt="" />
             </div>
             <p class="lg:p-16 mb-4 text-xl lg:text-2xl text-center">
-              <span class="text-purple-500">Adspot Instant Payout</span>
+              <span class="text-orange-500">Adspot Instant Payout</span>
               provides you the freedom of instant access to payout funds in your
               bank accounts in the currency of your choosing.
             </p>
             <div class="banner_b text-center">
-              <BreezeButton class="bg-purple-800 text-white"> Get started</BreezeButton>
+              <BreezeButton class="bg-orange-800 text-white"> Get started</BreezeButton>
             </div>
           </div>
         </slide>
@@ -63,12 +63,12 @@
               />
             </div>
             <p class="p-3 lg:p-16 mb-4 text-xl lg:text-3xl text-center">
-              <span class="text-purple-500"> Adspot Merchant Pay</span> gives
+              <span class="text-orange-500"> Adspot Merchant Pay</span> gives
               you the freedom to send and receive payments for merchant and
               lifestyle services with cryptocurrencies.
             </p>
             <div class="banner_b text-center">
-              <BreezeButton class="bg-purple-800 text-white"> Get started</BreezeButton>
+              <BreezeButton class="bg-orange-800 text-white"> Get started</BreezeButton>
             </div>
 
             <span class="absolute bottom-0 right-0">
@@ -86,19 +86,19 @@
               />
             </div>
             <p class="p-3 lg:p-16 mb-4 text-xl lg:text-2xl text-center">
-              <span class="text-purple-500"> Adspot Wallet</span> empowers you
+              <span class="text-orange-500"> Adspot Wallet</span> empowers you
               as an individuals or business owner with the freedom to trade
               (buy, sell and swap) cryptocurrencies and receive payouts in fiat.
             </p>
             <div class="banner_b text-center">
-              <BreezeButton class="bg-purple-800 text-white"> Get started</BreezeButton>
+              <BreezeButton class="bg-orange-800 text-white"> Get started</BreezeButton>
             </div>
           </div>
         </slide>
         <slide :key="5">
           <div class="lg:p-16 relative">
             <p class="lg:p-16 mb-4 text-md lg:text-2xl text-center">
-              <span class="text-purple-500"> Adspot </span> is an innovative,
+              <span class="text-orange-500"> Adspot </span> is an innovative,
               one-stop financial services platform that gives users premium
               offerings in popular, legacy financial products alongside more
               modern, revolutionary utilities available anywhere in the world
@@ -125,7 +125,7 @@
                   w-[80%] lg:w-auto mx-auto
                 "
               >
-                <span class="text-purple-500">Multi-digital Asset Wallet</span>
+                <span class="text-orange-500">Multi-digital Asset Wallet</span>
                 <br />
                 <span>Learn more</span>
               </div>
@@ -143,7 +143,7 @@
                    w-[80%] lg:w-auto mx-auto
                 "
               >
-                <span class="text-purple-500">Multi-digital Asset Wallet</span>
+                <span class="text-orange-500">Multi-digital Asset Wallet</span>
                 <br />
                 <span>Learn more</span>
               </div>
@@ -161,13 +161,13 @@
                    w-[80%] lg:w-auto mx-auto
                 "
               >
-                <span class="text-purple-500">Multi-digital Asset Wallet</span>
+                <span class="text-orange-500">Multi-digital Asset Wallet</span>
                 <br />
                 <span>Learn more</span>
               </div>
             </div>
             <div class="banner_b text-center">
-              <BreezeButton class="bg-purple-800 text-white">Register Now</BreezeButton>
+              <BreezeButton class="bg-orange-800 text-white">Register Now</BreezeButton>
             </div>
           </div>
         </slide>

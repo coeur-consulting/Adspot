@@ -1,6 +1,6 @@
 <template >
  <Head title="Transaction" />
- <div class="bg-purple-50 h-screen">
+ <div class="bg-orange-50 h-screen">
   <Transaction />
  </div>
 

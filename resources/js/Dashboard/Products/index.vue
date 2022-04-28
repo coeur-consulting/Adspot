@@ -66,7 +66,7 @@
           "
         >
           <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
-          <span class="text-white">Add products</span>
+          <span class="text-white">Add product</span>
         </button>
       </div>
     </div>
