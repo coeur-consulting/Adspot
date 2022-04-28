@@ -299,8 +299,6 @@ export default {
             let end = urlParams.get("end");
 
             if (urlParams.has("category")) {
-             
-
                 if (urlParams.get("category") == 0) {
                     loadProducts();
                 } else {
@@ -316,6 +314,13 @@ export default {
 
             emitter.on("reset", () => {
                 loadProducts();
+            });
+            emitter.on("getCategory", (data) => {
+                if (data == 0) {
+                    loadProducts();
+                } else {
+                    loadProductsByCategory(data);
+                }
             });
         });
         function loadProducts() {
