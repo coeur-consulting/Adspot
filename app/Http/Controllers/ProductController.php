@@ -17,7 +17,16 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30)),
+            'categories' => Category::all(),
+            'subcategories' => Subcategory::all(),
+        ]);
+    }
+
+    public function getactiveproduct()
+    {
+        return Inertia::render('Admin/Products', [
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status',1)->latest()->paginate(30)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -30,13 +39,10 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-
-
             'price' => 'required',
             'category_id' => 'required',
             'subcategory_id' => 'required',
-            'location' => 'required',
-            'impressions' => 'required',
+
         ]);
 
         $user  = auth()->user();
@@ -57,7 +63,7 @@ class ProductController extends Controller
             'duration_type' => $request->duration_type,
             'start_time' => Carbon::parse($request->start_time),
             'end_time' => Carbon::parse($request->end_time),
-            'status' => true
+            'status' => false
 
         ]);
 
@@ -66,9 +72,9 @@ class ProductController extends Controller
     public function allproducts()
     {
 
-        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30));
+        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30));
     }
-    
+
     public function allproductsbycategory($id){
          return  ProductResource::collection(Product::where('category_id', $id)->with('offers', 'category', 'subcategory')->latest()->paginate(30));
     }

@@ -64,9 +64,9 @@
       "
     >
       <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
-        <p class="mb-2 text-base text-black">
+        <!-- <p class="mb-2 text-base text-black">
           {{ product.impressions.toLocaleString("en-US") }} Weekly impressions
-        </p>
+        </p> -->
         <p class="mb-1 font-bold text-3xl text-black">
           {{ currency(product.price) }}
           <span class="text-xs">/ {{ product.duration }} days</span>
@@ -85,11 +85,11 @@
         </p>
         <p class="mb-1 text-base leading-snug">
           <span class="text-black">Location</span> :
-          <span class="text-slate-600"> {{ product.location }}</span>
+          <span class="text-slate-600"> {{ product.location?product.location:'N/A' }}</span>
         </p>
         <p class="mb-2 text-base">
           <span class="text-black">Dimension</span> :
-          <span class="text-slate-600">{{ product.dimension }}</span>
+          <span class="text-slate-600">{{ product.dimension?product.dimension:'N/A' }}</span>
         </p>
         <p class="mb-1 text-base">
           <span class="text-black">Type</span> :

@@ -69,14 +69,14 @@
                                             >/ {{ cart.duration }} days</span
                                         >
                                     </p>
-                                    <p class="font-bold text-sm">
+                                    <!-- <p class="font-bold text-sm">
                                         {{
                                             cart.product.impressions.toLocaleString(
                                                 "en-US"
                                             )
                                         }}
                                         Weekly Impression
-                                    </p>
+                                    </p> -->
                                     <p
                                         class="font-bold text-base"
                                         v-if="cart.offer"

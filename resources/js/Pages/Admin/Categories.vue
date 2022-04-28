@@ -7,7 +7,7 @@
       Categories
     </template>
     <template #default>
-      <Categories :categories="categories"/>
+      <Categories :categories="categories" :subcategories="subcategories"/>
     </template>
   </AdminLayout>
 </template>
@@ -19,7 +19,7 @@ import Categories from "@/Dashboard/Categories/index";
 
 
 export default {
-  props:['auth','categories'],
+  props:['auth','categories','subcategories'],
   components: {
 
     Categories,

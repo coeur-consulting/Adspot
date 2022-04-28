@@ -65,9 +65,9 @@
       "
     >
       <div class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8">
-        <p class="mb-2 text-base text-black">
+        <!-- <p class="mb-2 text-base text-black">
           {{ product.impressions.toLocaleString("en-US") }} Weekly impressions
-        </p>
+        </p> -->
         <p class="mb-1 font-bold text-3xl text-black">
           {{ currency(product.price) }}
           <span class="text-xs">/ {{ product.duration }} days</span>

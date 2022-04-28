@@ -24,7 +24,7 @@
                     class="p-4 text-left"
                     :class="viewType == 'grid' ? 'w-full' : 'md:w-[60%]'"
                 >
-                    <p
+                    <!-- <p
                         :class="
                             viewType == 'grid'
                                 ? 'text-sm truncate text-ellipsis overflow-hidden ...'
@@ -33,7 +33,7 @@
                     >
                         {{ item.impressions.toLocaleString("en-US") }} Weekly
                         impressions
-                    </p>
+                    </p> -->
                     <p class="font-bold text-xl">
                         {{ currency(item.price) }}
                         <span class="text-xs">/ {{ item.duration }} days</span>
@@ -70,7 +70,7 @@
                         "
                     >
                         <span>Location</span> :
-                        <span class="text-slate-600"> {{ item.location }}</span>
+                        <span class="text-slate-600"> {{ item.location?item.location:'N/A' }}</span>
                     </p>
                     <p
                         :class="
@@ -80,7 +80,7 @@
                         "
                     >
                         <span>Dimension</span> :
-                        <span class="text-slate-600">{{ item.dimension }}</span>
+                        <span class="text-slate-600">{{ item.dimension?item.dimension:'N/A' }}</span>
                     </p>
                     <p
                         :class="

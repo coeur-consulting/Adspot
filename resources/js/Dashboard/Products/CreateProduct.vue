@@ -143,48 +143,11 @@
         type="text"
         class="mt-1 block w-full"
         v-model="form.location"
-        required
+
         autocomplete="location"
       />
     </div>
-    <div class="grid grid-cols-3 gap-5">
-      <div class="mt-4">
-        <BreezeLabel for="impressions" value="Impressions" />
-        <BreezeInput
-          id="impressions"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.impressions"
-          required
-          autocomplete="impressions"
-        />
-      </div>
-      <div class="mt-4">
-        <BreezeLabel for="dimension" value="Dimension" />
-        <BreezeInput
-          id="dimension"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.dimension"
-          required
-          placeholder="e.g 2000 x 400"
-          autocomplete="dimension"
-        />
-      </div>
-      <div class="mt-4">
-        <BreezeLabel for="duration" value="Duration(in days)" />
-        <BreezeInput
-          id="duration"
-          type="number"
-          class="mt-1 block w-full"
-          v-model="form.duration"
-          required
-          readonly
-          placeholder="e.g 30"
-          autocomplete="duration"
-        />
-      </div>
-    </div>
+
 
     <div class="grid md:grid-cols-2 gap-6 items-center">
       <div class="mt-4">
@@ -321,7 +284,44 @@
         </template>
       </v-date-picker>
     </div>
+ <div class="grid grid-cols-3 gap-5">
+     <!--     <div class="mt-4">
+        <BreezeLabel for="impressions" value="Impressions" />
+        <BreezeInput
+          id="impressions"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.impressions"
 
+          autocomplete="impressions"
+        />
+      </div> -->
+      <div class="mt-4">
+        <BreezeLabel for="dimension" value="Dimension" />
+        <BreezeInput
+          id="dimension"
+          type="text"
+          class="mt-1 block w-full"
+          v-model="form.dimension"
+
+          placeholder="e.g 2000 x 400"
+          autocomplete="dimension"
+        />
+      </div>
+      <div class="mt-4">
+        <BreezeLabel for="duration" value="Duration(in days)" />
+        <BreezeInput
+          id="duration"
+          type="number"
+          class="mt-1 block w-full"
+          v-model="form.duration"
+          required
+          readonly
+          placeholder="e.g 30"
+          autocomplete="duration"
+        />
+      </div>
+    </div>
     <div class="mt-4">
       <BreezeLabel for="description" value="Description" />
       <BreezeTextarea

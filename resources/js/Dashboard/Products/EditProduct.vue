@@ -143,22 +143,22 @@
         type="text"
         class="mt-1 block w-full"
         v-model="form.location"
-        required
+
         autocomplete="location"
       />
     </div>
     <div class="grid grid-cols-3 gap-5">
-      <div class="mt-4">
+      <!-- <div class="mt-4">
         <BreezeLabel for="impressions" value="Impressions" />
         <BreezeInput
           id="impressions"
           type="number"
           class="mt-1 block w-full"
           v-model="form.impressions"
-          required
+
           autocomplete="impressions"
         />
-      </div>
+      </div> -->
       <div class="mt-4">
         <BreezeLabel for="dimension" value="Dimension" />
         <BreezeInput
@@ -166,7 +166,7 @@
           type="text"
           class="mt-1 block w-full"
           v-model="form.dimension"
-          required
+
           placeholder="e.g 2000 x 400"
           autocomplete="dimension"
         />
@@ -185,38 +185,7 @@
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6 items-center">
-      <div class="mt-4">
-        <BreezeLabel for="duration_type" class="mb-2" value="Duration type" />
-        <div class="flex items-center">
-          <label class="mr-5 flex items-center text-sm">
-            <input
-              type="radio"
-              v-model="form.duration_type"
-              value="fixed"
-              class="mr-2"
-            />
-            <span>Fixed</span>
-          </label>
-          <label class="flex items-center text-sm">
-            <input
-              type="radio"
-              v-model="form.duration_type"
-              value="flexible"
-              class="mr-2"
-            />
-            <span>Flexible</span>
-          </label>
-        </div>
-      </div>
-      <div class="mt-4">
-        <BreezeLabel for="featured" class="mb-2" value="Featured" />
-        <div class="flex">
-          <BreezeCheckbox id="featured" class="mr-2" v-model="form.featured" />
-          <BreezeLabel for="featured" value="Feature in popular" />
-        </div>
-      </div>
-    </div>
+
     <div class="mt-4">
       <span class="block text-gray-600 text-sm text-left font-bold mb-2"
         >Select Availabilty Range</span
@@ -320,7 +289,38 @@
         </template>
       </v-date-picker>
     </div>
-
+ <div class="grid md:grid-cols-2 gap-6 items-center">
+      <div class="mt-4">
+        <BreezeLabel for="duration_type" class="mb-2" value="Duration type" />
+        <div class="flex items-center">
+          <label class="mr-5 flex items-center text-sm">
+            <input
+              type="radio"
+              v-model="form.duration_type"
+              value="fixed"
+              class="mr-2"
+            />
+            <span>Fixed</span>
+          </label>
+          <label class="flex items-center text-sm">
+            <input
+              type="radio"
+              v-model="form.duration_type"
+              value="flexible"
+              class="mr-2"
+            />
+            <span>Flexible</span>
+          </label>
+        </div>
+      </div>
+      <div class="mt-4">
+        <BreezeLabel for="featured" class="mb-2" value="Featured" />
+        <div class="flex">
+          <BreezeCheckbox id="featured" class="mr-2" v-model="form.featured" />
+          <BreezeLabel for="featured" value="Feature in popular" />
+        </div>
+      </div>
+    </div>
     <div class="mt-4">
       <BreezeLabel for="description" value="Description" />
       <BreezeTextarea

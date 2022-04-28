@@ -33,9 +33,9 @@
           />
         </div>
         <div class=" p-4 text-left"  >
-          <p   class="text-sm truncate text-ellipsis overflow-hidden ...">
+          <!-- <p   class="text-sm truncate text-ellipsis overflow-hidden ...">
             {{ item.impressions.toLocaleString('en-US') }} Weekly impressions
-          </p>
+          </p> -->
           <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
 
  <p  class="text-sm truncate text-ellipsis overflow-hidden ...">

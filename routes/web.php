@@ -73,6 +73,11 @@ Route::get('/inventory', function () {
     ]);
 });
 
+Route::get('/get-subcategories/{id}', [CategoryController::class,"getsubcat"]);
+Route::post('/store-subcat', [CategoryController::class, "storesubcat"])->name("subcategories.store");
+Route::put('/update-subcat/{id}', [CategoryController::class, "updatesubcat"])->name("subcategories.update");
+Route::delete('/delete-subcat/{id}', [CategoryController::class, "delsubcat"])->name("subcategories.delete");
+
 //News route
 Route::get('/news', function () {
     return Inertia::render('Blogs', []);
@@ -170,6 +175,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             ]
         ]);
+        Route::delete('delete-category/{category}',[CategoryController::class,"destroy"]);
         Route::get('/dashboard', function () {
             return Inertia::render('Admin/Dashboard', [
 
