@@ -34,9 +34,9 @@ use App\Http\Controllers\Auth\RedirectAuthenticatedUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// if(App::environment('production')){
-//     URL::forceScheme('https');
-// }
+if(App::environment('production')){
+    URL::forceScheme('https');
+}
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
