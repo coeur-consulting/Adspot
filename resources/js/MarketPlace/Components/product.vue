@@ -177,13 +177,13 @@
       <div class="bg-gray-50 rounded-lg p-5">
         <h5 class="font-bold mb-2 text-black">For Enquiries</h5>
         <p class="text-sm">
-          <span class="">Email</span> : <span class="">tester@test.com</span>
+          <span class="">Email</span> : <span class=""><a target="_blank" href="mailto:hello@adspots.ng">hello@adspots.ng</a></span>
         </p>
         <p class="text-sm">
-          <span class="">Call Phone</span> : <span class="">+234901258839</span>
+          <span class="">Call Phone</span> : <span class="">+2348050692036</span>
         </p>
         <p class="text-sm">
-          <span class="">Whatsapp</span> : <span class="">+234901258839</span>
+          <span class="">Whatsapp</span> : <span class=""><a target="_blank" href="https://wa.me/+2348050692036">+2348050692036</a></span>
         </p>
       </div>
     </div>
