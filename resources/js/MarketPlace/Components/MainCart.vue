@@ -214,7 +214,7 @@
                           <p>Bank name : Providus Bank</p>
                             <p>Account name : Adspots Digital Solutions</p>
                               <p>Account number : 5400987429</p>
-                              <p class="text-xs text-blue-800">After making payment, send your proof of payment to our email address with your full details</p>
+                              <p class="text-xs text-blue-800 p-2 rounded  bg-blue-50  mt-3">After making payment, send your proof of payment to our email address with your full details</p>
 
                         </div>
                     </div>
