@@ -38,7 +38,7 @@
                         {{ currency(item.price) }}
                         <span class="text-xs">/ {{ item.duration }} days</span>
                     </p>
-                    <p
+                    <!-- <p
                         :class="
                             viewType == 'grid'
                                 ? 'text-sm truncate text-ellipsis overflow-hidden ...'
@@ -49,7 +49,7 @@
                         <span class="text-slate-600 capitalize">{{
                             item.duration_type
                         }}</span>
-                    </p>
+                    </p> -->
                     <p
                         :class="
                             viewType == 'grid'
@@ -79,7 +79,7 @@
                                 : ''
                         "
                     >
-                        <span>Dimension</span> :
+                        <span>Specification</span> :
                         <span class="text-slate-600">{{ item.dimension?item.dimension:'N/A' }}</span>
                     </p>
                     <p

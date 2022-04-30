@@ -23,7 +23,7 @@
                     />
                     <BreezeLabel for="featured" value="Featured " />
                 </div>
-                <div class="mr-3 flex">
+                <!-- <div class="mr-3 flex">
                     <BreezeCheckbox
                         id="negotiable"
                         class="mr-2"
@@ -38,7 +38,7 @@
                         v-model="showNonnegotiable"
                     />
                     <BreezeLabel for="nonnegotiable" value="Non-Negotiable" />
-                </div>
+                </div> -->
             </div>
             <div>
                 <button
@@ -76,7 +76,7 @@
                                     Name
                                 </th>
 
-                                <th
+                                <!-- <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
@@ -87,7 +87,7 @@
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Duration
-                                </th>
+                                </th> -->
                                 <th
                                     scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -116,7 +116,7 @@
 
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     <span class="">Action</span>
                                 </th>
@@ -154,7 +154,7 @@
                                     </div>
                                 </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <!-- <td class="px-6 py-4 whitespace-nowrap">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500 capitalize"
                                     >
@@ -179,7 +179,7 @@
                                             )
                                         }}</span>
                                     </span>
-                                </td>
+                                </td> -->
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                                 >
@@ -242,7 +242,7 @@
                                 </td>
 
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium flex"
+                                    class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex"
                                 >
                                     <div
                                         class="text-sm mr-8 cursor-pointer"

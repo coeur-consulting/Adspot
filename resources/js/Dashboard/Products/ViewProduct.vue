@@ -72,12 +72,12 @@
           {{ currency(product.price) }}
           <span class="text-xs">/ {{ product.duration }} days</span>
         </p>
-        <p class="mb-1 text-base">
+        <!-- <p class="mb-1 text-base">
           <span class="text-black">Duration </span> :
           <span class="text-slate-600 capitalize">{{
             product.duration_type
           }}</span>
-        </p>
+        </p> -->
         <p class="mb-1 text-base">
           <span class="text-black">Ad type</span> :
           <span class="text-slate-600 capitalize">{{
@@ -89,7 +89,7 @@
           <span class="text-slate-600"> {{ product.location }}</span>
         </p>
         <p class="mb-2 text-base">
-          <span class="text-black">Dimension</span> :
+          <span class="text-black">Specification</span> :
           <span class="text-slate-600">{{ product.dimension }}</span>
         </p>
         <p class="mb-1 text-base">

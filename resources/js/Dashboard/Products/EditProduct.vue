@@ -105,7 +105,7 @@
           autocomplete="price"
         />
       </div>
-      <div class="mt-4">
+      <!-- <div class="mt-4">
         <div class="">
           <label for="type" class="block text-sm font-medium text-gray-500"
             >Type</label
@@ -134,7 +134,7 @@
             <option value="non-negotiable">Non-Negotiable</option>
           </select>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="mt-4">
       <BreezeLabel for="location" value="Location" />
@@ -147,7 +147,7 @@
         autocomplete="location"
       />
     </div>
-    <div class="grid grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 gap-5">
       <!-- <div class="mt-4">
         <BreezeLabel for="impressions" value="Impressions" />
         <BreezeInput
@@ -160,18 +160,18 @@
         />
       </div> -->
       <div class="mt-4">
-        <BreezeLabel for="dimension" value="Dimension" />
+        <BreezeLabel for="dimension" value="Specification" />
         <BreezeInput
           id="dimension"
           type="text"
           class="mt-1 block w-full"
           v-model="form.dimension"
 
-          placeholder="e.g 2000 x 400"
+          placeholder="Provide space specifications"
           autocomplete="dimension"
         />
       </div>
-      <div class="mt-4">
+      <!-- <div class="mt-4">
         <BreezeLabel for="duration" value="Duration(in days)" />
         <BreezeInput
           id="duration"
@@ -182,11 +182,11 @@
           placeholder="e.g 30"
           autocomplete="duration"
         />
-      </div>
+      </div> -->
     </div>
 
 
-    <div class="mt-4">
+    <!-- <div class="mt-4">
       <span class="block text-gray-600 text-sm text-left font-bold mb-2"
         >Select Availabilty Range</span
       >
@@ -288,9 +288,9 @@
           </div>
         </template>
       </v-date-picker>
-    </div>
+    </div> -->
  <div class="grid md:grid-cols-2 gap-6 items-center">
-      <div class="mt-4">
+      <!-- <div class="mt-4">
         <BreezeLabel for="duration_type" class="mb-2" value="Duration type" />
         <div class="flex items-center">
           <label class="mr-5 flex items-center text-sm">
@@ -312,7 +312,7 @@
             <span>Flexible</span>
           </label>
         </div>
-      </div>
+      </div> -->
       <div class="mt-4">
         <BreezeLabel for="featured" class="mb-2" value="Featured" />
         <div class="flex">

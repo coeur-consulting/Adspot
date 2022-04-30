@@ -38,9 +38,9 @@
           </p> -->
           <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
 
- <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
-            <span>Duration</span> : <span class="text-slate-400 capitalize">{{item.duration_type}}</span>
-          </p>
+//  <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
+//             <span>Duration</span> : <span class="text-slate-400 capitalize">{{item.duration_type}}</span>
+//           </p>
           <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
             <span>Ad type</span> : <span class="text-slate-400 capitalize">{{item.category.name}}</span>
           </p>
@@ -51,7 +51,7 @@
             >
           </p>
           <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
-            <span>Dimension</span> :
+            <span>Specification</span> :
             <span class="text-slate-400">{{item.dimension}}</span>
           </p>
             <p  class="text-sm truncate text-ellipsis overflow-hidden ...">

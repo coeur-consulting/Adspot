@@ -150,31 +150,31 @@
                         <hr />
 
                         <div class="p-5">
-                            <p class="flex justify-between mb-1">
+                            <p class="flex justify-between mb-2">
                                 <span class="text-sm">Sub total</span>
                                 <span class="font-bold">{{
                                     currency(total + pendingtotal)
                                 }}</span>
                             </p>
                             <p
-                                class="flex justify-between mb-4 text-xs text-slate-400"
+                                class="flex justify-between mb-2 text-sm text-slate-400"
                             >
                                 <span> Pending offers</span>
                                 <span class="font-bold text-yellow-500"
                                     >-{{ currency(pendingtotal) }}</span
                                 >
                             </p>
-                            <p class="flex justify-between mb-4">
+                            <!-- <p class="flex justify-between mb-4">
                                 <span class="text-sm">Total impressions</span>
                                 <span class="font-bold">{{
                                     totalimpressions.toLocaleString("en-US")
                                 }}</span>
-                            </p>
-                            <p class="flex justify-between mb-4">
+                            </p> -->
+                            <p class="flex justify-between mb-2">
                                 <span class="text-sm">Discount</span>
                                 <span class="font-bold">{{ currency(0) }}</span>
                             </p>
-                            <p class="flex justify-between mb-4">
+                            <p class="flex justify-between mb-3">
                                 <span class="text-sm">Coupon applied</span>
                                 <span class="font-bold">{{ currency(0) }}</span>
                             </p>

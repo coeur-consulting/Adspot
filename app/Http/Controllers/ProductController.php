@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function getactiveproduct()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status',1)->latest()->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -55,12 +55,12 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'location' => $request->location,
-            'type' => $request->type,
+            'type' => 'Negotiable',
             'featured' => $request->featured,
             'dimension' => $request->dimension,
-            'duration' => $request->duration,
-            'impressions' => $request->impressions,
-            'duration_type' => $request->duration_type,
+            'duration' => 30,
+            'impressions' => 1,
+            'duration_type' => 'flexible',
             'start_time' => Carbon::parse($request->start_time),
             'end_time' => Carbon::parse($request->end_time),
             'status' => false
@@ -75,8 +75,9 @@ class ProductController extends Controller
         return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30));
     }
 
-    public function allproductsbycategory($id){
-         return  ProductResource::collection(Product::where('category_id', $id)->with('offers', 'category', 'subcategory')->latest()->paginate(30));
+    public function allproductsbycategory($id)
+    {
+        return  ProductResource::collection(Product::where('category_id', $id)->with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30));
     }
 
 
