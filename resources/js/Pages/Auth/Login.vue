@@ -9,7 +9,7 @@
         {{ status }}
       </div>
 
-      <form @submit.prevent="submit">
+      <form @submit.prevent="submit" class="max-w-[450px] mx-auto">
         <legend class="text-center mb-4 text-2xl text-black font-extrabold">Welcome Back</legend>
         <div>
           <BreezeLabel for="email" value="Email" />

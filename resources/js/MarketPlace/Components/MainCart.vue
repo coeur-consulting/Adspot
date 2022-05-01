@@ -62,11 +62,11 @@
                             >
                                 <span>
                                     <p>
-                                        <span class="font-bold text-xl">{{
+                                        <span class="font-semibold text-base">{{
                                             currency(cart.product.price)
                                         }}</span>
                                         <span class="text-sm text-slate-400"
-                                            >/ {{ cart.duration }} days</span
+                                            >/ {{ cart.product.duration }} days</span
                                         >
                                     </p>
                                     <!-- <p class="font-bold text-sm">
@@ -82,7 +82,7 @@
                                         v-if="cart.offer"
                                     >
                                         Negotiated Price:
-                                        {{ currency(cart.price) }}
+                                        {{ currency(cart.price) }} / {{ cart.duration }} days
                                     </p>
                                     <p class="text-slate-400 text-sm">
                                         <span class="capitalize">{{

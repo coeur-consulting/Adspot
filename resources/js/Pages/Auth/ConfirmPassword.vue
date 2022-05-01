@@ -10,7 +10,7 @@
 
     <BreezeValidationErrors class="mb-4" />
 
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" class="max-w-[450px] mx-auto">
         <div>
             <BreezeLabel for="password" value="Password" />
             <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" autofocus />

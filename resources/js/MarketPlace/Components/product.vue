@@ -100,7 +100,7 @@
                     }}</span>
                 </p>
 
-                <div v-if="product.duration_type != 'fixed'">
+                <div >
                     <div
                         v-if="range.start && range.end"
                         class="my-6 border bg-gray-50 rounded-lg grid grid-cols-2 gap-6 p-4"
@@ -286,8 +286,8 @@ export default {
             return parseInt(perDayPrice) * parseInt(days);
         },
         adDuration() {
-            if (this.product.duration_type == "fixed")
-                return this.product.duration;
+            // if (this.product.duration_type == "fixed")
+            //     return this.product.duration;
             if (!this.range.start && !this.range.end)
                 return this.product.duration;
             return Number(

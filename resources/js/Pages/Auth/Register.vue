@@ -6,7 +6,7 @@
       <div>
         <BreezeValidationErrors class="mb-4" />
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="max-w-[450px] mx-auto">
           <legend class="text-center mb-4 text-2xl text-black font-extrabold">Create an account</legend>
           <div>
             <BreezeLabel for="name" value="Full Name" />

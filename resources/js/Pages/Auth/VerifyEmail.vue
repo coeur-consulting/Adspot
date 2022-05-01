@@ -10,7 +10,7 @@
         A new verification link has been sent to the email address you provided during registration.
     </div>
 
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" class="max-w-[450px] mx-auto">
         <div class="mt-4 flex items-center justify-between">
             <BreezeButton class="bg-orange-500 text-white" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Resend Verification Email

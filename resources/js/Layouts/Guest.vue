@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex relative">
-    <div class="hidden md:inline-block md:w-2/4 h-screen relative" id="banner">
+    <div class="hidden md:inline-block md:w-2/4 h-screen relative bg-orange-400" id="banner">
       <carousel :items-to-show="1" :autoplay="5000" :wrapAround="true">
         <slide v-for="(item, index) in banners" :key="index">
           <img class="h-screen w-full object-cover" :src="item" />
