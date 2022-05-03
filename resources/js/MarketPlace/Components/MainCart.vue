@@ -202,21 +202,21 @@
                                 confirmation or remove them to proceed
                             </p>
                         </div>
-                        <!-- <div class="p-5">
+                        <div class="p-5">
                             <Paybtn
                                 :disabled="pendingtotal"
                                 :amount="total"
                                 :email="$page.props.auth.user.email"
                             />
-                        </div> -->
-                        <div v-if="!pendingtotal" class="p-5 border-t">
+                        </div>
+                        <!-- <div v-if="!pendingtotal" class="p-5 border-t">
                           <h5>Bank Transfer</h5>
                           <p>Bank name : Providus Bank</p>
                             <p>Account name : Adspots Digital Solutions</p>
                               <p>Account number : 5400987429</p>
                               <p class="text-xs text-blue-800 p-2 rounded  bg-blue-50  mt-3">After making payment, send your proof of payment to our email address with your full details</p>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
