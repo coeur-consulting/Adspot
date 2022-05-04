@@ -209,6 +209,7 @@
                                 :email="$page.props.auth.user.email"
                             />
                         </div>
+                        
                         <!-- <div v-if="!pendingtotal" class="p-5 border-t">
                           <h5>Bank Transfer</h5>
                           <p>Bank name : Providus Bank</p>
