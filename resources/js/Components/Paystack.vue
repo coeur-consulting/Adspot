@@ -173,7 +173,7 @@ export default {
   setup() {
     const openModal = ref(false);
     const emitter = inject("emitter");
-    const publicKey = ref("pk_test_d41b877edecdbfa1b296661dfe4da9b505ff2895");
+    const publicKey = ref("pk_test_ad2c33c491aa0e4959fb647f8935f93209066b06");
     const isVerified = ref(null);
     function onSuccessfulPayment(response) {
       openModal.value = true;
@@ -212,7 +212,7 @@ export default {
       return text;
     });
   function  gohome(){
-      window.location.href='/marketplace'
+      window.location.href='/inventory'
     }
 
     return {
