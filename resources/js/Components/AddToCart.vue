@@ -89,7 +89,7 @@ return;
 
 const incart = computed(() => {
   if (!props.cart.length) return false;
-  return props.cart.some((item) => item.product_id == props.product.id );
+  return props.cart.some((item) => item.product_id == props.product.id && ((item.status=="pending" && item.type =='negotiable')|| (item.status=="success")));
 });
 
 </script>
