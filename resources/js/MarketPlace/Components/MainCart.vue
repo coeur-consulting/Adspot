@@ -85,7 +85,7 @@
                                         {{ currency(cart.price) }} / {{ cart.duration }} days
                                     </p>
                                     <p class="text-slate-400 text-sm">
-                                        <span class="capitalize">{{
+                                        <span class="capitalize" v-if=" cart.subcategory">{{
                                             cart.product.subcategory.name
                                         }}</span>
                                         @ {{ cart.product.location }}

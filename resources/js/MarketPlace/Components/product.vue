@@ -77,7 +77,7 @@
                 </p> -->
                 <p class="mb-1 text-base">
                     <span class="text-black">Ad type</span> :
-                    <span class="text-slate-600 capitalize">{{
+                    <span class="text-slate-600 capitalize" v-if=" product.subcategory">{{
                         product.subcategory.name
                     }}</span>
                 </p>

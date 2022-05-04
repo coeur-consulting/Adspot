@@ -51,7 +51,7 @@
                         "
                     >
                         <span>Ad type</span> :
-                        <span class="text-slate-600 capitalize">{{
+                        <span v-if=" item.subcategory" class="text-slate-600 capitalize">{{
                             item.subcategory.name
                         }}</span>
                     </p>
