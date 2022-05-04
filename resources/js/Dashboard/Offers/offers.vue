@@ -194,7 +194,7 @@
                   <span v-if="!offer.status">Done</span>
                   <div
                     class="flex items-center justify-end"
-                    v-if="offer.status && product.type == 'negotiable'"
+                    v-if="offer.status && product.type.tolowerCase() == 'negotiable'"
                   >
                     <span
                       class="

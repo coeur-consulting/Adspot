@@ -16,7 +16,7 @@
                         v-for="cart in carts"
                         :key="cart.id"
                     >
-                        <div v-if="cart.product.type == 'negotiable'">
+                        <div v-if="cart.product.type.toLowerCase() == 'negotiable'">
                             <div
                                 class="p-1 bg-orange-100 text-orange-500 text-xs rounded text-center mb-3"
                                 v-if="cart.offer.result == 'pending'"
@@ -101,7 +101,7 @@
                                         <span
                                             class="mr-3 cursor-pointer"
                                             v-if="
-                                                cart.product.type ==
+                                                cart.product.type.toLowerCase() ==
                                                     'negotiable' &&
                                                 cart.offer.result == 'failed'
                                             "
@@ -350,7 +350,7 @@ export default {
           (item) =>
             item.offer &&
             item.offer.result !== "success" &&
-            item.type == "negotiable"
+            item.type.toLowerCase() == "negotiable"
         )
         .map((item) => parseInt(item.price))
         .reduce((a, b) => {
