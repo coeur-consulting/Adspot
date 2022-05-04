@@ -24,16 +24,9 @@
                     class="p-4 text-left"
                     :class="viewType == 'grid' ? 'w-full' : 'md:w-[60%]'"
                 >
-                    <!-- <p
-                        :class="
-                            viewType == 'grid'
-                                ? 'text-sm truncate text-ellipsis overflow-hidden ...'
-                                : ''
-                        "
-                    >
-                        {{ item.impressions.toLocaleString("en-US") }} Weekly
-                        impressions
-                    </p> -->
+                    <p   class="text-base">
+            {{ item.name}}
+          </p>
                     <p class="font-bold text-xl">
                         {{ currency(item.price) }}
                         <span class="text-xs">/ {{ item.duration }} days</span>

@@ -33,14 +33,14 @@
           />
         </div>
         <div class=" p-4 text-left"  >
-          <!-- <p   class="text-sm truncate text-ellipsis overflow-hidden ...">
-            {{ item.impressions.toLocaleString('en-US') }} Weekly impressions
-          </p> -->
+          <p   class="text-base">
+            {{ item.name}}
+          </p>
           <p class="font-bold text-xl">{{ currency(item.price) }} <span class="text-xs">/ {{item.duration}} days</span></p>
-
+<!--
 //  <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
 //             <span>Duration</span> : <span class="text-slate-400 capitalize">{{item.duration_type}}</span>
-//           </p>
+//           </p> -->
           <p  class="text-sm truncate text-ellipsis overflow-hidden ...">
             <span>Ad type</span> : <span class="text-slate-400 capitalize">{{item.category.name}}</span>
           </p>
