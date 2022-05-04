@@ -41,7 +41,7 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required',
             'category_id' => 'required',
-            'subcategory_id' => 'required',
+
 
         ]);
 
@@ -55,7 +55,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'location' => $request->location,
-            'type' => 'Negotiable',
+            'type' => 'negotiable',
             'featured' => $request->featured,
             'dimension' => $request->dimension,
             'duration' => 30,

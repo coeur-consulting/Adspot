@@ -30,8 +30,8 @@ class CartController extends Controller
             $product = Product::find($request->product_id);
             $user  = auth()->user();
 
-            $status =  $product->type == 'negotiable' ? 'pending' : 'success';
-            $active =  $product->type == 'negotiable' ? true : false;
+            $status =  strtolower($product->type) == 'negotiable' ? 'pending' : 'success';
+            $active =  strtolower($product->type) == 'negotiable' ? true : false;
             $reference = random_int(10000000, 99999999);
 
             if ($request->has('cartId') && $request->filled('cartId')) {

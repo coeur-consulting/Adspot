@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->boolean('featured')->default(false);
             $table->foreignId('user_id')->ondelete('cascade')->onupdate('cascade');
             $table->foreignId('category_id')->ondelete('cascade')->onupdate('cascade');
-            $table->foreignId('subcategory_id')->ondelete('cascade')->onupdate('cascade');
+            $table->foreignId('subcategory_id')->ondelete('cascade')->onupdate('cascade')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

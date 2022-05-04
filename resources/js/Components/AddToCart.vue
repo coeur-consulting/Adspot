@@ -58,7 +58,10 @@ const props = defineProps({
 const emitter = inject("emitter");
 const toast = useToast()
 function addtocart() {
-
+if(!props.duration || !props.negotiation){
+ toast.info('Select a duration and price',{position: 'bottom'})
+return;
+}
 
   let data = {
     product_id: props.product.id,

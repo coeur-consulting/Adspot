@@ -186,7 +186,7 @@
     </div>
 
 
-    <!-- <div class="mt-4">
+    <div class="mt-4">
       <span class="block text-gray-600 text-sm text-left font-bold mb-2"
         >Select Availabilty Range</span
       >
@@ -288,7 +288,7 @@
           </div>
         </template>
       </v-date-picker>
-    </div> -->
+    </div>
  <div class="grid md:grid-cols-2 gap-6 items-center">
       <!-- <div class="mt-4">
         <BreezeLabel for="duration_type" class="mb-2" value="Duration type" />
