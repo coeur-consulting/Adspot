@@ -6,7 +6,7 @@
         <div
             class="h-[200px] md:h-[450px] product_image"
             :style="`background-image:url(${
-                product.media ? product.media[0] : '/images/banner.png'
+                product.media.length ? product.media[0] : '/images/banner.png'
             })`"
         ></div>
         <div class="w-full md:w-4/6 mr-auto px-5 py-10">

@@ -17,7 +17,7 @@
                 <div :class="viewType == 'grid' ? 'w-full' : 'md:w-[40%]'">
                     <img
                         class="w-full h-full object-center object-cover h-[200px]"
-                        :src="item.media ? item.media[0] : '/images/banner.png'"
+                        :src="item.media.length ? item.media[0] : '/images/banner.png'"
                     />
                 </div>
                 <div

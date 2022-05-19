@@ -17,6 +17,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('handle:status')->everyMinute();
+        $schedule->command('queue:work', [
+            '--max-time' => 300
+        ])->withoutOverlapping();
     }
 
     /**

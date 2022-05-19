@@ -53,12 +53,12 @@
         </div>
     </div>
     <div class="flex flex-col">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ">
             <div
                 class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
             >
                 <div
-                    class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+                    class="shadow  border-b border-gray-200 sm:rounded-lg bg-white pb-8"
                 >
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -140,7 +140,7 @@
                                         >
                                             <img
                                                 class="h-6 w-6 rounded-full"
-                                                :src="product.media[0]"
+                                                :src="product.media.length?product.media[0]:'/images/banner.png'"
                                                 alt=""
                                             />
                                         </div>
@@ -212,13 +212,13 @@
                                                 @change="
                                                     updatestatus(
                                                         product.id,
-                                                        product.status
+                                                       !product.status
+
                                                     )
                                                 "
                                                 :checked="
                                                     product.status
-                                                        ? true
-                                                        : false
+                                                       
                                                 "
                                                 type="checkbox"
                                                 role="switch"
@@ -284,7 +284,7 @@
                                                 class="absolute z-40 p-4 mt-3 right-0 sm:px-0 lg:max-w-sm bg-white rounded-lg shadow-lg py-4"
                                             >
                                                 <div
-                                                    class="overflow-hidden px-3 py-2 flex"
+                                                    class="px-3 py-2 flex"
                                                 >
                                                     <span
                                                         @click="
@@ -607,12 +607,12 @@ export default {
                 value
             );
             axios
-                .put(this.route("products.update", id), { status: !value })
+                .put(this.route("products.update", id), { status: value })
                 .then((res) => {
                     if (res.status === 200) {
                         this.products = this.products.slice().map((item) => {
                             if (item.id == id) {
-                                item.status = !value;
+                                item.status = value;
                             }
                             return item;
                         });

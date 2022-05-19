@@ -30,6 +30,10 @@ class Product extends Model
 
     ];
 
+    protected $casts = [
+        'status' => 'boolean',
+        'media' => 'array'
+    ];
     public function calendar()
     {
         return $this->hasMany(ProductCalendar::class);
@@ -60,7 +64,5 @@ class Product extends Model
         return $this->hasMany(Offer::class)->with('user')->latest();
     }
 
-    protected $casts = [
-        'media' => 'array'
-    ];
+
 }

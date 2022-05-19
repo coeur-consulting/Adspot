@@ -4,7 +4,7 @@
         <h6 class="font-bold text-xs mb-3 text-center md:hidden">Categories</h6>
         <div class="container mx-auto md:flex items-center text-center">
             <div
-                class="px-1 md:px-6 py-1 rounded-full md:mr-5 capitalize text-xs"
+                class="px-1 md:px-6 py-1 rounded-full md:mr-5 capitalize text-xs cursor-pointer"
                 @click="setCategory(0)"
                 :class="
                     !active ? 'text-orange-500 bg-gray-200' : 'bg-transparent'
@@ -13,7 +13,7 @@
                 All
             </div>
             <div
-                class="px-1 md:px-6 py-1 text-xs rounded-full md:mr-5 capitalize"
+                class="px-1 md:px-6 py-1 text-xs rounded-full md:mr-5 capitalize cursor-pointer"
                 @click="setCategory(item.id)"
                 :class="
                     active === item.id

@@ -29,8 +29,8 @@
         </div>
 
         <div class="md:-mr-2 md:-my-2 lg:hidden flex">
-          <span class="px-4 py-2 relative" @click="open = !open"
-            ><ShoppingCartIcon class="w-6 h-6 text-white" />
+          <span class="px-4 py-2 relative cursor-pointer" @click="open = !open"
+            ><ShoppingCartIcon class="w-6 h-6 text-white " />
             <span
               class="
                 px-1
@@ -258,7 +258,7 @@
               </BreezeDropdown>
             </div>
           </div>
-          <span class="px-3 py-2 relative" @click="open = !open"
+          <span class="px-3 py-2 relative cursor-pointer" @click="open = !open"
             ><ShoppingCartIcon class="w-6 h-6 text-white" />
             <span
               v-if="cart"

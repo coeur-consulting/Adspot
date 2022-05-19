@@ -173,7 +173,7 @@ export default {
   setup() {
     const openModal = ref(false);
     const emitter = inject("emitter");
-    const publicKey = ref("pk_test_ad2c33c491aa0e4959fb647f8935f93209066b06");
+    const publicKey = ref("pk_live_79e5c35b87ad20b3532d42afbc3fc7bf8918efc9");
     const isVerified = ref(null);
     function onSuccessfulPayment(response) {
       openModal.value = true;
