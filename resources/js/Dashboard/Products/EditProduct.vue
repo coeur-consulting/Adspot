@@ -571,7 +571,7 @@ export default {
               }, {
               headers: { "X-Requested-With": "XMLHttpRequest" },
             })
-            .then((response) => this.form.images.push(response.data.secure_url))
+            .then((response) => this.form.media.push(response.data.secure_url))
             .catch((err) => {
               this.start = false;
             });

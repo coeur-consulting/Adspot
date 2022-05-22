@@ -18,7 +18,9 @@
 
       </p>
 
-      <button class="text-white bg-orange-500 rounded-full shadow-lg hover:bg-orange-300 px-5 py-2 text-sm"> Get started</button>
+     <Link href="/inventory">
+        <button class="text-white bg-orange-500 rounded-full shadow-lg hover:bg-orange-300 px-5 py-2 text-sm"> Get started</button>
+     </Link>
 
       </div>
      </div>
@@ -59,7 +61,7 @@
 <script>
 import Navigation from "@/Navigation/Header";
 import Footer from "@/Navigation/Footer";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 import Banner from "@/Components/Banner";
 import { reactive } from "vue";
 const contents = [
@@ -83,6 +85,7 @@ export default {
   components: {
     Navigation,
     Head,
+    Link,
     Banner,
     Footer,
   },

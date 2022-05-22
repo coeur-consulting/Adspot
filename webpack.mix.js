@@ -19,7 +19,15 @@ mix.js("resources/js/app.js", "public/js")
         require("tailwindcss"),
         require("autoprefixer"),
     ])
+    .extract(["vue", "VCalendar", "mitt"])
     .webpackConfig(require("./webpack.config"));
+
+mix.webpackConfig({
+         output: {
+             chunkFilename: "js/[name].bundle.js",
+             publicPath: "/",
+         },
+     });
 
 if (mix.inProduction()) {
     mix.version();

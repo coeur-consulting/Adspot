@@ -75,6 +75,12 @@
                         product.duration_type
                     }}</span>
                 </p> -->
+                 <p class="mb-1 text-base">
+                    <span class="text-black">Category</span> :
+                    <span class="text-slate-600 capitalize" v-if=" product.category">{{
+                        product.category.name
+                    }}</span>
+                </p>
                 <p class="mb-1 text-base">
                     <span class="text-black">Ad type</span> :
                     <span class="text-slate-600 capitalize" v-if=" product.subcategory">{{

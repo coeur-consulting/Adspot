@@ -1,14 +1,12 @@
 require("./bootstrap");
-
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import mitt from "mitt";
 import VCalendar from "v-calendar";
-import VueGoogleMaps from '@fawmi/vue-google-maps'
+// import VueGoogleMaps from '@fawmi/vue-google-maps'
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
-
 
 if (!localStorage.getItem("cartItems")) {
     localStorage.setItem("cartItems", JSON.stringify([]));
@@ -21,7 +19,8 @@ const emitter = mitt();
 const options = {
     // You can set your default options here
 };
- const currencyFormat = (numb)=> {
+
+const currencyFormat = (numb)=> {
     var num = Number(numb);
     if (num) {
         return "₦" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -29,6 +28,7 @@ const options = {
         return "₦0.00";
     }
 };
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}.vue`),
@@ -45,13 +45,13 @@ createInertiaApp({
             .use(VueToast,{
     // One of the options
     position: 'top-right',
-  
+
 })
-            .use(VueGoogleMaps, {
-                load: {
-                    key: "YOUR_API_KEY_COMES_HERE",
-                },
-            })
+            // .use(VueGoogleMaps, {
+            //     load: {
+            //         key: "YOUR_API_KEY_COMES_HERE",
+            //     },
+            // })
             .mixin({ methods: { route } })
             .mount(el);
     },

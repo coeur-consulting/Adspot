@@ -11,7 +11,7 @@
             >
                 <h6 class="font-bold text-xs">Subcategories</h6>
                 <select
-                    required
+
                     v-model="form.subcategory_id"
                     class="border-0 text-[.7rem] focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize"
                 >
@@ -33,7 +33,7 @@
                     <Datepicker
                         :enableTimePicker="false"
                         class="text-[.7rem] w-[250px]"
-                        required
+                        
                         :format="formatter.date"
                         v-model="form.datevalue"
                         range

@@ -15,6 +15,8 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+         <script src="{{ asset('js/vendor.js') }}" defer></script>
+          <script src="{{ asset('js/manifest.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-purple-50">

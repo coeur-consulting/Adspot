@@ -218,7 +218,7 @@
                                                 "
                                                 :checked="
                                                     product.status
-                                                       
+
                                                 "
                                                 type="checkbox"
                                                 role="switch"
@@ -310,10 +310,10 @@
                                                                 product
                                                             )
                                                         "
-                                                        class="mr-3 flex"
+                                                        class="mr-3 flex cursor-pointer"
                                                     >
                                                         <span
-                                                            class="text-xs mr-1"
+                                                            class="text-xs mr-1 cursor-pointer"
                                                             >Edit</span
                                                         >
                                                         <PencilAltIcon
@@ -326,7 +326,7 @@
                                                                 product.id
                                                             )
                                                         "
-                                                        class="flex"
+                                                        class="flex cursor-pointer"
                                                     >
                                                         <span
                                                             class="text-xs mr-1"

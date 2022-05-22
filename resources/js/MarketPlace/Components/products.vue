@@ -31,18 +31,19 @@
                         {{ currency(item.price) }}
                         <span class="text-xs">/ {{ item.duration }} days</span>
                     </p>
-                    <!-- <p
+                    <p
+                    v-if="item.category"
                         :class="
                             viewType == 'grid'
                                 ? 'text-sm truncate text-ellipsis overflow-hidden ...'
                                 : ''
                         "
                     >
-                        <span class="">Duration</span> :
+                        <span class="">Category</span> :
                         <span class="text-slate-600 capitalize">{{
-                            item.duration_type
+                            item.category.name
                         }}</span>
-                    </p> -->
+                    </p>
                     <p
                         :class="
                             viewType == 'grid'
@@ -54,6 +55,7 @@
                         <span v-if=" item.subcategory" class="text-slate-600 capitalize">{{
                             item.subcategory.name
                         }}</span>
+                          <span v-else class="text-slate-600 capitalize">N/a</span>
                     </p>
                     <p
                         :class="

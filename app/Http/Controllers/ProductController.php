@@ -37,15 +37,16 @@ class ProductController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'category_id' => 'required',
+            // 'name' => 'required',
+            // 'description' => 'required',
+            // 'price' => 'required',
+            // 'category_id' => 'required',
 
 
         ]);
-
+        $duration =  Carbon::parse($request->end_time)->diffInDays(Carbon::parse($request->start_time));
         $user  = auth()->user();
+
 
         $product =   $user->products()->create([
             'name' => $request->name,
@@ -58,7 +59,7 @@ class ProductController extends Controller
             'type' => 'negotiable',
             'featured' => $request->featured,
             'dimension' => $request->dimension,
-            'duration' => 30,
+            'duration' =>  $duration,
             'impressions' => 1,
             'duration_type' => 'flexible',
             'start_time' => Carbon::parse($request->start_time),
@@ -120,7 +121,8 @@ class ProductController extends Controller
         if ($request->has('dimension') && $request->filled('dimension')) {
             $product->dimension = $request->dimension;
         }
-        if ($request->has('duration') && $request->filled('duration')) {
+        if ($request->has('end_time') && $request->filled('end_time') &&$request->has('start_time') && $request->filled('start_time')) {
+            $duration =  Carbon::parse($request->end_time)->diffInDays(Carbon::parse($request->start_time));
             $product->duration = $request->duration;
         }
         if ($request->has('media') && $request->filled('media')) {
@@ -187,22 +189,36 @@ class ProductController extends Controller
 
         $location = $request->location;
         $subcategory_id = $request->subcategory_id;
-        $start = Carbon::parse($request->datevalue[0]);
-        $end = Carbon::parse($request->datevalue[1]);
+        $start = $request->has('datevalue') && $request->filled('datevalue')? Carbon::parse($request->datevalue[0]): null;
+        $end = $request->has('datevalue') && $request->filled('datevalue') ? Carbon::parse($request->datevalue[1]) : null;
         $typeFilter = $request->typeFilter;
         $durationFilter = $request->durationFilter;
 
-        $product = Product::with('subcategory', 'category')
-            ->where(function ($query) use ($start, $end) {
-                $query->where('start_time', '<=', $start)->where('end_time', '>=', $end);
-            })
-            ->where('location', 'LIKE', '%' . $location . '%')
-            ->where('subcategory_id', $subcategory_id)
-            ->whereIn('type', $typeFilter)
-            ->whereIn('duration_type', $durationFilter)
+        if($request->has('datevalue') && $request->filled('datevalue')){
+            $product = Product::with('subcategory', 'category')
+                ->where(function ($query) use ($start, $end) {
+                    $query->where('start_time', '<=', $start)->where('end_time', '>=', $end);
+                })
+                ->where('location', 'LIKE', '%' . $location . '%')
+                ->where('subcategory_id', $subcategory_id)
+                ->where('status', 1)
+                ->whereIn('type', $typeFilter)
+                ->whereIn('duration_type', $durationFilter)
 
 
-            ->paginate(30);
+                ->paginate(30);
+        }else{
+            $product = Product::with('subcategory', 'category')
+                ->where('location', 'LIKE', '%' . $location . '%')
+                ->where('subcategory_id', $subcategory_id)
+                ->where('status', 1)
+                ->whereIn('type', $typeFilter)
+                ->whereIn('duration_type', $durationFilter)
+
+
+                ->paginate(30);
+        }
+
         return ProductResource::collection($product);
     }
 

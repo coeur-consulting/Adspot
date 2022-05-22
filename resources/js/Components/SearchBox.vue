@@ -140,7 +140,8 @@ components:{
   },
   computed:{
     filteredsubcategories(){
-      return this.subcategories.filter(item=>item.category_id===this.form.category_id)
+      const subcat = this.subcategories.filter(item=>item.category_id==this.active)
+      return subcat;
     }
   }
 };
