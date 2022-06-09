@@ -17,9 +17,14 @@ class Cart extends Model
         'duration',
         'type',
         'cart_id',
-        'status'
+        'status',
+        'offer_no',
+        'custom_days', 'dateType','start', 'end',
     ];
 
+    protected $casts = [
+        'custom_days' => 'array'
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);

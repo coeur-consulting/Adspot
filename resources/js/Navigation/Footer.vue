@@ -1,5 +1,5 @@
 <template>
-    <section class="bg-gray-100 py-12 px-6 xl:px-0">
+    <section class="bg-gray-100 py-12 px-3 xl:px-0">
         <div class="container mx-auto p-3">
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
                 <div v-for="n in content" :key="n.title">

@@ -40,6 +40,11 @@ class CartController extends Controller
                 $cart->total = intval($request->price);
                 $cart->duration = $request->duration;
                 $cart->status = $status;
+                $cart->start = $request->start;
+                $cart->end = $request->end;
+                $cart->dateType = $request->dateType;
+                $cart->reference = $reference;
+                $cart->custom_days = $request->custom_days;
                 $cart->save();
             } else {
                 $cart =  $user->cart()->create([
@@ -50,13 +55,18 @@ class CartController extends Controller
                     'type' => $product->type,
                     'duration' => $request->duration,
                     'status' => $status,
+                    'custom_days' => $request->days,
+                    'dateType' => $request->dateType,
+                    'start' => $request->start,
+                    'end' => $request->end,
+                    'offer_no' => $reference
 
 
                 ]);
             }
 
 
-          $offer =  $user->offers()->create([
+            $offer =  $user->offers()->create([
                 'bid_price' => $request->price,
                 'duration' => $request->duration,
                 'product_id' => $request->product_id,
@@ -65,21 +75,23 @@ class CartController extends Controller
                 'end' => $request->end,
                 'result' => $status,
                 'status' => $active,
-                'reference' =>  $reference
+                'reference' =>  $reference,
+                'custom_days' => $request->days,
+                'dateType' => $request->dateType
             ]);
 
 
             //if($product->type=='negotiable'){
-                //Notify admin
-                $admin = User::where('is_admin', 1)->first();
-                $data = [
-                    'body' => 'There are new offers for ' . ucfirst($product->name),
-                    'url' => url('') . '/offers/' . $product->id, $product,
-                    'read_at'=> null
-                ];
-                $admin->notify(new NewOfferAlert($data));
+            //Notify admin
+            $admin = User::where('is_admin', 1)->first();
+            $data = [
+                'body' => 'There are new offers for ' . ucfirst($product->name),
+                'url' => url('') . '/offers/' . $product->id, $product,
+                'read_at' => null
+            ];
+            $admin->notify(new NewOfferAlert($data));
 
-           // }
+            // }
 
 
             return response(['message' => 'ok']);

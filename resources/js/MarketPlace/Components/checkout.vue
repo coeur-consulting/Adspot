@@ -355,7 +355,7 @@
               </div>
             </div>
 
-            <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+            <div class="border-t border-gray-200 py-6 px-4 sm:px-3">
               <div
                 class="flex justify-between text-base font-medium text-gray-900"
               >
@@ -396,7 +396,7 @@
                 </option>
               </select>
             </div>
-            <div class="px-4 py-3 bg-gray-50 text-center sm:px-6">
+            <div class="px-4 py-3 bg-gray-50 text-center sm:px-3">
               <button
                 type="submit"
                 class="

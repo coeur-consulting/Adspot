@@ -19,7 +19,7 @@ mix.js("resources/js/app.js", "public/js")
         require("tailwindcss"),
         require("autoprefixer"),
     ])
-    .extract(["vue", "VCalendar", "mitt"])
+    .extract(["vue","jquery", "VCalendar", "mitt"])
     .webpackConfig(require("./webpack.config"));
 
 mix.webpackConfig({

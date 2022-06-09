@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderHistory extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'store_id', 'product_id', 'quantity', 'price', 'order_id','subtotal'];
+    protected $fillable = ['user_id', 'store_id', 'product_id', 'quantity', 'price', 'order_id','subtotal','custom_days', 'dateType', 'start', 'end','offer_no'];
 
     public function user()
     {
@@ -26,4 +26,8 @@ class OrderHistory extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    protected $casts = [
+        'custom_days' => 'array'
+    ];
 }

@@ -43,7 +43,28 @@
             </div>
             <hr />
             <div class="py-5 mt-6">
+                  <label class="mb-4 font-semibold">Choose selection type</label>
+                <div class="flex items-center mb-5">
+
+                    <label class="flex items-center mr-5"
+                        ><input
+                            type="radio"
+                            v-model="dateType"
+                            value="range"
+                            class="mr-1"
+                        />Date Range</label
+                    >
+                    <label class="flex items-center"
+                        ><input
+                            type="radio"
+                            v-model="dateType"
+                            value="custom"
+                            class="mr-1"
+                        />Custom Date</label
+                    >
+                </div>
                 <v-date-picker
+                    v-if="dateType == 'range'"
                     color="orange"
                     mode="date"
                     v-model="range"
@@ -52,6 +73,16 @@
                     is-expanded
                     :modelConfig="modelConfig"
                     :min-date="new Date()"
+                />
+                <v-calendar
+                    v-if="dateType == 'custom'"
+                    color="orange"
+                    :columns="$screens({ default: 1, lg: 2 })"
+                    :min-date="new Date()"
+                    mode="date"
+                    :attributes="attributes"
+                    @dayclick="onDayClick"
+                    is-expanded
                 />
             </div>
         </div>
@@ -62,9 +93,6 @@
             <div
                 class="bg-white md:shadow-lg px-5 py-8 text-left rounded-lg mb-8"
             >
-                <!-- <p class="mb-2 text-base text-black">
-          {{ product.impressions.toLocaleString("en-US") }} Weekly impressions
-        </p> -->
                 <p class="mb-1 font-bold text-3xl text-black">
                     {{ currency(product.price) }}
                     <span class="text-xs">/ {{ product.duration }} days</span>
@@ -75,17 +103,21 @@
                         product.duration_type
                     }}</span>
                 </p> -->
-                 <p class="mb-1 text-base">
+                <p class="mb-1 text-base">
                     <span class="text-black">Category</span> :
-                    <span class="text-slate-600 capitalize" v-if=" product.category">{{
-                        product.category.name
-                    }}</span>
+                    <span
+                        class="text-slate-600 capitalize"
+                        v-if="product.category"
+                        >{{ product.category.name }}</span
+                    >
                 </p>
                 <p class="mb-1 text-base">
                     <span class="text-black">Ad type</span> :
-                    <span class="text-slate-600 capitalize" v-if=" product.subcategory">{{
-                        product.subcategory.name
-                    }}</span>
+                    <span
+                        class="text-slate-600 capitalize"
+                        v-if="product.subcategory"
+                        >{{ product.subcategory.name }}</span
+                    >
                 </p>
                 <p class="mb-1 text-base leading-snug">
                     <span class="text-black">Location</span> :
@@ -106,7 +138,7 @@
                     }}</span>
                 </p>
 
-                <div >
+                <div v-if="dateType == 'range'">
                     <div
                         v-if="range.start && range.end"
                         class="my-6 border bg-gray-50 rounded-lg grid grid-cols-2 gap-6 p-4"
@@ -131,7 +163,7 @@
                         <span>Select a date</span>
                     </div>
                 </div>
-                <div class="my-3" >
+                <div class="my-3">
                     <div
                         class="flex shadow-sm rounded overflow-hidden border border-gray-300"
                     >
@@ -144,7 +176,6 @@
                             <input
                                 class="w-full h-full px-3 py-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 v-model="negotiation"
-
                                 type="number"
                                 placeholder="Negotiate price"
                             />
@@ -165,6 +196,7 @@
                 <div class="mt-4">
                     <AddToCart
                         class="w-full text-base"
+                        :days="dates"
                         :product="product"
                         :negotiation="parseInt(negotiation)"
                         :duration="parseInt(adDuration)"
@@ -172,6 +204,7 @@
                         :start="range.start"
                         :end="range.end"
                         :cartId="product.offer ? product.offer.cart_id : null"
+                        :dateType="dateType"
                     />
                 </div>
             </div>
@@ -188,7 +221,9 @@
                 </p>
                 <p class="text-sm">
                     <span class="">Call Phone</span> :
-                    <span class="">+2348050692036</span>
+                    <span class=""
+                        ><a href="tel:2348050692036">+2348050692036</a></span
+                    >
                 </p>
                 <p class="text-sm">
                     <span class="">Whatsapp</span> :
@@ -264,45 +299,75 @@ export default {
     data() {
         return {
             date: new Date(),
+            dateType: "range",
             range: {
                 start: null,
                 end: null,
             },
+            days: [],
         };
     },
     mounted() {
         this.setnegotiation();
-        this.range.start = this.product.start_time;
-        this.range.end = this.product.end_time;
+        // this.range.start = this.product.start_time;
+        // this.range.end = this.product.end_time;
     },
     watch: {
         flexiblePrice: "setnegotiation",
     },
     computed: {
+        dates() {
+            return this.days.map((day) => day.date);
+        },
+        attributes() {
+            return this.dates.map((date) => ({
+                highlight: true,
+                dates: date,
+                color: "orange",
+            }));
+        },
         flexiblePrice() {
-            if (this.product.duration_type == "fixed")
-                return this.product.price;
-            if (!this.range.start && !this.range.end) return this.product.price;
-            let days = moment(this.range.end).diff(
-                moment(this.range.start),
-                "days"
-            );
-            let perDayPrice =
-                parseInt(this.product.price) / parseInt(this.product.duration);
-            return parseInt(perDayPrice) * parseInt(days);
+            // if (this.product.duration_type == "fixed")
+            //     return this.product.price;
+            // if (!this.range.start && !this.range.end) return this.product.price;
+            // let days = moment(this.range.end).diff(
+            //     moment(this.range.start),
+            //     "days"
+            // );
+            // let perDayPrice =
+            //     parseInt(this.product.price) / parseInt(this.product.duration);
+            // return parseInt(perDayPrice) * parseInt(days);
+            return this.product.price * this.adDuration
         },
         adDuration() {
-            // if (this.product.duration_type == "fixed")
-            //     return this.product.duration;
-            if (!this.range.start && !this.range.end)
-                return this.product.duration;
-            return Number(
-                moment(this.range.end).diff(moment(this.range.start), "days")
-            );
+
+            if (this.dateType == "range") {
+                if (!this.range.start && !this.range.end)
+                    return 1;
+                return Number(
+                    moment(this.range.end).diff(
+                        moment(this.range.start),
+                        "days"
+                    )
+                );
+            } else {
+                return this.days.length;
+            }
         },
     },
 
     methods: {
+        onDayClick(day) {
+            const idx = this.days.findIndex((d) => d.id === day.id);
+            if (idx >= 0) {
+                this.days.splice(idx, 1);
+            } else {
+                this.days.push({
+                    id: day.id,
+                    date: day.date,
+                });
+            }
+        },
         setnegotiation() {
             this.negotiation = this.flexiblePrice;
             if (this.product.duration_type == "fixed") {
@@ -311,6 +376,7 @@ export default {
             }
         },
         addtocart(product) {
+            product.days = this.days
             this.emitter.emit("addtocart", product);
             this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
         },

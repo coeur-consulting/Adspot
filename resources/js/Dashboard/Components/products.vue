@@ -3,8 +3,9 @@
 
 
   <div class="flex flex-col bg-white  shadow rounded">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+    <div class="-my-2  sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8 overflow-x-auto">
+
         <div
           class=" overflow-hidden border-b border-gray-200 sm:rounded-lg"
         >
@@ -28,7 +29,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -43,7 +44,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -57,7 +58,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -71,7 +72,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -86,7 +87,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -100,7 +101,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -112,7 +113,7 @@
                   Offers
                 </th>
 
-                <th scope="col" class=" px-6
+                <th scope="col" class=" px-3
                     py-3
                     text-xs
                     font-medium
@@ -128,10 +129,10 @@
                 v-for="(product, index) in products"
                 :key="product.id"
               >
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ index + 1 }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 h-6 w-6" v-if="product.media">
                       <img
@@ -157,7 +158,7 @@
                   </div>
                 </td>
 
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <span
                     class="
                       px-2
@@ -174,7 +175,7 @@
                     {{ product.type }}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
 
                   <span class="flex p-1 border justify-between text-xs rounded">
                     <span>{{moment(product.start_time).format("MMM DD, yyyy")}}</span>
@@ -182,16 +183,16 @@
                       <span>{{moment(product.end_time).format("MMM DD, yyyy")}}</span>
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ currency(product.price) }}
                 </td>
 
 
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                  <span class="py-1 px-2 text-xs rounded-full" :class="!product.status ? 'bg-red-100 text-red-500' : 'bg-green-100 text-green-500'"> {{ !product.status ? "Inactive" : "Active" }}</span>
                 </td>
 
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <div
                     class="
                       text-sm text-gray-900 text-ellipsis
@@ -202,7 +203,7 @@
                     {{ product.offers }}
                   </div>
                 </td>
-                 <td class="px-6 py-4 whitespace-nowrap">
+                 <td class="px-3 py-4 whitespace-nowrap">
                   <div
                     class="
                       text-sm text-gray-900

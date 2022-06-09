@@ -6,13 +6,14 @@ use App\Models\Blog;
 use Inertia\Inertia;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\BlogResource;
 
 class BlogController extends Controller
 {
     public function index()
     {
         return Inertia::render('Admin/Blog', [
-            'blogs' => Blog::paginate(20)
+            'blogs' => BlogResource::collection(Blog::paginate(20))
 
 
         ]);

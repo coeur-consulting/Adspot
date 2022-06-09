@@ -158,7 +158,7 @@
                     <hr>
 
                     <div class="text-center">
-                     <Link href="/my/notifications"> <span class="text-xs mx-auto">View all</span></Link>
+                     <Link href="/my/notifications"> <span class="text-xs mx-auto cursor-pointer">View all</span></Link>
                     </div>
                   </div>
                 </PopoverPanel>
@@ -176,7 +176,7 @@
               inline-flex
               items-center
               justify-center
-              px-6
+              px-3
               py-1
               border border-transparent
               rounded-full
@@ -412,7 +412,7 @@
               </div>
 
               <div class="mt-3 space-y-1">
-                 <Link :href="route('dashboard')" method="get" as="button">
+                 <Link :href="route('dashboard')" method="get" as="button"  v-if="$page.props.auth.user.is_admin">
                   Dashboard
                 </Link>
                 <Link :href="route('logout')" method="post" as="button">

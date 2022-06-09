@@ -113,7 +113,8 @@
                                             class="w-4 h-4 ml-1 text-red-500 cursor-pointer"
                                         />
                                     </p>
-                                    <div
+                                    <!-- <div
+                                    v-if="cart.offer.start && cart.offer.end"
                                         class="text-slate-400 p-1 border flex bg-gray-50 text-xs justify-center rounded-sm"
                                     >
                                         <span class="mr-1 text-xs">{{
@@ -127,13 +128,13 @@
                                                 "MMM DD, yyyy"
                                             )
                                         }}</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="text-center mt-16" v-if="!carts.length">
-                        <span class="px-6 py-3 bg-blue-50 rounded">
+                        <span class="px-3 py-3 bg-blue-50 rounded">
                             Your cart is empty</span
                         >
                     </div>
@@ -210,14 +211,14 @@
                             />
                         </div>
 
-                        <!-- <div v-if="!pendingtotal" class="p-5 border-t">
+                        <div v-if="!pendingtotal" class="p-5 border-t">
                           <h5>Bank Transfer</h5>
                           <p>Bank name : Providus Bank</p>
                             <p>Account name : Adspots Digital Solutions</p>
                               <p>Account number : 5400987429</p>
                               <p class="text-xs text-blue-800 p-2 rounded  bg-blue-50  mt-3">After making payment, send your proof of payment to our email address with your full details</p>
 
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>

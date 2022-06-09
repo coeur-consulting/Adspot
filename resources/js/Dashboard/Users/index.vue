@@ -5,7 +5,7 @@
   <h3>Users list</h3>
   <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8">
         <div
           class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
         >
@@ -15,7 +15,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -29,7 +29,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -43,7 +43,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -59,7 +59,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="product in products" :key="product.id">
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <div class="">
 
 
@@ -73,12 +73,12 @@
                     </div>
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900 ">
                     {{ product.address }}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <span
                     class="
                       px-2

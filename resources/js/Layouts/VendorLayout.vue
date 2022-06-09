@@ -3,7 +3,7 @@
 <template>
   <div class="min-h-screen bg-orange-50">
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-3 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -225,7 +225,7 @@
     </Disclosure>
 
     <header class="bg-white shadow">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-3 lg:px-8">
         <h1
           class="text-xl md:text-3xl font-bold text-gray-900"
 
@@ -236,7 +236,7 @@
       </div>
     </header>
     <main class="bg-orange-50">
-      <div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto pt-6 pb-12 px-3 lg:px-8">
        <slot>
 
        </slot>

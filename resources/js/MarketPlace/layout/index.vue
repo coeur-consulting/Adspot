@@ -11,7 +11,7 @@
             <FilterIcon class="w-4 h-4"
         /></span>
     </div>
-    <div class="pb-10">
+    <div class="pb-10 md:min-h-[40vh]">
         <MainPage />
     </div>
     <Footer />
@@ -60,7 +60,7 @@
                             <MobileFilter />
                         </div>
                         <div
-                            class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                            class="bg-gray-50 px-4 py-3 sm:px-3 sm:flex sm:flex-row-reverse"
                         >
                             <button
                                 type="button"

@@ -1,10 +1,10 @@
 <template>
-    <section id="categories" class="px-6 xl:px-0 py-24 relative">
+    <section id="categories" class="px-3 xl:px-0 py-24 relative">
         <div class="container mx-auto relative">
             <div class="flex justify-between items-center mb-4">
                 <h6 class="font-bolder">Categories</h6>
                 <span
-                    class="text-xs text-orange-500 font-bold flex items-center"
+                    class="text-xs text-orange-500 font-bold flex items-center cursor-pointer"
                     >View all <ArrowNarrowRightIcon class="ml-2 w-4"
                 /></span>
             </div>

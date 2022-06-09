@@ -58,7 +58,7 @@
           mt-1
           flex
           justify-center
-          px-6
+          px-3
           pt-5
           pb-6
           border-2 border-gray-300 border-dashed

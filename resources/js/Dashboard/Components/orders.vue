@@ -3,7 +3,7 @@
 <h2 class="font-bold mb-4">Recent Orders</h2>
   <div class="flex flex-col mb-4">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8">
         <div
           class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
         >
@@ -13,7 +13,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -27,7 +27,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -41,7 +41,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -55,7 +55,7 @@
                 <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -69,7 +69,7 @@
                  <th
                   scope="col"
                   class="
-                    px-6
+                    px-3
                     py-3
                     text-left text-xs
                     font-medium
@@ -85,7 +85,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="order in orders" :key="order.order_no">
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <div class="flex items-center">
 
                     <div class="ml-4">
@@ -96,17 +96,17 @@
                     </div>
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">{{ order.product.name }}</div>
 
                 </td>
-                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                 <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ order.quantity }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ currency(order.price) }}
                 </td>
-                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                 <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ currency(order.price * order.quantity)}}
                 </td>
 
@@ -118,7 +118,7 @@
     </div>
   </div>
   <div class="text-right">
-    <Link href="/store/orders"><span class="flex justify-end">View all <ArrowNarrowRightIcon class="w-6 h-6 ml-1"/></span></Link>
+    <Link href="/store/orders"><span class="flex justify-end cursor-pointer">View all <ArrowNarrowRightIcon class="w-6 h-6 ml-1"/></span></Link>
   </div>
   <!-- This example requires Tailwind CSS v2.0+ -->
 
@@ -222,7 +222,7 @@
               </div>
             </div>
             <div
-              class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+              class="bg-gray-50 px-4 py-3 sm:px-3 sm:flex sm:flex-row-reverse"
             >
               <button
                 type="button"

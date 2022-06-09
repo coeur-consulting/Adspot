@@ -33,7 +33,7 @@
                     <Datepicker
                         :enableTimePicker="false"
                         class="text-[.7rem] w-[250px]"
-                        
+
                         :format="formatter.date"
                         v-model="form.datevalue"
                         range
@@ -44,11 +44,11 @@
             <div
                 class="px-3 py-2 md:py-0 border-b md:border-b-0 md:border-l w-full md:w-auto"
             >
-                <h6 class="font-bold text-xs">Location</h6>
+                <h6 class="font-bold text-xs">Location/Title</h6>
                 <input
                     type="text"
                     v-model="form.location"
-                    placeholder="Where will  this Ad run?"
+                   placeholder="Search location ,title e.t.c."
                     class="border-0 text-[.7rem] focus:border-orange-400 focus:ring focus:ring-orange-300 focus:ring-opacity-50 rounded-md py-2 px-2"
                 />
             </div>
@@ -215,13 +215,15 @@ export default {
         onMounted(() => {
             const urlParams = new URLSearchParams(window.location.search);
             let subcategory = urlParams.get("subcategory");
+             let category = urlParams.get("category");
             let location = urlParams.get("location");
             let start = urlParams.get("start");
             let end = urlParams.get("end");
-            if (subcategory && location && start && end) {
+            if (subcategory || location || start || end || category) {
                 form.subcategory_id = subcategory;
                 form.location = location;
                 form.datevalue = [start, end];
+                 category_id.value = category
             }
         });
         emitter.on("getCategory", (data) => {

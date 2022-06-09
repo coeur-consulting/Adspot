@@ -47,7 +47,7 @@
                   overflow-y-scroll
                 "
               >
-                <div class="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
+                <div class="flex-1 py-6 overflow-y-auto px-4 sm:px-3">
                   <div class="flex items-start justify-between">
                     <DialogTitle class="text-lg font-medium text-gray-900">
                       Shopping cart
@@ -149,7 +149,7 @@
                 </div>
 
                 <div
-                  class="border-t border-gray-200 py-6 px-4 sm:px-6"
+                  class="border-t border-gray-200 py-6 px-4 sm:px-3"
                   v-if="cart.length"
                 >
                   <div
@@ -178,7 +178,7 @@
                         flex
                         justify-center
                         items-center
-                        px-6
+                        px-3
                         py-3
                         border border-transparent
                         rounded-md

@@ -2,7 +2,7 @@
 
 <template>
   <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-3 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
           <div class="flex-shrink-0">
@@ -125,7 +125,7 @@
 
                     <div class="text-center">
                       <Link href="/admin/notifications">
-                        <span class="text-xs mx-auto">View all</span></Link
+                        <span class="text-xs mx-auto cursor-pointer">View all</span></Link
                       >
                     </div>
                   </div>

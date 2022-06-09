@@ -21,7 +21,7 @@
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div
-                        class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                        class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8"
                     >
                         <div
                             class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
@@ -29,22 +29,22 @@
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th
+                                        <!-- <th
                                             scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Image
-                                        </th>
+                                        </th> -->
                                         <th
                                             scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                         >
                                             Category
                                         </th>
 
                                         <th
                                             scope="col"
-                                            class="relative px-6 py-3"
+                                            class="relative px-3 py-3"
                                         >
                                             <span class="sr-only">Action</span>
                                         </th>
@@ -62,7 +62,7 @@
                                                 : ''
                                         "
                                     >
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <!-- <td class="px-3 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div
                                                     class="flex-shrink-0 h-10 w-10"
@@ -74,9 +74,9 @@
                                                     />
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> -->
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap cursor-pointer"
+                                            class="px-3 py-4 whitespace-nowrap cursor-pointer"
                                             @click="getsubcategories(category)"
                                         >
                                             <div class="flex items-center">
@@ -91,7 +91,7 @@
                                         </td>
 
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                            class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium"
                                         >
                                             <span
                                                 @click="
@@ -133,7 +133,7 @@
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div
-                        class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                        class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8"
                     >
                         <div
                             class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
@@ -143,7 +143,7 @@
                                     <tr>
                                         <th
                                             scope="col"
-                                            class="px-6 py-3 text-left text-sm font-bold text-gray-500 tracking-wider"
+                                            class="px-3 py-3 text-left text-sm font-bold text-gray-500 tracking-wider"
                                         >
                                             <span class="capitalize">
                                                 {{ active.name }}</span
@@ -153,7 +153,7 @@
 
                                         <th
                                             scope="col"
-                                            class="relative px-6 py-3"
+                                            class="relative px-3 py-3"
                                         >
                                             <span class="sr-only">Action</span>
                                         </th>
@@ -166,7 +166,7 @@
                                         v-for="category in subcat"
                                         :key="category.id"
                                     >
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-3 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="ml-4">
                                                     <div
@@ -179,7 +179,7 @@
                                         </td>
 
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                            class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium"
                                         >
                                             <span
                                                 @click="
@@ -274,7 +274,7 @@
                             />
                         </div>
                         <div
-                            class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                            class="bg-gray-50 px-4 py-3 sm:px-3 sm:flex sm:flex-row-reverse"
                         >
                             <button
                                 type="button"

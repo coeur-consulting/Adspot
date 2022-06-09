@@ -1,6 +1,7 @@
 <template>
     <div class="bg-transparent container mx-auto">
         <div
+          v-if="products.length"
             class="grid gap-8 p-5"
             :class="
                 viewType == 'grid'
@@ -17,22 +18,28 @@
                 <div :class="viewType == 'grid' ? 'w-full' : 'md:w-[40%]'">
                     <img
                         class="w-full h-full object-center object-cover h-[200px]"
-                        :src="item.media.length ? item.media[0] : '/images/banner.png'"
+                        :src="
+                            item.media.length
+                                ? item.media[0]
+                                : '/images/banner.png'
+                        "
                     />
                 </div>
                 <div
                     class="p-4 text-left"
                     :class="viewType == 'grid' ? 'w-full' : 'md:w-[60%]'"
                 >
-                    <p   class="text-base">
-            {{ item.name}}
-          </p>
+                    <p class="text-base "
+                     :class="viewType == 'grid' ? '' : 'line-clamp-2'"
+                    >
+                        {{ item.name }}
+                    </p>
                     <p class="font-bold text-xl">
                         {{ currency(item.price) }}
-                        <span class="text-xs">/ {{ item.duration }} days</span>
+                        <span class="text-xs">/  day</span>
                     </p>
                     <p
-                    v-if="item.category"
+                        v-if="item.category"
                         :class="
                             viewType == 'grid'
                                 ? 'text-sm truncate text-ellipsis overflow-hidden ...'
@@ -52,10 +59,14 @@
                         "
                     >
                         <span>Ad type</span> :
-                        <span v-if=" item.subcategory" class="text-slate-600 capitalize">{{
-                            item.subcategory.name
-                        }}</span>
-                          <span v-else class="text-slate-600 capitalize">N/a</span>
+                        <span
+                            v-if="item.subcategory"
+                            class="text-slate-600 capitalize"
+                            >{{ item.subcategory.name }}</span
+                        >
+                        <span v-else class="text-slate-600 capitalize"
+                            >N/a</span
+                        >
                     </p>
                     <p
                         :class="
@@ -65,9 +76,11 @@
                         "
                     >
                         <span>Location</span> :
-                        <span class="text-slate-600"> {{ item.location?item.location:'N/A' }}</span>
+                        <span class="text-slate-600">
+                            {{ item.location ? item.location : "N/A" }}</span
+                        >
                     </p>
-                    <p
+                    <!-- <p
                         :class="
                             viewType == 'grid'
                                 ? 'text-sm truncate text-ellipsis overflow-hidden ...'
@@ -75,9 +88,11 @@
                         "
                     >
                         <span>Specification</span> :
-                        <span class="text-slate-600">{{ item.dimension?item.dimension:'N/A' }}</span>
-                    </p>
-                    <p
+                        <span class="text-slate-600">{{
+                            item.dimension ? item.dimension : "N/A"
+                        }}</span>
+                    </p> -->
+                    <!-- <p
                         :class="
                             viewType == 'grid'
                                 ? 'text-sm truncate text-ellipsis overflow-hidden ...'
@@ -88,7 +103,7 @@
                         <span class="text-slate-600 capitalize">{{
                             item.type
                         }}</span>
-                    </p>
+                    </p> -->
                     <div
                         class="flex flex-col md:flex-row mt-5"
                         :class="
@@ -99,7 +114,7 @@
                     >
                         <button
                             @click="toggleModal(item)"
-                            class="inline whitespace-nowrap inline-flex items-center justify-center px-6 py-2 border border-orange-500 rounded-full shadow-sm text-xs text-orange-500 font-bold text-white bg-white hover:bg-orange-500 hover:text-white mb-4 md:mb-0"
+                            class="inline whitespace-nowrap inline-flex items-center justify-center px-3 py-2 border border-orange-500 rounded-full shadow-sm text-xs text-orange-500 font-bold text-white bg-white hover:bg-orange-500 hover:text-white mb-4 md:mb-0"
                             :class="viewType == 'grid' ? ' ' : 'mr-3'"
                         >
                             More details
@@ -123,7 +138,7 @@
                                 item.duration_type == 'flexible'
                             "
                             @click="toggleModal(item)"
-                            class="inline whitespace-nowrap inline-flex items-center justify-center px-6 py-2 border rounded-full shadow-base text-white font-bold text-white hover:bg-orange-300 text-xs"
+                            class="inline whitespace-nowrap inline-flex items-center justify-center px-3 py-2 border rounded-full shadow-base text-white font-bold text-white hover:bg-orange-300 text-xs"
                             :class="
                                 incart(item.id)
                                     ? 'bg-gray-300 border-gray-100'
@@ -140,32 +155,35 @@
             </div>
         </div>
 
-        <div class="pagination text-center mt-8" v-show="last_page > 1">
+        <div class="pagination flex justify-between text-center mt-8 px-3"   v-if="products.length">
+            <div>
+                <p class="text-sm text-gray-500 mb-0">
+                    Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }}
+                </p>
+            </div>
             <span class="flex justify-center items-center">
                 <span
                     ><ArrowCircleLeftIcon
-                        :class="
-                            current_page > 1 ? '' : 'opacity-70 text-slate-300'
-                        "
+                        :class="links.prev ? 'text-orange-700' : 'opacity-55 text-slate-300'"
                         @click="prev"
-                        class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
+                        class="cursor-pointer w-8 h-8 mr-2"
                 /></span>
                 <input
                     class="form-input w-12 py-1 px-3 text-center border border-orange-700 rounded"
-                    :disabled="current_page == last_page"
+                    :disabled="!links.next"
                     v-model="current_page" />
-                <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+                <span class="font-bold ml-2 text-sm"
+                    >of {{ meta.last_page }}</span
+                >
                 <span
                     ><ArrowCircleRightIcon
-                        :class="
-                            current_page < last_page
-                                ? ''
-                                : 'opacity-70 text-slate-300'
-                        "
+                        :class="links.next ? 'text-orange-700' : 'opacity-55 text-slate-300'"
                         @click="next"
-                        class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
+                        class="w-8 h-8  ml-2 cursor-pointer" /></span
             ></span>
         </div>
+
+        <div   v-if="!products.length" class="bg-gray-100 p-2 text-center mt-10 md:w-2/4 mx-auto">OOPS!, No data available</div>
     </div>
     <TransitionRoot as="template" :show="open">
         <Dialog
@@ -285,7 +303,8 @@ export default {
         const category_id = ref(0);
         const product = ref(null);
         const cart = ref([]);
-
+        const meta = ref({});
+        const links = ref({});
         onMounted(() => {
             const urlParams = new URLSearchParams(window.location.search);
             let subcategory = urlParams.get("subcategory");
@@ -293,14 +312,14 @@ export default {
             let start = urlParams.get("start");
             let end = urlParams.get("end");
 
-            if (urlParams.has("category")) {
+            if (urlParams.has("category") && !subcategory) {
                 if (urlParams.get("category") == 0) {
                     loadProducts();
                 } else {
                     loadProductsByCategory(urlParams.get("category"));
                 }
             } else {
-                if (subcategory && location && start && end) {
+                if (subcategory || location || (start && end)) {
                     loadSearchResult(subcategory, location, start, end);
                 } else {
                     loadProducts();
@@ -323,6 +342,8 @@ export default {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -331,6 +352,8 @@ export default {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -370,6 +393,8 @@ export default {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -387,11 +412,12 @@ export default {
         };
 
         function next() {
-            if (current_page.value == last_page.value) return;
+            if (!links.next) return;
+
             current_page.value++;
         }
         function prev() {
-            if (current_page.value == 1) return;
+            if (!links.prev) return;
             current_page.value--;
         }
 
@@ -400,6 +426,8 @@ export default {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -408,6 +436,8 @@ export default {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -456,6 +486,8 @@ export default {
             open,
             currency,
             incart,
+            meta,
+            links,
         };
     },
     methods: {

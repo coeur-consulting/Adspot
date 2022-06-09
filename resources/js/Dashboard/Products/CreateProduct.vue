@@ -429,7 +429,7 @@
       />
     </div>
 
-    <div class="mt-4">
+    <div class="mt-8">
       <button
         type="submit"
         class="
@@ -451,7 +451,8 @@
           focus:ring-2
           focus:ring-offset-2
           focus:ring-orange-500
-          sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
+          sm:mt-0 sm:w-auto sm:text-sm
+          ml-auto
         "
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"

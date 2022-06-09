@@ -14,37 +14,40 @@
             class="py-2 px-4 border border-gray-50 rounded-lg md:w-[250px] mr-4 shadow-sm"
         />
         <div class="mr-3 flex">
-            <BreezeCheckbox
+            <input
                 id="pending"
                 value="pending"
-                class="mr-2"
+                class="mr-2 border border-gray-200"
                 v-model="showStatus"
+                type="checkbox"
             />
             <BreezeLabel for="pending" value="Pending " />
         </div>
         <div class="mr-3 flex">
-            <BreezeCheckbox
+            <input
                 id="failed"
-                class="mr-2"
+                class="mr-2 border border-gray-200"
                 value="failed"
                 v-model="showStatus"
+                type="checkbox"
             />
             <BreezeLabel for="failed" value="Failed" />
         </div>
         <div class="flex">
-            <BreezeCheckbox
-                id="success"
-                class="mr-2"
+            <input
+                id="paid"
+                class="mr-2 border border-gray-200"
                 v-model="showStatus"
-                value="success"
+                value="paid"
+                type="checkbox"
             />
-            <BreezeLabel for="success" value="Success" />
+            <BreezeLabel for="paid" value="Paid" />
         </div>
     </div>
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div
-                class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8"
             >
                 <div
                     class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
@@ -54,39 +57,39 @@
                             <tr>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Date
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Order no
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Customer name
                                 </th>
 
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Status
                                 </th>
 
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Total
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     <span class="">Action</span>
                                 </th>
@@ -98,10 +101,10 @@
                                 :key="order.order_no"
                             >
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap capitalize"
+                                    class="px-3 py-4 whitespace-nowrap capitalize"
                                 >
-                                    <div class="flex items-center">
-                                        <div class="ml-4">
+                                    <div class="flex items-start">
+                                        <div class="">
                                             <div
                                                 class="text-sm font-medium text-gray-900"
                                             >
@@ -115,10 +118,10 @@
                                     </div>
                                 </td>
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap capitalize"
+                                    class="px-3 py-4 whitespace-nowrap capitalize"
                                 >
-                                    <div class="flex items-center">
-                                        <div class="ml-4">
+                                    <div class="flex items-start">
+                                        <div class="">
                                             <div
                                                 class="text-sm font-medium text-gray-900"
                                             >
@@ -128,24 +131,24 @@
                                     </div>
                                 </td>
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                 >
                                     {{ order.user.name }}
                                 </td>
 
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                 >
                                     {{ order.status }}
                                 </td>
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                 >
                                     {{ currency(order.total) }}
                                 </td>
 
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500 cursor-pointer"
+                                    class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500 cursor-pointer"
                                 >
                                     <span @click="getorder(order.id)" class=""
                                         >View order</span
@@ -159,28 +162,37 @@
         </div>
     </div>
 
-    <div class="pagination text-center mt-8" v-show="last_page > 1">
+    <div class="pagination flex justify-between text-center mt-8 px-3">
+        <div>
+            <p class="text-sm text-gray-500 mb-0">
+                Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }}
+            </p>
+        </div>
         <span class="flex justify-center items-center">
             <span
                 ><ArrowCircleLeftIcon
-                    :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
+                    :class="
+                        links.prev
+                            ? 'text-orange-700'
+                            : 'opacity-55 text-slate-300'
+                    "
                     @click="prev"
-                    class="cursor-pointe w-8 h-8 text-orange-700 mr-2"
+                    class="cursor-pointer w-8 h-8 mr-2"
             /></span>
             <input
                 class="form-input w-12 py-1 px-3 text-center border border-orange-700 rounded"
-                :disabled="current_page == last_page"
+                :disabled="!links.next"
                 v-model="current_page" />
-            <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+            <span class="font-bold ml-2 text-sm">of {{ meta.last_page }}</span>
             <span
                 ><ArrowCircleRightIcon
                     :class="
-                        current_page < last_page
-                            ? ''
-                            : 'opacity-70 text-slate-300'
+                        links.next
+                            ? 'text-orange-700'
+                            : 'opacity-55 text-slate-300'
                     "
                     @click="next"
-                    class="w-8 h-8 text-orange-700 ml-2 cursor-pointer" /></span
+                    class="w-8 h-8 ml-2 cursor-pointer" /></span
         ></span>
     </div>
     <!-- This example requires Tailwind CSS v2.0+ -->
@@ -230,48 +242,48 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         Order No
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         {{ order.order_no }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         Customer Name
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         {{ order.user.name }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         Customer Email
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
                                     >
                                         {{ order.user.email }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         Customer Phone
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         {{
                                             order.user.phone
@@ -283,24 +295,24 @@
 
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         Status
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         {{ order.status }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         Amount paid
                                     </td>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="px-3 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
                                     >
                                         {{ currency(order.total) }}
                                     </td>
@@ -308,103 +320,89 @@
 
                                 <tr>
                                     <td
-                                        class="px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500 flex"
+                                        class="px-3 py-4 whitespace-normal capitalize text-sm text-gray-500 flex"
                                     >
                                         Items
                                     </td>
                                     <td
-                                        v-for="item in order.orderhistories"
-                                        :key="item.id"
-                                        class="border-bottom px-6 py-4 whitespace-nowrap capitalize text-sm text-gray-500"
+                                        class="border-bottom px-3 py-4 whitespace-normal capitalize text-sm text-gray-500"
                                     >
-                                        <tr>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                Product name
-                                            </td>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                {{ item.product.name }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                Duration
-                                            </td>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                <span
-                                                    class="flex p-1 border justify-between"
+                                        <table class="w-full border">
+                                            <tbody>
+                                                <tr
+                                                    v-for="item in order.orderhistories"
+                                                    :key="item.id"
                                                 >
-                                                    <span>{{
-                                                        moment(
-                                                            item.product
-                                                                .start_time
-                                                        ).format("MMM DD, yyyy")
-                                                    }}</span>
-                                                    <span class="mx-1">-</span>
-                                                    <span>{{
-                                                        moment(
-                                                            item.product
-                                                                .end_time
-                                                        ).format("MMM DD, yyyy")
-                                                    }}</span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                Location
-                                            </td>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                {{ item.product.location }}
-                                            </td>
-                                        </tr>
-                                        <!-- <tr>
-                      <td
-                        class="
-                          px-6
-                          py-4
-                          whitespace-nowrap
-                          capitalize
-                          text-sm text-gray-500
-                        "
-                      >
-                        Impressions
-                      </td>
-                      <td
-                        class="
-                          px-6
-                          py-4
-                          whitespace-nowrap
-                          capitalize
-                          text-sm text-gray-500
-                        "
-                      >
-                        {{ item.product.impressions }}
-                      </td>
-                    </tr> -->
-                                        <tr>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                Specification
-                                            </td>
-                                            <td
-                                                class="px-4 py-2 whitespace-nowrap capitalize text-sm text-gray-500"
-                                            >
-                                                {{ item.product.dimension }}
-                                            </td>
-                                        </tr>
+                                                    <td
+                                                        class="border-b border-gray-100"
+                                                    >
+                                                        <tr>
+                                                            <td
+                                                                class="px-4 py-2 whitespace-normal capitalize text-xs text-gray-500"
+                                                            >
+                                                                Product name
+                                                            </td>
+                                                            <td
+                                                                class="px-4 py-2 whitespace-normal capitalize text-xs text-gray-500"
+                                                            >
+                                                                {{
+                                                                    item.product
+                                                                        .name
+                                                                }}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td
+                                                                class="px-4 py-2 whitespace-nowrap capitalize text-xs text-gray-500"
+                                                            >
+                                                                Dates
+                                                            </td>
+                                                            <td
+                                                                class="px-4 py-2 whitespace-normal capitalize text-xs text-gray-500"
+                                                            >
+                                                                <span
+                                                                    class="flex p-1 border justify-between text-xs"
+                                                                    v-if="item.dateType=='range'"
+                                                                >
+                                                                    <span>{{
+                                                                        moment(
+                                                                            item
+                                                                                .product
+                                                                                .start_time
+                                                                        ).format(
+                                                                            "MMM DD, yyyy"
+                                                                        )
+                                                                    }}</span>
+                                                                    <span
+                                                                        class="mx-2"
+                                                                        >to</span
+                                                                    >
+                                                                    <span>{{
+                                                                        moment(
+                                                                            item
+                                                                                .product
+                                                                                .end_time
+                                                                        ).format(
+                                                                            "MMM DD, yyyy"
+                                                                        )
+                                                                    }}</span>
+                                                                </span>
+                                                                <span   v-if="item.dateType=='custom'">
+                                                                    <span class="p-1 border text-xs" v-for="day in item.custom_days" :key="day">
+                                                                    {{ moment(
+                                                                           day
+                                                                        ).format(
+                                                                            "MMM DD, yyyy"
+                                                                        )}}
+                                                                    </span>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                             </tbody>
@@ -450,6 +448,9 @@ export default {
         const showSuccess = ref(false);
         const showStatus = ref([]);
 
+        const meta = ref({});
+        const links = ref({});
+
         onMounted(() => {
             loadorders();
         });
@@ -458,6 +459,8 @@ export default {
                 if (res.status === 200) {
                     orders.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -474,7 +477,7 @@ export default {
 
             if (showStatus.value.length) {
                 order = order.filter((item) =>
-                    showStatus.includes(item.status.toLowerCase())
+                    showStatus.value.includes(item.status.toLowerCase())
                 );
             }
 
@@ -482,19 +485,20 @@ export default {
         });
 
         function next() {
-            if (current_page.value == last_page.value) return;
+            if (!links.value.next) return;
             current_page.value++;
         }
         function prev() {
-            if (current_page.value == 1) return;
+            if (!links.value.prev) return;
             current_page.value--;
         }
-
         function searchorders() {
             axios.get(`searchorders?query=${query.value}`).then((res) => {
                 if (res.status === 200) {
                     orders.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -503,6 +507,8 @@ export default {
                 if (res.status === 200) {
                     orders.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -542,6 +548,8 @@ export default {
             showSuccess,
             showStatus,
             moment,
+            meta,
+            links,
         };
     },
 

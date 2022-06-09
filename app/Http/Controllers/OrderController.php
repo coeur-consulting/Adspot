@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use App\Http\Resources\OrderResource;
+use App\Notifications\PaymentSuccessful;
 
 class OrderController extends Controller
 {
@@ -30,7 +32,7 @@ class OrderController extends Controller
     }
     public function allorders()
     {
-        return Order::with('user')->latest()->paginate(20);
+        return OrderResource::collection(Order::with('user')->latest()->paginate(20));
     }
     public function show(Order $order)
     {
@@ -43,7 +45,7 @@ class OrderController extends Controller
         return  DB::transaction(function () use ($request) {
 
             $user = auth()->user();
-         
+
 
             $usercart = $user->cart()->get();
             $total = $usercart->map(function ($a) {
@@ -111,6 +113,7 @@ class OrderController extends Controller
 
     public function verify($txn_id)
     {
+        $user = auth()->user();
         $payment = Payment::where('transactionRef', $txn_id)->first();
         $payment->status = 'paid';
         $payment->message = 'successful';
@@ -118,6 +121,12 @@ class OrderController extends Controller
         $order = Order::where('order_no', $payment->reference)->first();
         $order->status = "paid";
         $order->save();
+
+        $data = [
+            'name' => $user->name,
+            'body' => 'Congratulations, your payment was successful, and your order with order no #'.$order->order_no .'is being processed'
+        ];
+        $user->notify(new PaymentSuccessful($data));
 
         return  [
               'status' =>true,
@@ -133,7 +142,7 @@ class OrderController extends Controller
 
         if ($request->has('query') && $query) {
 
-            return Order::query()->whereLike('order_no', $query)->latest()->paginate(20);
+            return OrderResource::collection(Order::query()->whereLike('order_no', $query)->latest()->paginate(20));
         }
         return response()->json([
             'status' => 'success',

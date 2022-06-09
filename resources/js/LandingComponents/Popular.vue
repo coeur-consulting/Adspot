@@ -1,7 +1,7 @@
 <template lang="">
     <section
         id="Popular"
-        class="relative bg-gray-50 z-[1] px-6 xl:px-0"
+        class="relative bg-gray-50 z-[1] px-3 xl:px-0"
         v-if="products.length"
     >
         <div class="container mx-auto py-40 md:py-44">
@@ -105,7 +105,7 @@
                             >
                                 <button
                                     @click="toggleModal(item)"
-                                    class="inline whitespace-nowrap inline-flex items-center justify-center px-6 py-2 border border-orange-500 rounded-full shadow-sm text-xs text-orange-500 font-bold text-white bg-white hover:bg-orange-500 hover:text-white mb-4 md:mb-0"
+                                    class="inline whitespace-nowrap inline-flex items-center justify-center px-3 py-2 border border-orange-500 rounded-full shadow-sm text-xs text-orange-500 font-bold text-white bg-white hover:bg-orange-500 hover:text-white mb-4 md:mb-0"
                                 >
                                     More details
                                 </button>

@@ -23,7 +23,7 @@
             class="peer container mx-auto flex flex-col justify-center h-full w-full z-10 absolute top-0 left-0 right-0 bottom-0"
         >
             <div
-                class="left_banner w-full md:w-4/6 py-5 px-6 xl:px-0 text-white"
+                class="left_banner w-full md:w-4/6 py-5 px-3 xl:px-0 text-white"
             >
                 <h1 class="text-white text-3xl font-extrabold mb-4">
                     Adspots Digital Solutions, Nigeria’s number 1 aggregator of
@@ -52,7 +52,7 @@
                     </Link>
                 </div>
             </div>
-            <div class="banner_b text-left w-full hidden md:block px-6 xl:px-0">
+            <div class="banner_b text-left w-full hidden md:block px-3 xl:px-0">
                 <SearchBox />
             </div>
 

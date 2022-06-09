@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->latest()->paginate(20)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function getactiveproduct()
     {
         return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30)),
+            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(20)),
             'categories' => Category::all(),
             'subcategories' => Subcategory::all(),
         ]);
@@ -73,12 +73,12 @@ class ProductController extends Controller
     public function allproducts()
     {
 
-        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30));
+        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(20));
     }
 
     public function allproductsbycategory($id)
     {
-        return  ProductResource::collection(Product::where('category_id', $id)->with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(30));
+        return  ProductResource::collection(Product::where('category_id', $id)->with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(20));
     }
 
 
@@ -121,7 +121,7 @@ class ProductController extends Controller
         if ($request->has('dimension') && $request->filled('dimension')) {
             $product->dimension = $request->dimension;
         }
-        if ($request->has('end_time') && $request->filled('end_time') &&$request->has('start_time') && $request->filled('start_time')) {
+        if ($request->has('end_time') && $request->filled('end_time') && $request->has('start_time') && $request->filled('start_time')) {
             $duration =  Carbon::parse($request->end_time)->diffInDays(Carbon::parse($request->start_time));
             $product->duration = $request->duration;
         }
@@ -177,7 +177,7 @@ class ProductController extends Controller
 
         if ($request->has('query') && $query) {
 
-            return Product::query()->with('offers', 'category', 'subcategory')->whereLike('name', $query)->latest()->paginate(30);
+            return ProductResource::collection(Product::query()->with('offers', 'category', 'subcategory')->whereLike('name', $query)->latest()->paginate(20));
         }
         return response()->json([
             'status' => 'success',
@@ -189,34 +189,40 @@ class ProductController extends Controller
 
         $location = $request->location;
         $subcategory_id = $request->subcategory_id;
-        $start = $request->has('datevalue') && $request->filled('datevalue')? Carbon::parse($request->datevalue[0]): null;
+        $start = $request->has('datevalue') && $request->filled('datevalue') ? Carbon::parse($request->datevalue[0]) : null;
         $end = $request->has('datevalue') && $request->filled('datevalue') ? Carbon::parse($request->datevalue[1]) : null;
         $typeFilter = $request->typeFilter;
         $durationFilter = $request->durationFilter;
 
-        if($request->has('datevalue') && $request->filled('datevalue')){
-            $product = Product::with('subcategory', 'category')
-                ->where(function ($query) use ($start, $end) {
-                    $query->where('start_time', '<=', $start)->where('end_time', '>=', $end);
-                })
-                ->where('location', 'LIKE', '%' . $location . '%')
-                ->where('subcategory_id', $subcategory_id)
-                ->where('status', 1)
-                ->whereIn('type', $typeFilter)
-                ->whereIn('duration_type', $durationFilter)
+        if ($request->has('datevalue') && $request->filled('datevalue')) {
+            $product = Product::with('subcategory', 'category')->where('status', 1)->where(function ($query) use ($location, $subcategory_id, $start, $end) {
+                $query->where('location', 'LIKE', '%' . $location . '%')
+                    ->where('name', 'LIKE', '%' . $location . '%')
+                    ->where(function ($query) use ($start, $end) {
+                        $query->where('start_time', '<=', $start)->where('end_time', '>=', $end);
+                    })
+                    ->orWhere('subcategory_id', $subcategory_id);
+            })
 
 
-                ->paginate(30);
-        }else{
-            $product = Product::with('subcategory', 'category')
-                ->where('location', 'LIKE', '%' . $location . '%')
-                ->where('subcategory_id', $subcategory_id)
-                ->where('status', 1)
-                ->whereIn('type', $typeFilter)
-                ->whereIn('duration_type', $durationFilter)
+                // ->whereIn('type', $typeFilter)
+                // ->whereIn('duration_type', $durationFilter)
 
 
-                ->paginate(30);
+                ->paginate(20);
+        } else {
+            $product = Product::with('subcategory', 'category')->where('status', 1)->where(function ($query) use ($location, $subcategory_id) {
+                $query->where('location', 'LIKE', '%' . $location . '%')
+                    ->where('name', 'LIKE', '%' . $location . '%')
+                    ->where('subcategory_id', $subcategory_id);
+            })
+
+
+                // ->whereIn('type', $typeFilter)
+                // ->whereIn('duration_type', $durationFilter)
+
+
+                ->paginate(20);
         }
 
         return ProductResource::collection($product);

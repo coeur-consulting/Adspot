@@ -447,7 +447,7 @@
           focus:ring-2
           focus:ring-offset-2
           focus:ring-orange-500
-          sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
+          sm:mt-0 ml-auto sm:w-auto sm:text-sm
         "
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"

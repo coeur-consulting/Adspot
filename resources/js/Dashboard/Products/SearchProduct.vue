@@ -10,7 +10,7 @@ export default {
     const query = ref("");
     const searchProducts = ref([]);
 
-    const searchProducts = axios
+  axios
       .get(`/searchproducts?query=${this.query}`)
       .then((res) => {
         searchProducts.value = res.data;

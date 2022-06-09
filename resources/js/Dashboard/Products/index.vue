@@ -53,12 +53,12 @@
         </div>
     </div>
     <div class="flex flex-col">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 ">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div
-                class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+                class="py-2 align-middle inline-block min-w-full sm:px-3 lg:px-8"
             >
                 <div
-                    class="shadow  border-b border-gray-200 sm:rounded-lg bg-white pb-8"
+                    class="shadow border-b border-gray-200 sm:rounded-lg bg-white pb-8"
                 >
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -71,52 +71,52 @@
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Name
                                 </th>
 
                                 <!-- <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Type
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Duration
                                 </th> -->
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Price
                                 </th>
 
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Status
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Toggle
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     Offers
                                 </th>
 
                                 <th
                                     scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     <span class="">Action</span>
                                 </th>
@@ -128,11 +128,11 @@
                                 :key="product.id"
                             >
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
                                 >
                                     {{ index + 1 }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-3 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div
                                             class="flex-shrink-0 h-6 w-6"
@@ -140,7 +140,11 @@
                                         >
                                             <img
                                                 class="h-6 w-6 rounded-full"
-                                                :src="product.media.length?product.media[0]:'/images/banner.png'"
+                                                :src="
+                                                    product.media.length
+                                                        ? product.media[0]
+                                                        : '/images/banner.png'
+                                                "
                                                 alt=""
                                             />
                                         </div>
@@ -154,7 +158,7 @@
                                     </div>
                                 </td>
 
-                                <!-- <td class="px-6 py-4 whitespace-nowrap">
+                                <!-- <td class="px-3 py-4 whitespace-nowrap">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500 capitalize"
                                     >
@@ -162,7 +166,7 @@
                                     </span>
                                 </td>
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
                                 >
                                     <span
                                         class="flex p-1 border justify-between text-xs rounded"
@@ -181,13 +185,13 @@
                                     </span>
                                 </td> -->
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
                                 >
                                     {{ currency(product.price) }}
                                 </td>
 
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                    class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
                                 >
                                     <span
                                         class="py-1 px-2 text-xs rounded-full"
@@ -204,22 +208,18 @@
                                         }}</span
                                     >
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-3 py-4 whitespace-nowrap">
                                     <div class="flex justify-center ml-4">
-                                        <div class="form-check form-switch ">
+                                        <div class="form-check form-switch">
                                             <input
                                                 class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm"
                                                 @change="
                                                     updatestatus(
                                                         product.id,
-                                                       !product.status
-
+                                                        !product.status
                                                     )
                                                 "
-                                                :checked="
-                                                    product.status
-
-                                                "
+                                                :checked="product.status"
                                                 type="checkbox"
                                                 role="switch"
                                                 id="flexSwitchCheckDefault"
@@ -233,7 +233,7 @@
                                     </div>
                                 </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-3 py-4 whitespace-nowrap">
                                     <div
                                         class="text-sm text-gray-900 text-ellipsis overflow-hidden ..."
                                     >
@@ -242,7 +242,7 @@
                                 </td>
 
                                 <td
-                                    class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex"
+                                    class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium flex"
                                 >
                                     <div
                                         class="text-sm mr-8 cursor-pointer"
@@ -283,9 +283,7 @@
                                             <PopoverPanel
                                                 class="absolute z-40 p-4 mt-3 right-0 sm:px-0 lg:max-w-sm bg-white rounded-lg shadow-lg py-4"
                                             >
-                                                <div
-                                                    class="px-3 py-2 flex"
-                                                >
+                                                <div class="px-3 py-2 flex">
                                                     <span
                                                         @click="
                                                             toggleModal(
@@ -348,28 +346,37 @@
             </div>
         </div>
     </div>
-    <div class="pagination text-center mt-8" v-show="last_page > 1">
+    <div class="pagination flex justify-between text-center mt-8 px-3">
+        <div>
+            <p class="text-sm text-gray-500 mb-0">
+                Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }}
+            </p>
+        </div>
         <span class="flex justify-center items-center">
             <span
                 ><ArrowCircleLeftIcon
-                    :class="current_page > 1 ? '' : 'opacity-70 text-slate-300'"
+                    :class="
+                        links.prev
+                            ? 'text-orange-700'
+                            : 'opacity-55 text-slate-300'
+                    "
                     @click="prev"
-                    class="cursor-pointe w-8 h-8 text-orange-500 mr-2"
+                    class="cursor-pointer w-8 h-8 mr-2"
             /></span>
             <input
-                class="form-input w-12 py-1 px-3 text-center border border-orange-500 rounded"
-                :disabled="current_page == last_page"
+                class="form-input w-12 py-1 px-3 text-center border border-orange-700 rounded"
+                :disabled="!links.next"
                 v-model="current_page" />
-            <span class="font-bold ml-2 text-sm">of {{ last_page }}</span>
+            <span class="font-bold ml-2 text-sm">of {{ meta.last_page }}</span>
             <span
                 ><ArrowCircleRightIcon
                     :class="
-                        current_page < last_page
-                            ? ''
-                            : 'opacity-70 text-slate-300'
+                        links.next
+                            ? 'text-orange-700'
+                            : 'opacity-55 text-slate-300'
                     "
                     @click="next"
-                    class="w-8 h-8 text-orange-500 ml-2 cursor-pointer" /></span
+                    class="w-8 h-8 ml-2 cursor-pointer" /></span
         ></span>
     </div>
 
@@ -435,18 +442,6 @@
                                 :product="product"
                                 v-if="type == 'view'"
                             />
-                        </div>
-                        <div
-                            class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-                        >
-                            <button
-                                type="button"
-                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-500 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                @click="open = false"
-                                ref="cancelButtonRef"
-                            >
-                                Cancel
-                            </button>
                         </div>
                     </div>
                 </TransitionChild>
@@ -520,8 +515,12 @@ export default {
         const showNegotiable = ref(false);
         const showNonnegotiable = ref(false);
         const last_page = ref(1);
+        const meta = ref({});
+        const links = ref({});
         products.value = usePage().props.value.products.data;
         last_page.value = usePage().props.value.products.last_page;
+        meta.value = usePage().props.value.products.meta;
+        links.value = usePage().props.value.products.links;
         const filteredProducts = computed(() => {
             let product = products.value;
 
@@ -542,19 +541,24 @@ export default {
             if (!query.value) {
                 products.value = usePage().props.value.products.data;
                 last_page.value = usePage().props.value.products.last_page;
+                meta.value = usePage().props.value.products.meta;
+                links.value = usePage().props.value.products.links;
                 return;
             }
             axios.get(`/searchproducts?query=${query.value}`).then((res) => {
                 products.value = res.data.data;
                 current_page.value = 1;
+                meta.value = res.data.meta;
+                links.value = res.data.links;
             });
         };
+
         function next() {
-            if (current_page.value == last_page.value) return;
+            if (!links.value.next) return;
             current_page.value++;
         }
         function prev() {
-            if (current_page.value == 1) return;
+            if (!links.value.prev) return;
             current_page.value--;
         }
         function getproducts(page) {
@@ -562,6 +566,8 @@ export default {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
                 }
             });
         }
@@ -593,6 +599,8 @@ export default {
             showFeatured,
             showNonnegotiable,
             moment,
+            meta,
+            links,
         };
     },
     methods: {
@@ -602,10 +610,6 @@ export default {
             this.product = product;
         },
         updatestatus(id, value) {
-            console.log(
-                "🚀 ~ file: index.vue ~ line 706 ~ updatestatus ~ value",
-                value
-            );
             axios
                 .put(this.route("products.update", id), { status: value })
                 .then((res) => {
