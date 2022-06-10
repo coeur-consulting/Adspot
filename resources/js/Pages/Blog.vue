@@ -1,7 +1,7 @@
 <template lang="">
 <Head :title="blog.title"/>
 <Navigation />
-<Banner title="Adspot News" :breadcrumbs="breadcrumbs"/>
+<Banner title="Adspot Blog" :breadcrumbs="breadcrumbs"/>
 <div class="p-10 grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 relative">
   <div class="md:col-span-2">
     <div class="w-full mb-6">
@@ -78,8 +78,8 @@ export default {
   setup() {
     const breadcrumbs = reactive([
       { name: "home", url: "/" },
-      { name: "news", url: "/news" },
-      { name: "Title of news", url: null },
+      { name: "blogs", url: "/blog" },
+      { name: "Title of blog", url: null },
     ]);
      const others = ref(null);
     const blog = ref(null);

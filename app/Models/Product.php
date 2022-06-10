@@ -61,7 +61,7 @@ class Product extends Model
     }
     public function offers()
     {
-        return $this->hasMany(Offer::class)->with('user')->latest();
+        return $this->hasMany(Offer::class)->where('result','pending')->with('user')->latest();
     }
 
 

@@ -1,63 +1,31 @@
-
-
 <template>
-<Head title="Offers" />
-  <div class="min-h-screen bg-orange-50">
-   <Navigation />
-    <header class="bg-white shadow">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-3 lg:px-8">
+    <Head title="Offers" />
+    <div class="min-h-screen bg-orange-50">
+        <Navigation />
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-3 lg:px-8">
+                <h1
+                    class="text-xl md:text-3xl font-bold text-gray-900 capitalize"
+                >
+                    {{ $page.props.product.name }} Offers
+                </h1>
+            </div>
+        </header>
+        <main class="bg-orange-50">
+            <div class="max-w-7xl mx-auto pt-6 pb-12 px-3 lg:px-8">
+                <!-- Replace with your content -->
 
-        <h1
-          class="text-xl md:text-3xl font-bold text-gray-900 capitalize"
+                <Offers />
 
-        >
-        {{ $page.props.product.name }}  Offers
-        </h1>
-      </div>
-    </header>
-    <main class="bg-orange-50">
-      <div class="max-w-7xl mx-auto pt-6 pb-12 px-3 lg:px-8">
-        <!-- Replace with your content -->
-
-         <Offers/>
-
-        <!-- /End replace -->
-      </div>
-    </main>
-  </div>
+                <!-- /End replace -->
+            </div>
+        </main>
+    </div>
 </template>
 
 <script>
-import Navigation from './Navigation.vue'
+import Navigation from "./Navigation.vue";
 import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/vue";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
-import { Link,Head } from "@inertiajs/inertia-vue3";
-import Offers from "@/Dashboard/Offers/offers";
-
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", current: true },
-  { name: "Products", href: "/products", current: false },
-   { name: "Orders", href: "/view/orders", current: false },
-    { name: "News", href: "/blogs", current: false },
-    // { name: "Reports", href: "/reports", current: false },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "/profile", method: "get" },
-
-  { name: "Sign out", href: route("logout"), method: "post" },
-];
-
-export default {
-    props:['auth','products'],
-    components: {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
@@ -65,19 +33,48 @@ export default {
     MenuButton,
     MenuItem,
     MenuItems,
-    BellIcon,
-    MenuIcon,
-    XIcon,
-  Navigation,
-    Offers,
-    Link,
-    Head
-  },
-  setup() {
-    return {
-      navigation,
-      userNavigation,
-    };
-  },
+} from "@headlessui/vue";
+import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
+import { Link, Head } from "@inertiajs/inertia-vue3";
+import Offers from "@/Dashboard/Offers/offers";
+
+const navigation = [
+    { name: "Dashboard", href: "/dashboard", current: true },
+    { name: "Products", href: "/products", current: false },
+    { name: "Offers", href: "/all-offers", current: false },
+    { name: "Orders", href: "/view/orders", current: false },
+    { name: "Blog", href: "/blogs", current: false },
+    // { name: "Reports", href: "/reports", current: false },
+];
+const userNavigation = [
+    { name: "Your Profile", href: "/profile", method: "get" },
+
+    { name: "Sign out", href: route("logout"), method: "post" },
+];
+
+export default {
+    props: ["auth", "products"],
+    components: {
+        Disclosure,
+        DisclosureButton,
+        DisclosurePanel,
+        Menu,
+        MenuButton,
+        MenuItem,
+        MenuItems,
+        BellIcon,
+        MenuIcon,
+        XIcon,
+        Navigation,
+        Offers,
+        Link,
+        Head,
+    },
+    setup() {
+        return {
+            navigation,
+            userNavigation,
+        };
+    },
 };
 </script>

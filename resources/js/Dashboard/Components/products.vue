@@ -119,6 +119,7 @@
                     font-medium
                     text-gray-500
                     uppercase
+                    text-left
                     tracking-wider">
                   <span class="">Action</span>
                 </th>

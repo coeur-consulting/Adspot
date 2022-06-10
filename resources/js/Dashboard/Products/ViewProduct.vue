@@ -70,7 +70,7 @@
         </p> -->
         <p class="mb-1 font-bold text-3xl text-black">
           {{ currency(product.price) }}
-          <span class="text-xs">/ {{ product.duration }} days</span>
+          <span class="text-xs">/  day</span>
         </p>
         <!-- <p class="mb-1 text-base">
           <span class="text-black">Duration </span> :

@@ -3,7 +3,7 @@
     <div class="mb-5">
         <ul class="breadcrumb text-xs">
             <li><a href="/dashboard">Dashboard</a></li>
-            <li>News</li>
+            <li>Blog</li>
         </ul>
     </div>
     <div class="flex justify-end mb-6">
@@ -32,7 +32,7 @@
                     class="font-bold px-4 py-2 text-sm whitespace-nowrap relative cursor-pointer border border-transparent rounded-md shadow-sm bg-orange-500 hover:bg-orange-500 flex justify-between"
                 >
                     <PlusCircleIcon class="w-4 h-4 mr-1 text-white" />
-                    <span class="text-white">Add news</span>
+                    <span class="text-white">Add blog</span>
                 </button>
             </div>
         </div>
@@ -256,7 +256,7 @@
             </div>
         </div>
     </div>
-    <div class="pagination flex justify-between text-center mt-8 px-3">
+    <div class="pagination flex justify-between text-center mt-8 px-3" v-if="filteredBlogs.length">
         <div>
             <p class="text-sm text-gray-500 mb-0">
                 Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }}
@@ -274,9 +274,9 @@
                     class="cursor-pointer w-8 h-8 mr-2"
             /></span>
             <input
-                class="form-input w-12 py-1 px-3 text-center border border-orange-700 rounded"
+                  class="form-input w-8 h-8 text-sm text-center border rounded-full border-orange-700"
                 :disabled="!links.next"
-                v-model="current_page" />
+                v-model="current_page"  :max="meta.last_page" type="number" min="1" />
             <span class="font-bold ml-2 text-sm">of {{ meta.last_page }}</span>
             <span
                 ><ArrowCircleRightIcon

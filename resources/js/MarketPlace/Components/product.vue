@@ -43,25 +43,18 @@
             </div>
             <hr />
             <div class="py-5 mt-6">
-                  <label class="mb-4 font-semibold">Choose selection type</label>
                 <div class="flex items-center mb-5">
-
-                    <label class="flex items-center mr-5"
-                        ><input
-                            type="radio"
-                            v-model="dateType"
-                            value="range"
-                            class="mr-1"
-                        />Date Range</label
+                    <span class="text-base" :class="dateType=='custom' ? 'text-gray-400' : 'text-gray-800'">Date Range</span>
+                    <Switch
+                        v-model="enabled"
+                        class="bg-orange-700 relative inline-flex h-6 w-11 items-center rounded-full mx-4"
                     >
-                    <label class="flex items-center"
-                        ><input
-                            type="radio"
-                            v-model="dateType"
-                            value="custom"
-                            class="mr-1"
-                        />Custom Date</label
-                    >
+                        <span
+                            :class="enabled ? 'translate-x-6' : 'translate-x-1'"
+                            class="inline-block h-4 w-4 transform rounded-full bg-white"
+                        />
+                    </Switch>
+                    <span class="text-base"  :class="dateType=='range' ? 'text-gray-400' : 'text-gray-800'">Custom Date</span>
                 </div>
                 <v-date-picker
                     v-if="dateType == 'range'"
@@ -95,7 +88,7 @@
             >
                 <p class="mb-1 font-bold text-3xl text-black">
                     {{ currency(product.price) }}
-                    <span class="text-xs">/ {{ product.duration }} days</span>
+                    <span class="text-xs">/ days</span>
                 </p>
                 <!-- <p class="mb-1 text-base">
                     <span class="text-black">Duration </span> :
@@ -149,6 +142,7 @@
                                 {{ moment(range.start).format("MMM DD, yyyy") }}
                             </p>
                         </div>
+                        
                         <div>
                             <p class="text-xs text-slate-600">End Date</p>
                             <p class="font-bold text-sm">
@@ -193,9 +187,9 @@
                         ></span
                     >
                 </div>
-                <div class="mt-4">
+                <div class="mt-4 text-center">
                     <AddToCart
-                        class="w-full text-base"
+                        class="w-full text-base mb-4"
                         :days="dates"
                         :product="product"
                         :negotiation="parseInt(negotiation)"
@@ -206,6 +200,11 @@
                         :cartId="product.offer ? product.offer.cart_id : null"
                         :dateType="dateType"
                     />
+                     <p class=" text-gray-700 font-semibold text-lg hover:text-orange-700"
+                        ><a target="_blank" href="https://wa.me/+2348050692036"
+                            >Negotiate</a
+                        ></p
+                    >
                 </div>
             </div>
 
@@ -245,7 +244,7 @@
 </template>
 
 <script>
-import { ref, computed, reactive, toRefs } from "vue";
+import { ref, computed, reactive, toRefs, watch } from "vue";
 import { XCircleIcon } from "@heroicons/vue/solid";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 import { usePage } from "@inertiajs/inertia-vue3";
@@ -253,10 +252,13 @@ import { ShoppingCartIcon } from "@heroicons/vue/solid";
 import moment from "moment";
 import "v-calendar/dist/style.css";
 import AddToCart from "@/Components/AddToCart";
+import { Switch } from "@headlessui/vue";
+
 export default {
     inject: ["currency", "emitter"],
     props: ["product", "cart"],
     components: {
+        Switch,
         RadioGroup,
         RadioGroupLabel,
         RadioGroupOption,
@@ -267,7 +269,7 @@ export default {
     setup(props, context) {
         const { product } = toRefs(props);
         const negotiation = ref(product.price);
-
+        const enabled = ref(null);
         const modelConfig = reactive({
             type: "string",
             mask: "YYYY-MM-DD", // Uses 'iso' if missing
@@ -282,10 +284,15 @@ export default {
             },
             // Along list of clusters
         ]);
+        const dateType = ref("range");
         const toggleModal = (data) => {
             context.emit("toggleModal", data);
         };
-
+        watch(enabled, () => {
+            !enabled.value
+                ? (dateType.value = "range")
+                : (dateType.value = "custom");
+        });
         return {
             modelConfig,
             center,
@@ -294,12 +301,14 @@ export default {
             product,
             moment,
             negotiation,
+            enabled,
+            dateType,
         };
     },
     data() {
         return {
             date: new Date(),
-            dateType: "range",
+
             range: {
                 start: null,
                 end: null,
@@ -337,13 +346,11 @@ export default {
             // let perDayPrice =
             //     parseInt(this.product.price) / parseInt(this.product.duration);
             // return parseInt(perDayPrice) * parseInt(days);
-            return this.product.price * this.adDuration
+            return this.product.price * this.adDuration;
         },
         adDuration() {
-
             if (this.dateType == "range") {
-                if (!this.range.start && !this.range.end)
-                    return 1;
+                if (!this.range.start && !this.range.end) return 1;
                 return Number(
                     moment(this.range.end).diff(
                         moment(this.range.start),
@@ -376,7 +383,7 @@ export default {
             }
         },
         addtocart(product) {
-            product.days = this.days
+            product.days = this.days;
             this.emitter.emit("addtocart", product);
             this.cartItems = JSON.parse(localStorage.getItem("cartItems"));
         },

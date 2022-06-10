@@ -1,7 +1,7 @@
 
 
 <template>
-<Head title="News" />
+<Head title="Blog" />
   <div class="min-h-screen bg-orange-50">
     <Navigation />
     <header class="bg-white shadow">
@@ -11,7 +11,7 @@
           class="text-xl md:text-3xl font-bold text-gray-900"
           v-if="$page.url === '/blogs'"
         >
-          News
+          Blog
         </h1>
 
       </div>
@@ -52,8 +52,9 @@ const user = {
 const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Products", href: "/products", current: false },
+   { name: "Offers", href: "/all-offers", current: false },
   //  { name: "Orders", href: "/store/orders", current: false },
-     { name: "News", href: "/blogs", current: false },
+     { name: "Blog", href: "/blogs", current: false },
     // { name: "Reports", href: "/reports", current: false },
 ];
 const userNavigation = [

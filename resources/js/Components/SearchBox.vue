@@ -20,7 +20,8 @@
                     v-model="form.subcategory_id"
                     class="border-0 text-[.7rem] focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize"
                 >
-                    <option value="" disabled>Select a subcategory</option>
+                    <option value=""
+                    >Select a subcategory</option>
                     <option
                         :value="item.id"
                         v-for="item in filteredsubcategories"
@@ -44,10 +45,10 @@
                 </div>
             </div>
             <div class="px-3 border-l">
-                <h6 class="font-bold text-xs">Location/Title</h6>
+                <h6 class="font-bold text-xs">Search keywords</h6>
                 <input
                     v-model="form.location"
-                    placeholder="Search location ,title e.t.c."
+                     placeholder="Location, Title e.t.c."
                     class="border-0 text-[.7rem] focus:border-orange-400 focus:ring focus:ring-orange-300 focus:ring-opacity-50 rounded-md py-2 px-2"
                 />
             </div>

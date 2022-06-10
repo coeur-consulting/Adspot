@@ -25,11 +25,14 @@ class ProductController extends Controller
 
     public function getactiveproduct()
     {
-        return Inertia::render('Admin/Products', [
-            'products' => ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(20)),
-            'categories' => Category::all(),
-            'subcategories' => Subcategory::all(),
-        ]);
+        return ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 1)->latest()->paginate(20));
+
+
+    }
+    public function getapendingproduct()
+    {
+        return  ProductResource::collection(Product::with('offers', 'category', 'subcategory')->where('status', 0)->latest()->paginate(20));
+
     }
 
 

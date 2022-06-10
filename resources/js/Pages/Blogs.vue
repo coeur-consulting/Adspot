@@ -1,18 +1,18 @@
 <template lang="">
-<Head title="News"/>
+<Head title="Blog"/>
 <Navigation />
-<Banner title="Adspot News" :breadcrumbs="breadcrumbs"/>
+<Banner title="Adspot Blog" :breadcrumbs="breadcrumbs"/>
 
  <div class="min-h-[60vh]">
-   <div class="bg-orange-50 p-5 text-orange-400 text-center" v-if="!news.length">
-     No news available
+   <div class="bg-orange-50 p-5 text-orange-400 text-center" v-if="!blog.length">
+     No blog available
    </div>
-     <infinite-scroll @infinite-scroll="loadData" v-if="news.length"
+     <infinite-scroll @infinite-scroll="loadData" v-if="blog.length"
       :message="message"
       :noResult="noResult"
    >
      <div class="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-10 p-10 ">
-     <div class="shadow-lg rounded-lg overflow-hidden" v-for="n in news" :key="n">
+     <div class="shadow-lg rounded-lg overflow-hidden" v-for="n in blog" :key="n">
     <div class="w-full">
       <img  :src="n.cover?n.cover:'/images/banner.png'" class="w-full h-[200px] object-cover"/>
       <div class="p-3">
@@ -23,7 +23,7 @@
       </div >
       <div class="px-3 py-3 flex justify-between border-t">
 <span class="flex items-center"><CalendarIcon class="w-4 h-4 mr-1 text-orange-500"/> <span class="text-xs">{{moment(n.created_at).format("MMM DD, yyyy")}}</span></span>
-<Link :href="`/news/${n.id}`" class="text-orange-500 text-xs flex items-center"><span class="text-orange-500">More Details</span> <ChevronDoubleRightIcon class="w-3 h-3 ml-1"/></Link>
+<Link :href="`/blog/${n.id}`" class="text-orange-500 text-xs flex items-center"><span class="text-orange-500">More Details</span> <ChevronDoubleRightIcon class="w-3 h-3 ml-1"/></Link>
 
       </div>
     </div>
@@ -59,20 +59,20 @@ export default {
   setup() {
     const breadcrumbs = reactive([
       { name: "home", url: "/" },
-      { name: "news", url: null },
+      { name: "blog", url: null },
     ]);
     const page = ref(1);
-    const news = reactive([]);
+    const blog = reactive([]);
     const noResult = ref(false);
     const message = ref("");
 
     async function loadData() {
       try {
-        const result = await axios.get(`/get/news?page=${page.value}`);
+        const result = await axios.get(`/get/blog?page=${page.value}`);
 
         if (result.data.data.length) {
 
-          news.push(...result.data.data);
+          blog.push(...result.data.data);
           page.value++;
 
         } else {
@@ -93,7 +93,7 @@ export default {
       noResult,
       message,
       page,
-      news,
+      blog,
       loadData,
       moment,
     };

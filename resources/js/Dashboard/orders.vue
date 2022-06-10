@@ -162,7 +162,10 @@
         </div>
     </div>
 
-    <div class="pagination flex justify-between text-center mt-8 px-3">
+    <div
+        class="pagination flex justify-between text-center mt-8 px-3"
+        v-if="filteredOrders.length"
+    >
         <div>
             <p class="text-sm text-gray-500 mb-0">
                 Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }}
@@ -180,9 +183,9 @@
                     class="cursor-pointer w-8 h-8 mr-2"
             /></span>
             <input
-                class="form-input w-12 py-1 px-3 text-center border border-orange-700 rounded"
+                class="form-input w-8 h-8 text-sm text-center border rounded-full border-orange-700"
                 :disabled="!links.next"
-                v-model="current_page" />
+                v-model="current_page" :max="meta.last_page" type="number" min="1" />
             <span class="font-bold ml-2 text-sm">of {{ meta.last_page }}</span>
             <span
                 ><ArrowCircleRightIcon
@@ -362,7 +365,10 @@
                                                             >
                                                                 <span
                                                                     class="flex p-1 border justify-between text-xs"
-                                                                    v-if="item.dateType=='range'"
+                                                                    v-if="
+                                                                        item.dateType ==
+                                                                        'range'
+                                                                    "
                                                                 >
                                                                     <span>{{
                                                                         moment(
@@ -387,18 +393,30 @@
                                                                         )
                                                                     }}</span>
                                                                 </span>
-                                                                <span   v-if="item.dateType=='custom'">
-                                                                    <span class="p-1 border text-xs" v-for="day in item.custom_days" :key="day">
-                                                                    {{ moment(
-                                                                           day
-                                                                        ).format(
-                                                                            "MMM DD, yyyy"
-                                                                        )}}
+                                                                <span
+                                                                    v-if="
+                                                                        item.dateType ==
+                                                                        'custom'
+                                                                    "
+                                                                >
+                                                                    <span
+                                                                        class="p-1 border text-xs"
+                                                                        v-for="day in item.custom_days"
+                                                                        :key="
+                                                                            day
+                                                                        "
+                                                                    >
+                                                                        {{
+                                                                            moment(
+                                                                                day
+                                                                            ).format(
+                                                                                "MMM DD, yyyy"
+                                                                            )
+                                                                        }}
                                                                     </span>
                                                                 </span>
                                                             </td>
                                                         </tr>
-
                                                     </td>
                                                 </tr>
                                             </tbody>

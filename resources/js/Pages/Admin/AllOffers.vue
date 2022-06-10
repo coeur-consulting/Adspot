@@ -1,16 +1,17 @@
 
 
 <template>
+<Head title="All Offers" />
   <div class="min-h-screen bg-orange-50">
    <Navigation />
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-3 lg:px-8">
 
         <h1
-          class="text-xl md:text-3xl font-bold text-gray-900"
-          v-if="$page.url === '/reports'"
+          class="text-xl md:text-3xl font-bold text-gray-900 capitalize"
+
         >
-          Reports
+     All Offers
         </h1>
       </div>
     </header>
@@ -18,7 +19,7 @@
       <div class="max-w-7xl mx-auto pt-6 pb-12 px-3 lg:px-8">
         <!-- Replace with your content -->
 
-
+         <Offers/>
 
         <!-- /End replace -->
       </div>
@@ -38,14 +39,14 @@ import {
   MenuItems,
 } from "@headlessui/vue";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
-import { Link } from "@inertiajs/inertia-vue3";
-
-import Orders from "@/Dashboard/orders";
+import { Link,Head } from "@inertiajs/inertia-vue3";
+import Offers from "@/Dashboard/Offers/AllOffers";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Products", href: "/products", current: false },
-   { name: "Orders", href: "/store/orders", current: false },
+   { name: "Offers", href: "/all-offers", current: false },
+    { name: "Orders", href: "/view/orders", current: false },
     { name: "Blog", href: "/blogs", current: false },
     // { name: "Reports", href: "/reports", current: false },
 ];
@@ -69,8 +70,9 @@ export default {
     MenuIcon,
     XIcon,
   Navigation,
-    Orders,
+    Offers,
     Link,
+    Head
   },
   setup() {
     return {

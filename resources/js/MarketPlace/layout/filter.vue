@@ -14,7 +14,7 @@
                     v-model="form.subcategory_id"
                     class="border-0 text-[.7rem] focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize"
                 >
-                    <option value="" disabled>Select subcategory</option>
+                    <option value="" >Select subcategory</option>
                     <option
                         :value="item.id"
                         v-for="item in subcategories"
@@ -42,11 +42,11 @@
             <div
                 class="px-3 py-2 md:py-0 border-b md:border-b-0 md:border-l w-full md:w-auto"
             >
-                <h6 class="font-bold text-xs">Location/Title</h6>
+                <h6 class="font-bold text-xs">Search keywords</h6>
                 <input
                     type="text"
                     v-model="form.location"
-                    placeholder="Search location ,title e.t.c."
+                    placeholder="Location, Title e.t.c."
                     class="border-0 text-[.7rem] focus:border-orange-400 focus:ring focus:ring-orange-300 focus:ring-opacity-50 rounded-md py-2 px-2"
                 />
             </div>
@@ -73,87 +73,29 @@
         </form>
 
         <div
-            class="border rounded px-4 py-5 grid-cols-4 gap-2 justify-between hidden md:grid"
+            class="border rounded px-4 py-5 grid-cols-3 gap-2 justify-between hidden md:grid"
         >
             <div class="text-center">
                 <ViewGridIcon
                     @click="switchView('grid')"
                     :class="viewType == 'grid' ? 'text-orange-500' : ''"
-                    class="w-8 h-8 mx-auto"
+                    class="w-8 h-8 mx-auto cursor-pointer"
                 />
             </div>
             <div class="text-center">
                 <ViewListIcon
                     @click="switchView('list')"
                     :class="viewType == 'list' ? 'text-orange-500' : ''"
-                    class="w-8 h-8 mx-auto"
-                />
-            </div>
-            <div class="text-center">
-                <Popover v-slot="{ filter }" class="relative">
-                    <PopoverButton
-                        :class="filter ? '' : 'text-opacity-90'"
-                        class=""
-                    >
-                        <AdjustmentsIcon
-                            @click="toggleFilter"
-                            :class="filter ? '' : 'text-opacity-70'"
-                            class="w-8 h-8 mx-auto"
-                        />
-                    </PopoverButton>
-
-                    <transition
-                        enter-active-class="transition duration-200 ease-out"
-                        enter-from-class="translate-y-1 opacity-0"
-                        enter-to-class="translate-y-0 opacity-100"
-                        leave-active-class="transition duration-150 ease-in"
-                        leave-from-class="translate-y-0 opacity-100"
-                        leave-to-class="translate-y-1 opacity-0"
-                    >
-                        <PopoverPanel
-                            class="absolute z-40 w-[180px] px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0"
-                        >
-                            <div
-                                class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
-                            >
-                                <div class="relative grid gap-4 bg-white p-4">
-                                    <label
-                                        v-for="item in typeFilters"
-                                        class="capitalize flex items-center"
-                                        :key="item"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            :value="item"
-                                            v-model="form.typeFilter"
-                                            class="hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 mr-2"
-                                        />{{ item }}
-                                    </label>
-                                </div>
-                                <div class="relative grid gap-4 bg-white p-4">
-                                    <label
-                                        v-for="item in durationFilters"
-                                        class="capitalize flex items-center"
-                                        :key="item"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            :value="item"
-                                            v-model="form.durationFilter"
-                                            class="hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 mr-2"
-                                        />{{ item }}
-                                    </label>
-                                </div>
-                            </div>
-                        </PopoverPanel>
-                    </transition>
-                </Popover>
-            </div>
-            <div class="text-center">
-                <ReplyIcon
-                    @click="reset"
                     class="w-8 h-8 mx-auto cursor-pointer"
                 />
+            </div>
+
+            <div class="text-center group">
+                <RefreshIcon
+                    @click="reset"
+                    class="w-8 h-8 mx-auto cursor-pointer peer"
+                />
+<span class="absolute px-2 py-1 text-xs bg-gray-100 rounded -top-4 hidden peer-hover:inline">Reset</span>
             </div>
         </div>
     </div>
@@ -169,7 +111,7 @@ import {
     ViewGridIcon,
     ViewListIcon,
     AdjustmentsIcon,
-    ReplyIcon,
+    RefreshIcon,
 } from "@heroicons/vue/solid";
 import axios from "axios";
 const typeFilters = ["negotiable", "non-negotiable"];
@@ -181,7 +123,7 @@ export default {
         ViewGridIcon,
         ViewListIcon,
         AdjustmentsIcon,
-        ReplyIcon,
+        RefreshIcon,
         Popover,
         PopoverButton,
         PopoverPanel,
@@ -227,9 +169,8 @@ export default {
         emitter.on("getCategory", (data) => {
             category_id.value = data;
             form.category_id = data;
-            if (data == 0) {
-                form.subcategory_id = "";
-            }
+             form.subcategory_id = "";
+
         });
         function reset() {
             form.subcategory_id = "";

@@ -313,13 +313,13 @@
           </label>
         </div>
       </div> -->
-      <div class="mt-4">
+      <!-- <div class="mt-4">
         <BreezeLabel for="featured" class="mb-2" value="Featured" />
         <div class="flex">
           <BreezeCheckbox id="featured" class="mr-2" v-model="form.featured" />
           <BreezeLabel for="featured" value="Feature in popular" />
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="mt-4">
       <BreezeLabel for="description" value="Description" />

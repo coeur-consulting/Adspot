@@ -15,30 +15,36 @@
                     type="search"
                     class="py-2 px-4 border border-gray-50 rounded-lg md:w-[250px] mr-4 shadow-sm"
                 />
-                <div class="mr-3 flex">
-                    <BreezeCheckbox
-                        id="featured"
+                <div class="mr-5 flex items-center">
+                    <input
+                        id="all"
                         class="mr-2"
-                        v-model="showFeatured"
+                        v-model="showing"
+                        value=""
+                        type="radio"
                     />
-                    <BreezeLabel for="featured" value="Featured " />
+                    <BreezeLabel for="all" value="All" />
                 </div>
-                <!-- <div class="mr-3 flex">
-                    <BreezeCheckbox
-                        id="negotiable"
+                <div class="mr-5 flex items-center">
+                    <input
+                        id="active"
                         class="mr-2"
-                        v-model="showNegotiable"
+                        v-model="showing"
+                        value="active"
+                        type="radio"
                     />
-                    <BreezeLabel for="negotiable" value="Negotiable" />
+                    <BreezeLabel for="active" value="Active" />
                 </div>
-                <div class="flex">
-                    <BreezeCheckbox
-                        id="nonnegotiable"
+                <div class="flex items-center">
+                    <input
+                        id="inactive"
                         class="mr-2"
-                        v-model="showNonnegotiable"
+                        v-model="showing"
+                        value="inactive"
+                        type="radio"
                     />
-                    <BreezeLabel for="nonnegotiable" value="Non-Negotiable" />
-                </div> -->
+                    <BreezeLabel for="inactive" value="Inactive" />
+                </div>
             </div>
             <div>
                 <button
@@ -346,7 +352,7 @@
             </div>
         </div>
     </div>
-    <div class="pagination flex justify-between text-center mt-8 px-3">
+    <div class="pagination flex justify-between text-center mt-10" v-if="filteredProducts.length">
         <div>
             <p class="text-sm text-gray-500 mb-0">
                 Showing {{ meta.from }} to {{ meta.to }} of {{ meta.total }}
@@ -364,9 +370,9 @@
                     class="cursor-pointer w-8 h-8 mr-2"
             /></span>
             <input
-                class="form-input w-12 py-1 px-3 text-center border border-orange-700 rounded"
+                class="form-input w-8 h-8 text-sm text-center border rounded-full border-orange-700"
                 :disabled="!links.next"
-                v-model="current_page" />
+                v-model="current_page" :max="meta.last_page" type="number" min="1" />
             <span class="font-bold ml-2 text-sm">of {{ meta.last_page }}</span>
             <span
                 ><ArrowCircleRightIcon
@@ -511,9 +517,7 @@ export default {
         const products = ref([]);
         const query = ref("");
         const current_page = ref(1);
-        const showFeatured = ref(false);
-        const showNegotiable = ref(false);
-        const showNonnegotiable = ref(false);
+        const showing = ref("");
         const last_page = ref(1);
         const meta = ref({});
         const links = ref({});
@@ -521,20 +525,19 @@ export default {
         last_page.value = usePage().props.value.products.last_page;
         meta.value = usePage().props.value.products.meta;
         links.value = usePage().props.value.products.links;
+
+        onMounted(()=>{
+              const urlParams = new URLSearchParams(window.location.search);
+
+             showing.value =  urlParams.get("showing")
+        })
         const filteredProducts = computed(() => {
             let product = products.value;
 
-            if (showFeatured.value) {
+            if (showing.value) {
                 product = product.filter((item) => item.featured);
             }
-            if (showNegotiable.value) {
-                product = product.filter((item) => item.type == "negotiable");
-            }
-            if (showNonnegotiable.value) {
-                product = product.filter(
-                    (item) => item.type == "non-negotiable"
-                );
-            }
+
             return product;
         });
         const searchProducts = () => {
@@ -545,12 +548,36 @@ export default {
                 links.value = usePage().props.value.products.links;
                 return;
             }
-            axios.get(`/searchproducts?query=${query.value}`).then((res) => {
-                products.value = res.data.data;
-                current_page.value = 1;
-                meta.value = res.data.meta;
-                links.value = res.data.links;
-            });
+            axios
+                .get(`/searchproducts?query=${query.value}`)
+                .then((res) => {
+                    products.value = res.data.data;
+                    current_page.value = 1;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
+                });
+        };
+         const fetchActive = () => {
+
+            axios
+                .get(`/fetch-active`)
+                .then((res) => {
+                    products.value = res.data.data;
+                    current_page.value = 1;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
+                });
+        };
+         const fetchInactive = () => {
+
+            axios
+                .get(`/fetch-inactive`)
+                .then((res) => {
+                    products.value = res.data.data;
+                    current_page.value = 1;
+                    meta.value = res.data.meta;
+                    links.value = res.data.links;
+                });
         };
 
         function next() {
@@ -582,6 +609,18 @@ export default {
                 searchProducts();
             }, 2000)
         );
+        watch(showing, () => {
+            switch (showing.value) {
+                case "active":
+                    fetchActive();
+                    break;
+                case "inactive":
+                    fetchInactive();
+                    break;
+                default:
+                    getproducts(current_page);
+            }
+        });
 
         function viewoffers(id, status) {
             window.location.href = `/offers/${id}`;
@@ -595,9 +634,9 @@ export default {
             query,
             current_page,
             filteredProducts,
-            showNegotiable,
-            showFeatured,
-            showNonnegotiable,
+
+            showing,
+
             moment,
             meta,
             links,

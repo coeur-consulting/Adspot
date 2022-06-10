@@ -486,8 +486,8 @@ const resources = [
     href: "/about",
   },
   {
-    name: "News",
-    href: "/news",
+    name: "Blog",
+    href: "/blog",
   },
 
   {

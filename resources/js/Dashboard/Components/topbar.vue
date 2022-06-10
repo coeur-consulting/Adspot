@@ -25,7 +25,7 @@
                     class="w-16 md:w-20 h-16 md:h-20 px-3 py-4 bg-orange-600 text-white rounded-full mr-5"
                 />
                 <div class="text-left">
-                    <Link href="/products">
+                    <Link href="/products?showing=active">
                         <span
                             class="font-bold text-xl md:text-2xl text-slate-600"
                             >{{ $page.props.active_spaces }} Active Spaces</span
@@ -42,7 +42,7 @@
                     class="w-16 md:w-20 h-16 md:h-20 px-3 py-4 bg-orange-600 text-white rounded-full mr-5"
                 />
                 <div class="text-left">
-                    <Link href="/products">
+                    <Link  href="/all-offers">
                         <span
                             class="font-bold text-xl md:text-2xl text-slate-600"
                             >{{ $page.props.total_offers }} Total Offers</span

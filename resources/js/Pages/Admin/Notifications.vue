@@ -47,7 +47,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Products", href: "/products", current: false },
    { name: "Orders", href: "/orders", current: false },
-    { name: "News", href: "/blogs", current: false },
+    { name: "Blog", href: "/blogs", current: false },
     // { name: "Reports", href: "/reports", current: false },
 ];
 const userNavigation = [

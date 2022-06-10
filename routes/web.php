@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Http\Resources\OfferResource;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\BlogController;
@@ -34,7 +35,8 @@ use App\Http\Controllers\Auth\RedirectAuthenticatedUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-if(App::environment('production')){
+
+if (App::environment('production')) {
     URL::forceScheme('https');
 }
 
@@ -45,6 +47,18 @@ Route::get('/', function () {
 
 
     ]);
+});
+
+Route::get('/pending-offers', function () {
+    return Offer::where('result', 'pending')->get()->count();
+});
+
+Route::get('/answered-offers', function () {
+    return OfferResource::collection(Offer::where('result', '!=', 'pending')->with('user', 'product')->latest()->paginate(20));
+});
+
+Route::get('/all-pending-offers', function () {
+    return OfferResource::collection(Offer::where('result',  'pending')->with('user', 'product')->latest()->paginate(20));
 });
 
 Route::get('/terms', function () {
@@ -73,23 +87,23 @@ Route::get('/inventory', function () {
     ]);
 });
 
-Route::get('/get-subcategories/{id}', [CategoryController::class,"getsubcat"]);
+Route::get('/get-subcategories/{id}', [CategoryController::class, "getsubcat"]);
 Route::post('/store-subcat', [CategoryController::class, "storesubcat"])->name("subcategories.store");
 Route::put('/update-subcat/{id}', [CategoryController::class, "updatesubcat"])->name("subcategories.update");
 Route::delete('/delete-subcat/{id}', [CategoryController::class, "delsubcat"])->name("subcategories.delete");
 
-//News route
-Route::get('/news', function () {
+//Blog route
+Route::get('/blog', function () {
     return Inertia::render('Blogs', []);
 });
-Route::get('/get/news', function () {
+Route::get('/get/blog', function () {
     return Blog::where('status', 1)->latest()->paginate(20);
 });
-Route::post('/add/news', [BlogController::class, 'store']);
-Route::put('/update/news/{blog}', [BlogController::class, 'update']);
-Route::delete('/delete/news/{blog}', [BlogController::class, 'destroy']);
+Route::post('/add/blog', [BlogController::class, 'store']);
+Route::put('/update/blog/{blog}', [BlogController::class, 'update']);
+Route::delete('/delete/blog/{blog}', [BlogController::class, 'destroy']);
 
-Route::get('/news/{id}', function ($id) {
+Route::get('/blog/{id}', function ($id) {
     return Inertia::render('Blog', [
         'blog' => Blog::find($id)->load('user'),
         'others' => Blog::where('id', '!=', $id)->where('status', 1)->inRandomOrder()->get()->take(10)
@@ -175,13 +189,13 @@ Route::group(['middleware' => 'auth'], function () {
 
             ]
         ]);
-        Route::delete('delete-category/{category}',[CategoryController::class,"destroy"]);
+        Route::delete('delete-category/{category}', [CategoryController::class, "destroy"]);
         Route::get('/dashboard', function () {
             return Inertia::render('Admin/Dashboard', [
 
                 'total_products' => Product::get()->count(),
                 'active_spaces' => Product::where('status', 1)->get()->count(),
-                'total_offers' => Offer::get()->count(),
+                'total_offers' => Offer::where('result', 'pending')->get()->count(),
             ]);
         })->name('dashboard');
 
@@ -193,6 +207,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/get-orders', [OrderController::class, 'allorders']);
 
         //Offers start
+
+        Route::get('all-offers', function () {
+            return Inertia::render('Admin/AllOffers', [
+                'offers' => OfferResource::collection(Offer::where('result', 'pending')->with('user', 'product')->latest()->paginate(20))
+            ]);
+        })->name('alloffers');
 
         Route::get('offers/{id}', function ($id) {
             return Inertia::render('Admin/Offers', [
@@ -250,7 +270,8 @@ Route::get('/get-admins', [RegisteredUserController::class, 'getvendors']);
 Route::get('/searchproducts', [ProductController::class, 'searchproducts']);
 
 Route::get('/searchorders', [OrderController::class, 'searchorders']);
-
+Route::get('/fetch-active', [ProductController::class, 'getactiveproduct']);
+Route::get('/fetch-inactive', [ProductController::class, 'getapendingproduct']);
 
 
 
