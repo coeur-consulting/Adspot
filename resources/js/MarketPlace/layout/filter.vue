@@ -11,11 +11,10 @@
             >
                 <h6 class="font-bold text-xs">Subcategories</h6>
                 <select
-
                     v-model="form.subcategory_id"
                     class="border-0 text-[.7rem] focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50 capitalize"
                 >
-                    <option value="" disabled>Select a subcategory</option>
+                    <option value="" disabled>Select subcategory</option>
                     <option
                         :value="item.id"
                         v-for="item in subcategories"
@@ -33,7 +32,6 @@
                     <Datepicker
                         :enableTimePicker="false"
                         class="text-[.7rem] w-[250px]"
-
                         :format="formatter.date"
                         v-model="form.datevalue"
                         range
@@ -48,7 +46,7 @@
                 <input
                     type="text"
                     v-model="form.location"
-                   placeholder="Search location ,title e.t.c."
+                    placeholder="Search location ,title e.t.c."
                     class="border-0 text-[.7rem] focus:border-orange-400 focus:ring focus:ring-orange-300 focus:ring-opacity-50 rounded-md py-2 px-2"
                 />
             </div>
@@ -215,7 +213,7 @@ export default {
         onMounted(() => {
             const urlParams = new URLSearchParams(window.location.search);
             let subcategory = urlParams.get("subcategory");
-             let category = urlParams.get("category");
+            let category = urlParams.get("category");
             let location = urlParams.get("location");
             let start = urlParams.get("start");
             let end = urlParams.get("end");
@@ -223,14 +221,18 @@ export default {
                 form.subcategory_id = subcategory;
                 form.location = location;
                 form.datevalue = [start, end];
-                 category_id.value = category
+                category_id.value = category;
             }
         });
         emitter.on("getCategory", (data) => {
             category_id.value = data;
             form.category_id = data;
+            if (data == 0) {
+                form.subcategory_id = "";
+            }
         });
         function reset() {
+            form.subcategory_id = "";
             emitter.emit("reset");
         }
 

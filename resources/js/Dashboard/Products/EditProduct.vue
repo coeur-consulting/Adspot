@@ -584,8 +584,9 @@ export default {
     },
     update() {
       this.form.processing = true;
-      this.form.start_time = this.range.start;
-      this.form.end_time = this.range.end;
+      // this.form.start_time = this.range.start;
+      // this.form.end_time = this.range.end;
+
       axios
         .put(this.route("products.update", this.$props.product.id), this.form)
         .then((res) => {
@@ -611,6 +612,8 @@ export default {
         this.form.duration =  moment(newrange.end).diff(moment(newrange.start), "days");
         this.range.start = newrange.start;
         this.range.end = newrange.end;
+        this.form.start_time =  newrange.start;
+        this.form.end_time = newrange.end;
 
       },
     },

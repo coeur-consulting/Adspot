@@ -187,42 +187,42 @@ class ProductController extends Controller
     public function searchinventory(Request $request)
     {
 
+        $dates = collect($request->datevalue)->filter(function ($a) {
+            return $a;
+        });
         $location = $request->location;
         $subcategory_id = $request->subcategory_id;
-        $start = $request->has('datevalue') && $request->filled('datevalue') ? Carbon::parse($request->datevalue[0]) : null;
-        $end = $request->has('datevalue') && $request->filled('datevalue') ? Carbon::parse($request->datevalue[1]) : null;
+        $start = count($dates) ? $dates[0] : null;
+        $end = count($dates) ? $dates[1] : null;
         $typeFilter = $request->typeFilter;
         $durationFilter = $request->durationFilter;
 
-        if ($request->has('datevalue') && $request->filled('datevalue')) {
+        if ($start && $end) {
+
             $product = Product::with('subcategory', 'category')->where('status', 1)->where(function ($query) use ($location, $subcategory_id, $start, $end) {
-                $query->where('location', 'LIKE', '%' . $location . '%')
-                    ->where('name', 'LIKE', '%' . $location . '%')
-                    ->where(function ($query) use ($start, $end) {
-                        $query->where('start_time', '<=', $start)->where('end_time', '>=', $end);
-                    })
-                    ->orWhere('subcategory_id', $subcategory_id);
-            })
-
-
-                // ->whereIn('type', $typeFilter)
-                // ->whereIn('duration_type', $durationFilter)
-
-
-                ->paginate(20);
+                if ($location) {
+                    $query->where('location', 'LIKE', '%' . $location . '%')
+                        ->orWhere('name', 'LIKE', '%' . $location . '%');
+                }
+            })->where(function ($query) use ($start, $end) {
+                $query->where('start_time', '>=', $start)->where('end_time', '<=', $end);
+            })->where(function ($query) use ($subcategory_id) {
+                if ($subcategory_id) {
+                    $query->where('subcategory_id', $subcategory_id);
+                }
+            })->paginate(20);
         } else {
+
             $product = Product::with('subcategory', 'category')->where('status', 1)->where(function ($query) use ($location, $subcategory_id) {
-                $query->where('location', 'LIKE', '%' . $location . '%')
-                    ->where('name', 'LIKE', '%' . $location . '%')
-                    ->where('subcategory_id', $subcategory_id);
-            })
-
-
-                // ->whereIn('type', $typeFilter)
-                // ->whereIn('duration_type', $durationFilter)
-
-
-                ->paginate(20);
+                if ($location) {
+                    $query->where('location', 'LIKE', '%' . $location . '%')
+                        ->orWhere('name', 'LIKE', '%' . $location . '%');
+                }
+            })->where(function ($query) use ($subcategory_id) {
+                if ($subcategory_id) {
+                    $query->where('subcategory_id',  $subcategory_id);
+                }
+            })->paginate(20);
         }
 
         return ProductResource::collection($product);

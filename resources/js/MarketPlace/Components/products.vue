@@ -1,5 +1,6 @@
 <template>
-    <div class="bg-transparent container mx-auto">
+<div v-if="!isLoading" class="bg-gray-100 p-1 w-2/4 mx-auto mt-20 text-center rounded-sm">Loading products..</div>
+    <div class="bg-transparent container mx-auto" v-if="isLoading">
         <div
           v-if="products.length"
             class="grid gap-8 p-5"
@@ -305,6 +306,7 @@ export default {
         const cart = ref([]);
         const meta = ref({});
         const links = ref({});
+        const isLoading = ref(false)
         onMounted(() => {
             const urlParams = new URLSearchParams(window.location.search);
             let subcategory = urlParams.get("subcategory");
@@ -338,26 +340,31 @@ export default {
             });
         });
         function loadProducts() {
+            isLoading.value = false
             axios.get(`get-products?page=${current_page}`).then((res) => {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
                     meta.value = res.data.meta;
                     links.value = res.data.links;
+                    isLoading.value = true
                 }
             });
         }
         function loadProductsByCategory(id) {
+            isLoading.value = false
             axios.get(`get-products-category/${id}`).then((res) => {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
                     meta.value = res.data.meta;
                     links.value = res.data.links;
+                    isLoading.value = true
                 }
             });
         }
         function loadSearchResult(subcategory, location, start, end) {
+
             filterData.subcategory_id = subcategory;
             filterData.location = location;
             filterData.datevalue = [
@@ -389,13 +396,17 @@ export default {
             viewType.value = data;
         });
         function searchInventory() {
+            isLoading.value = false
             axios.post("/search-inventory", filterData).then((res) => {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
                     meta.value = res.data.meta;
                     links.value = res.data.links;
+                    isLoading.value = true
                 }
+            }).catch(()=>{
+                  isLoading.value = false
             });
         }
         const incart = (id) => {
@@ -422,24 +433,32 @@ export default {
         }
 
         function searchproducts() {
+            isLoading.value = false
             axios.get(`searchproducts?query=${query.value}`).then((res) => {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
                     meta.value = res.data.meta;
                     links.value = res.data.links;
+                    isLoading.value = true
                 }
-            });
+            }).catch(()=>{
+                  isLoading.value = false
+            });;
         }
         function getproducts(page) {
+            isLoading.value = false
             axios.get(`get-products?page=${page}`).then((res) => {
                 if (res.status === 200) {
                     products.value = res.data.data;
                     last_page.value = res.data.last_page;
                     meta.value = res.data.meta;
                     links.value = res.data.links;
+                    isLoading.value = true
                 }
-            });
+            }).catch(()=>{
+                  isLoading.value = false
+            });;
         }
 
         const subcategories = computed(() => {
@@ -488,6 +507,7 @@ export default {
             incart,
             meta,
             links,
+            isLoading
         };
     },
     methods: {
